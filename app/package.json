@@ -5,20 +5,18 @@
   "main": "main.js",
   "author": "Stream Extra",
   "license": "MIT",
-  "version": "1.8",
+  "version": "1.9",
   "releaseDate": "2026-11-26",
   "notes": {
     "ar": [
-      "إعادة ترتيب قائمة Kick لتصبح أوضح: الاسم والقناة في الأعلى، والإحصائيات وأزرار التحكم (تشخيص، إعدادات، تكبير) مجمّعة في جهة واحدة",
-      "أربع خانات واضحة أسفل القائمة (النشاط، الإشراف، القناة، المعلومات) بأيقونة واسم ظاهر دائماً",
-      "زر رجوع للشات يظهر عند فتح أي قسم، والضغط على الخانة المفتوحة مرة ثانية يرجعك للشات",
-      "نظام الأليرتات: أليرت المتابعة الجديدة يظهر على المعاينة وعلى البث نفسه، مع زر جرس في قائمة Kick لتفعيله أو إيقافه وتغيير المدة والمكان والنص وتجربته"
+      "إعادة ترتيب الواجهة بالكامل: المعاينة أكبر، وعمود جانبي ثابت فيه لوحة التحكم وشات Kick بكامل الطول",
+      "صف سفلي منظّم: المشاهد، العناصر، الخلاط، الجلسة — والخط الفاصل بين المعاينة والعمود الجانبي قابل للسحب",
+      "زر الأليرتات صار تحت زر الإعدادات في لوحة التحكم بدل ترويسة Kick"
     ],
     "en": [
-      "Kick panel reorganized for clarity: name and channel on top, with stats and control buttons (diagnostics, settings, expand) grouped on one side",
-      "Four clear cells at the bottom (Activity, Moderation, Channel, Info), each with an always-visible icon and label",
-      "A back-to-chat button appears when a section is open, and tapping the open cell again returns to chat",
-      "Alerts system: a new-follower alert shows on the preview and on the stream itself, with a bell button in the Kick panel to turn it on/off and change duration, position and text, plus a test button"
+      "Whole interface re-arranged: bigger preview, plus a fixed side column with the control panel and a full-height Kick chat",
+      "Tidy bottom row: Scenes, Sources, Mixer, Session — and the divider between the preview and the side column can be dragged",
+      "The Alerts button now sits under the Settings button in the control panel instead of the Kick header"
     ]
   }
 }

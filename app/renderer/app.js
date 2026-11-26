@@ -1491,16 +1491,16 @@ let guides = LS.get('se_guides', '0') === '1';
 function applyGuides(){ document.body.classList.toggle('guides', guides); $('guidesBtn').classList.toggle('on', guides); }
 $('guidesBtn').onclick = () => { guides = !guides; LS.set('se_guides', guides ? '1' : '0'); applyGuides(); };
 
-const DOCK_DEF = 340; let dockH = parseInt(LS.get('se_dockh', String(DOCK_DEF)), 10); if(!(dockH >= 140 && dockH <= 700)) dockH = DOCK_DEF;
+const DOCK_DEF = clamp(Math.round(innerHeight * 0.34), 230, 330); let dockH = parseInt(LS.get('se_dockh2', String(DOCK_DEF)), 10); if(!(dockH >= 140 && dockH <= 700)) dockH = DOCK_DEF;
 function applyDock(){ document.documentElement.style.setProperty('--dock-h', dockH + 'px'); }
 (() => {
   const sp = $('split');
   sp.addEventListener('pointerdown', e => {
     e.preventDefault(); const y0 = e.clientY, h0 = dockH; sp.setPointerCapture(e.pointerId); sp.classList.add('drag');
     sp.onpointermove = ev => { dockH = clamp(h0 - (ev.clientY - y0), 140, Math.max(160, Math.round(innerHeight * 0.6))); applyDock(); };
-    sp.onpointerup = () => { sp.onpointermove = null; sp.onpointerup = null; sp.classList.remove('drag'); LS.set('se_dockh', String(Math.round(dockH))); };
+    sp.onpointerup = () => { sp.onpointermove = null; sp.onpointerup = null; sp.classList.remove('drag'); LS.set('se_dockh2', String(Math.round(dockH))); };
   });
-  sp.addEventListener('dblclick', () => { dockH = DOCK_DEF; applyDock(); LS.set('se_dockh', String(DOCK_DEF)); });
+  sp.addEventListener('dblclick', () => { dockH = DOCK_DEF; applyDock(); LS.set('se_dockh2', String(DOCK_DEF)); });
 })();
 
 /* صفحات الإعدادات: لكل قسم صفحة كاملة (الأزرار على اليمين). العناوين والأوصاف في settings.js */

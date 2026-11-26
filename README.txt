@@ -49,6 +49,12 @@ Build_StreamExtra.cmd still builds a portable "StreamExtra" folder for testing. 
 
 Your settings and Kick link are stored in %AppData%\StreamExtra (+ a backup in %LocalAppData%\StreamExtra-Backup).
 
+v1.9
+----
+- Whole UI re-arranged: big preview + bottom row (Scenes, Sources, Mixer, Session) on one side, and a fixed side column (control panel + full-height Kick chat) on the other. Drag the divider to resize the side column (double-click = default).
+- Alerts button moved under the Settings button in the control panel (it was in the Kick header).
+- Saved box layout from older versions is reset once to the new default (new keys se_dock_order2 / se_dock_w2 / se_dockh2).
+
 v1.8
 ----
 - Kick panel reorganized: header = name + channel (start) / stats + control buttons (diagnostics, settings, expand) grouped together.

@@ -1,6 +1,6 @@
 'use strict';
 /* ============================================================
-   v1.7 — تخطيط الصناديق (المشاهد / العناصر / الخلاط / الجلسة / الشات):
+   v1.9 — تخطيط الصناديق (المشاهد / العناصر / الخلاط / الجلسة) + عمود جانبي ثابت (التحكم + شات Kick):
    - اسحب شريط عنوان أي صندوق لتغيير مكانه.
    - اسحب حافة الصندوق (الخط بين صندوقين) لتكبيره أو تصغيره.
    - زر الإعادة في شريط المعاينة (أو دبل-كليك على الحافة) يرجع التخطيط الافتراضي.
@@ -11,9 +11,9 @@
   Object.assign(I18N.en, { layoutResetT: 'Reset box layout and sizes', layoutLockT: 'Lock / unlock box layout' });
 
   const row = document.querySelector('.docks'); if (!row) return;
-  const ORDER_K = 'se_dock_order', W_K = 'se_dock_w';
-  const DEF_ORDER = ['dkScenes', 'dkSources', 'dkMixer', 'dkSession', 'dkKick'];
-  const DEF_W = { dkScenes: .72, dkSources: .85, dkMixer: 1, dkSession: 1.35, dkKick: 1.9 };
+  const ORDER_K = 'se_dock_order2', W_K = 'se_dock_w2', SIDE_K = 'se_side_w';
+  const DEF_ORDER = ['dkScenes', 'dkSources', 'dkMixer', 'dkSession'];
+  const DEF_W = { dkScenes: .8, dkSources: .9, dkMixer: 1.1, dkSession: 1.5 };
   const docks = () => [...row.querySelectorAll(':scope > .dock')];
   const byId = id => document.getElementById(id);
   const rtl = () => getComputedStyle(row).direction === 'rtl';
@@ -37,6 +37,7 @@
   function reset() {
     DEF_ORDER.forEach(id => { const d = byId(id); if (d) row.appendChild(d); });
     docks().forEach(d => d.style.setProperty('--w', String(DEF_W[d.id] || 1)));
+    if (side) { setSide(SIDE_DEF); LS.set(SIDE_K, String(SIDE_DEF)); }
     save();
   }
 
@@ -87,6 +88,23 @@
     };
     document.addEventListener('pointermove', mv); document.addEventListener('pointerup', up); document.addEventListener('pointercancel', up);
   });
+
+
+  /* ---------- العمود الجانبي (التحكم + الشات): اسحب الخط الفاصل لتوسيعه أو تضييقه ---------- */
+  const side = byId('workSide'), sr = byId('sideResz'), SIDE_DEF = 380, SIDE_MIN = 300, SIDE_MAX = 640;
+  const setSide = v => document.documentElement.style.setProperty('--side-w', Math.round(v) + 'px');
+  if (side && sr) {
+    const v0 = parseInt(LS.get(SIDE_K, String(SIDE_DEF)), 10); setSide(v0 >= SIDE_MIN && v0 <= SIDE_MAX ? v0 : SIDE_DEF);
+    sr.addEventListener('dblclick', () => { setSide(SIDE_DEF); LS.set(SIDE_K, String(SIDE_DEF)); try { window.dispatchEvent(new Event('resize')); } catch (e) {} });
+    sr.addEventListener('pointerdown', e => {
+      if (e.button !== 0 || document.body.classList.contains('dock-locked')) return;
+      e.preventDefault(); sr.setPointerCapture(e.pointerId); sr.classList.add('drag'); document.body.classList.add('dock-sizing');
+      const x0 = e.clientX, w0 = side.getBoundingClientRect().width, sgn = rtl() ? 1 : -1;
+      let cur = w0;
+      sr.onpointermove = ev => { cur = clamp(w0 + (ev.clientX - x0) * sgn, SIDE_MIN, Math.min(SIDE_MAX, innerWidth * 0.55)); setSide(cur); };
+      sr.onpointerup = sr.onpointercancel = () => { sr.onpointermove = sr.onpointerup = sr.onpointercancel = null; sr.classList.remove('drag'); document.body.classList.remove('dock-sizing'); LS.set(SIDE_K, String(Math.round(cur))); try { window.dispatchEvent(new Event('resize')); } catch (e) {} };
+    });
+  }
 
   const rb = byId('layoutReset'); if (rb) { rb.onclick = reset; try { paintIcons(rb); } catch (e) {} }
   const lb = byId('layoutLock');

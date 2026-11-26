@@ -1698,3 +1698,48 @@ body.dock-locked .dock-head{cursor:default}
 
 body.k-bigmode #dkKick .k-tabs.k-nav{padding:9px 10px}
 body.k-bigmode #dkKick .k-nav button{padding:8px 4px;font-size:12px}
+
+
+/* ================= v1.9: إعادة ترتيب الواجهة بالكامل =================
+   يمين: عمود ثابت = لوحة التحكم (المؤقت + ابدأ البث + الإعدادات + الأليرتات تحتها) ثم شات Kick بكامل الطول.
+   يسار: المعاينة كبيرة، وتحتها صف واحد: المشاهد · العناصر · الخلاط · الجلسة.
+   الخط الفاصل بين العمودين قابل للسحب (دبل-كليك يرجّعه للافتراضي). */
+:root{--side-w:380px}
+.studio{flex-direction:row!important;gap:0;padding:10px;direction:ltr}
+html[dir=rtl] .studio>*{direction:rtl}
+html[dir=ltr] .studio>*{direction:ltr}
+.work-main{order:0;flex:1 1 0;min-width:0;min-height:0;display:flex;flex-direction:column}
+.side-resz{order:1;flex:none;width:10px;position:relative;cursor:ew-resize;touch-action:none;z-index:6}
+.side-resz::after{content:"";position:absolute;top:50%;left:50%;width:4px;height:54px;margin:-27px 0 0 -2px;border-radius:4px;background:var(--line2);opacity:.55;transition:.15s}
+.side-resz:hover::after,.side-resz.drag::after{opacity:1;background:var(--ac)}
+body.dock-locked .side-resz{cursor:default}
+body.dock-locked .side-resz::after{display:none}
+.work-side{order:2;flex:none;width:var(--side-w);min-width:0;min-height:0;display:flex;flex-direction:column;gap:10px}
+
+/* لوحة التحكم المدمجة */
+.work-side .ctrl-panel{order:0;width:auto;margin:0;flex:none}
+.ctrl-panel .cp-head{height:32px}
+.ctrl-panel .cp-body{flex:none;overflow:visible;padding:10px;gap:8px}
+.cp-top{display:grid;grid-template-columns:1fr 1.15fr;gap:8px;align-items:stretch}
+.cp-top .cp-timer{padding:8px 6px;display:flex;flex-direction:column;justify-content:center;align-items:center}
+.cp-top .cp-timer b{font-size:24px;letter-spacing:1px}
+.cp-top .cp-timer small{margin-top:3px;font-size:11px;min-height:0}
+.ctrl-panel .cp-top #go{width:100%;min-height:58px;padding:0 10px;font-size:15px;border-radius:11px}
+.ctrl-panel .cp-top #go svg{width:18px;height:18px}
+.ctrl-panel .cbtn{justify-content:flex-start;padding:7px 10px;gap:10px;font-size:13px}
+.ctrl-panel .cbtn i{width:30px;height:30px;border-radius:8px}
+.ctrl-panel .cbtn i svg{width:17px;height:17px}
+.ctrl-panel .cbtn.al-off{opacity:.78}
+.ctrl-panel .cbtn.al-off i{color:var(--mut)}
+
+/* شات Kick: يعبّي باقي العمود */
+.work-side #dkKick{flex:1 1 0;min-height:0;min-width:0;width:auto}
+#dkKick .dock-head,#dkKick .dock-head.kh{cursor:default}
+#dkKick .kh-tools .icon-btn{width:28px;height:28px}
+
+/* الصف السفلي: 4 صناديق */
+.work-main .docks{flex:none}
+.work-main .stage-wrap{flex:1;min-height:0}
+
+@media (max-width:1180px){ :root{--side-w:330px} }
+@media (max-width:1366px){ :root{--side-w:340px} #dkScenes{min-width:190px} }
