@@ -909,8 +909,8 @@ body{color:${txt}!important}
       case 'MessageDeletedEvent': markDeleted((d.message && d.message.id) || d.id); if(window.KX) KX.event(name, d); break;
       case 'FollowersUpdated': {
         const n = parseInt(d.followersCount != null ? d.followersCount : d.followers_count, 10);
+        if(window.KX) KX.event(name, d);          /* v2.3: الحدث أولاً (ليلتقط الاسم) ثم نحدّث العدّاد */
         if(!isNaN(n) && K.stats){ K.stats.followers = n; paintStats(); if(window.KX) KX.stats(K.stats); }
-        if(window.KX) KX.event(name, d);
         break;
       }
       case 'StreamerIsLive': case 'StopStreamBroadcast': refresh(true); if(window.KX) KX.event(name, d); break;

@@ -184,14 +184,33 @@
     const tg = String(o.target || '').toLowerCase();
     return mod.some(a => (o.k && a.k === o.k) || (a.type === o.type && String(a.target || '').toLowerCase() === tg && Math.abs((a.ts || 0) - o.ts) < 90000));
   }
+  /* ---- v2.3: أليرت المتابعة مستقل عن قائمة النشاط ----
+     قبل: لو وصل المتابع أولاً من صفحة لوحة Kick (الاستطلاع) ثم من الـWebSocket، الثاني يُعتبر مكرراً فما يطلع الأليرت أبداً.
+     الآن: لكل متابع أليرت واحد فقط (نذكر الأسماء 20 دقيقة) بغض النظر عن مصدر الحدث أو وجوده بالقائمة. */
+  const FA = { t: 0, ta: 0, map: {} }; try { FA.map = JSON.parse(LS.get('se_kfa', '{}')) || {}; } catch (e) { FA.map = {}; }
+  const APP_T0 = Date.now();
+  function followAlert(user, key, demo) {
+    if (!window.SEAlert) return;
+    const now = Date.now(), u = String(user || '').trim().toLowerCase();
+    if (!demo) {
+      if (u) {
+        if (FA.map[u] && now - FA.map[u] < 1200000) return;
+        FA.map[u] = now; for (const k of Object.keys(FA.map)) if (now - FA.map[k] > 1200000) delete FA.map[k];
+        try { LS.set('se_kfa', JSON.stringify(FA.map)); } catch (e) {}
+      } else { if (now - FA.ta < 4000) return; FA.ta = now; }
+      if (key && !once('fa:' + key)) return;
+    }
+    FA.t = now;
+    try { SEAlert.push('follow', user); } catch (e) {}
+  }
   function addAct(o) {
+    if (o.type === 'follow') followAlert(o.user, o.key, !!o.demo);
     if (o.key && !once('a:' + o.key)) return;
     const it = { type: o.type, user: o.user || '', n: o.n, r: o.r, ts: o.ts || Date.now(), k: o.k || '', x: o.x || '' }; if (o.demo) it.demo = 1;
     if (dupAct(it)) return;
     act.unshift(it); fresh.add(it.ts + '|' + it.type + '|' + it.user);
     if (act.length > LIM) act.length = LIM;
     save(); paintAct();
-    if (it.type === 'follow') { try { window.SEAlert && SEAlert.push('follow', it.user); } catch (e) {} }   // أليرت المتابعة الجديدة
   }
   function actText(a) {
     switch (a.type) {
@@ -385,7 +404,10 @@
     let ca = false, cm = false;
     arrs.forEach(arr => arr.slice(0, LIM).forEach((it, i) => {
       const r = normItem(it, i); if (!r) return;
-      if (r.kind === 'act') { if (!dupAct(r.v)) { act.push(r.v); ca = true; } }
+      if (r.kind === 'act') {
+        if (r.v.type === 'follow' && !r.approx && r.v.user && r.v.ts >= APP_T0 - 30000 && Date.now() - r.v.ts < 180000) followAlert(r.v.user, '', false);
+        if (!dupAct(r.v)) { act.push(r.v); ca = true; }
+      }
       else if (!dupMod(r.v)) { mod.push(r.v); cm = true; }
     }));
     if (ca) { act.sort((a, b) => b.ts - a.ts); if (act.length > LIM) act.length = LIM; paintAct(); }
@@ -739,7 +761,14 @@
       lastSlug = st.slug; LS.set('se_kslug', st.slug);
     }
     if (st && st.chat) CS.cur = Object.assign({}, DEF, st.chat);
-    if (st && st.followers != null) lastFol = st.followers;
+    if (st && st.followers != null) {
+      const prev = lastFol; lastFol = st.followers;
+      /* احتياط: لو زاد عدد المتابعين ولم يصل أي حدث (WebSocket مقطوع) نعرض الأليرت بعد 12 ثانية بدون اسم */
+      if (!DM.on && prev != null && st.followers > prev && st.followers - prev <= 5) {
+        const n = st.followers, t0 = Date.now();
+        setTimeout(() => { if (FA.t < t0) addAct({ type: 'follow', user: '', key: 'fn:' + n }); }, 12000);
+      }
+    }
     paintSession(); paintChannel(); paintModNeed();
   };
   X.cfgChanged = function () { paintChannel(); paintModNeed(); };
@@ -763,9 +792,10 @@
         case 'FollowersUpdated': {
           if (d.followed === false) break;
           const n = parseInt(d.followersCount != null ? d.followersCount : d.followers_count, 10);
-          const user = d.username || (d.user && d.user.username) || '';
-          if (user) addAct({ type: 'follow', user, key: 'f:' + user + ':' + (d.created_at || n) });
-          else if (!isNaN(n) && lastFol != null && n > lastFol) addAct({ type: 'follow', user: '', key: 'fn:' + n });
+          const fu = d.follower && (d.follower.username || d.follower);
+          const user = String(d.username || d.user_name || (d.user && (d.user.username || d.user)) || fu || d.display_name || '').trim();
+          if (user) addAct({ type: 'follow', user, key: 'f:' + user.toLowerCase() });
+          else if (!isNaN(n) && (lastFol == null || n > lastFol)) addAct({ type: 'follow', user: '', key: 'fn:' + n });
           if (!isNaN(n)) lastFol = n;
           break;
         }

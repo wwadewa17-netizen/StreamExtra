@@ -1,7 +1,8 @@
 /* ============================================================
-   نظام الأليرتات (v2.2) — أليرت المتابعة الجديدة
+   نظام الأليرتات (v2.3) — أليرت المتابعة الجديدة
    - يُرسم الأليرت على نفس الكانفس (cv) اللي ينبث، فيظهر في المعاينة وعند المشاهدين.
    - يشتغل من حدث المتابعة اللي يوصل لموجز النشاط (kpanel.js → addAct).
+   - v2.3: تبويب «بناء الأليرت»: قالب فارغ من الصفر + أزرار إضافة (صورة · رسالة ترحيب · اسم الحساب · خلفية) · خطوط عربية بأسماء عربية وكل خط بشكله · الأليرت يظهر عند أي متابعة جديدة على Kick (إصلاح).
    - v2.2: 4 قوالب بلغتين (عربي / English) · خطوط عربية وإنجليزية حسب لغة القالب · خلفية القالب (ألوان/تدرّج/صورة) · القالب في وسط الشاشة وقابل للسحب والتحريك.
    - v2.1: قوالب جاهزة · رسالة الترحيب واسم المتابع منفصلان · أغنية · فيديو MP4 (بصوته) · نافذة بتبويبات.
    - الصوت والفيديو يمرّان عبر الخلاط (getMixer) فيصلان للبث ولسماعاتك.
@@ -32,8 +33,8 @@
     /* v2.1 */
     alTabTpl: 'القوالب', alTabTxt: 'النصوص', alTabMed: 'الوسائط', alTabLook: 'الشكل', alTabGen: 'عام',
     alTplT: 'قوالب جاهزة', alTplHint: 'اختر قالباً بنقرة واحدة ثم عدّل عليه ما تشاء. صورتك وصوتك وفيديوك ونصوصك تبقى كما هي.', alTplVid: 'مناسب للفيديو', alTplApplied: 'تم تطبيق القالب',
-    alSecMsg: 'رسالة الترحيب', alSecNm: 'اسم المتابع',
-    alMsgShow: 'إظهار رسالة الترحيب', alMsgText: 'نص رسالة الترحيب', alNmShow: 'إظهار اسم المتابع',
+    alSecMsg: 'رسالة الترحيب', alSecNm: 'اسم الحساب',
+    alMsgShow: 'إظهار رسالة الترحيب', alMsgText: 'نص رسالة الترحيب', alNmShow: 'إظهار اسم الحساب',
     alNmNote: 'اسم المتابع الحقيقي يظهر تلقائياً عند وصول متابع. هنا تتحكم بشكله ومكانه فقط، والاسم التجريبي (تحت المعاينة) للتجربة.',
     alFont: 'الخط', alWeight: 'السماكة', alW4: 'عادي', alW6: 'متوسط', alW7: 'عريض', alW8: 'عريض جداً',
     alIco: 'شكل الأيقونة (عند عدم وجود صورة)', alIcoHeart: 'قلب', alIcoStar: 'نجمة', alIcoBolt: 'صاعقة', alIcoCrown: 'تاج',
@@ -55,7 +56,17 @@
     alSecBg: 'خلفية القالب', alBgAdd: 'إضافة صورة خلفية', alBgChange: 'تغيير صورة الخلفية', alBgRm: 'حذف صورة الخلفية', alBgDim: 'تعتيم صورة الخلفية',
     alBgHint: 'غيّر لون الخلفية أو التدرّج أو ضع صورة خلفية للقالب. تطبيق قالب جديد يُرجع خلفيته الأصلية.',
     alSecPos: 'مكان القالب على الشاشة', alPosCustom: 'مخصص', alCardX: 'موضع القالب أفقي', alCardY: 'موضع القالب عمودي', alCenterNow: 'توسيط القالب',
-    alPosHint: 'القالب يظهر افتراضياً في وسط الشاشة. اسحبه بالماوس داخل المعاينة (يلتصق بالمنتصف تلقائياً) أو عدّل الأرقام.'
+    alPosHint: 'القالب يظهر افتراضياً في وسط الشاشة. اسحبه بالماوس داخل المعاينة (يلتصق بالمنتصف تلقائياً) أو عدّل الأرقام.',
+    /* v2.3 */
+    alTabBuild: 'بناء الأليرت', alStartT: 'ابدأ من هنا', alBlank: 'قالب فارغ من الصفر', alPickTpl: 'اختيار قالب جاهز',
+    alStartHint: 'ابنِ الأليرت بنفسك: اضغط «قالب فارغ» ثم أضف العناصر بالأزرار تحت (صورة · رسالة ترحيب · اسم الحساب). أو اختر قالباً جاهزاً وعدّل عليه.',
+    alElsT: 'عناصر الأليرت', alElsHint: 'اضغط زر الإضافة لكل عنصر، ثم اسحبه بالماوس داخل المعاينة لتحريكه، وعجلة الماوس فوقه تكبّره وتصغّره.',
+    alElImg: 'الصورة', alElMsg: 'رسالة الترحيب', alElNm: 'اسم الحساب', alElBg: 'الخلفية',
+    alAddImg2: 'إضافة صورة', alAddIco: 'أيقونة', alAddMsg: 'إضافة ترحيب', alAddNm: 'إضافة اسم الحساب', alAddBg: 'إضافة خلفية',
+    alEdit: 'تعديل', alDelete: 'حذف', alElOn: 'مضاف', alElOff: 'غير مضاف', alElBgOn: 'لون / صورة',
+    alPickEl: 'اختر عنصراً من القائمة أو اضغط عليه داخل المعاينة لتعديل شكله.',
+    alZoom: 'تقريب المعاينة', alZoomOff: 'تصغير المعاينة', alFontSample: 'أهلاً بك يا بطل', alFontsT: 'الخط', alBlankDone: 'البطاقة فارغة الآن — أضف العناصر بالأزرار', alAdded: 'تمت الإضافة',
+    alSecCard2: 'البطاقة والخلفية', alMsgNote: 'اكتب نص الترحيب (مثل: أهلاً بالمتابع الجديد). اتركه فارغاً لاستخدام النص الافتراضي.'
   });
   Object.assign(I18N.en, {
     kAlertT: 'Alert settings',
@@ -74,7 +85,7 @@
     /* v2.1 */
     alTabTpl: 'Templates', alTabTxt: 'Texts', alTabMed: 'Media', alTabLook: 'Look', alTabGen: 'General',
     alTplT: 'Ready-made templates', alTplHint: 'Pick a template in one click, then tweak it. Your image, sound, video and texts are kept.', alTplVid: 'Great with video', alTplApplied: 'Template applied',
-    alSecMsg: 'Welcome message', alSecNm: 'Follower name',
+    alSecMsg: 'Welcome message', alSecNm: 'Account name',
     alMsgShow: 'Show welcome message', alMsgText: 'Welcome message text', alNmShow: 'Show follower name',
     alNmNote: 'The real follower name appears automatically when someone follows. Here you only control its look and position; the test name (under the preview) is just for trying.',
     alFont: 'Font', alWeight: 'Weight', alW4: 'Regular', alW6: 'Semibold', alW7: 'Bold', alW8: 'Extra bold',
@@ -97,14 +108,26 @@
     alSecBg: 'Template background', alBgAdd: 'Add background image', alBgChange: 'Change background image', alBgRm: 'Remove background image', alBgDim: 'Background image dimming',
     alBgHint: 'Change the background color or gradient, or add a background image. Applying a new template restores its original background.',
     alSecPos: 'Template position on screen', alPosCustom: 'Custom', alCardX: 'Card position X', alCardY: 'Card position Y', alCenterNow: 'Center the card',
-    alPosHint: 'The template shows in the middle of the screen by default. Drag it in the preview (it snaps to the center) or edit the numbers.'
+    alPosHint: 'The template shows in the middle of the screen by default. Drag it in the preview (it snaps to the center) or edit the numbers.',
+    /* v2.3 */
+    alTabBuild: 'Build', alStartT: 'Start here', alBlank: 'Blank template (from scratch)', alPickTpl: 'Pick a ready-made template',
+    alStartHint: 'Build your own alert: press “Blank template”, then add elements with the buttons below (image · welcome message · account name). Or pick a ready-made template and tweak it.',
+    alElsT: 'Alert elements', alElsHint: 'Press the add button for each element, then drag it in the preview to move it; the mouse wheel over it resizes it.',
+    alElImg: 'Image', alElMsg: 'Welcome message', alElNm: 'Account name', alElBg: 'Background',
+    alAddImg2: 'Add image', alAddIco: 'Icon', alAddMsg: 'Add welcome', alAddNm: 'Add account name', alAddBg: 'Add background',
+    alEdit: 'Edit', alDelete: 'Remove', alElOn: 'Added', alElOff: 'Not added', alElBgOn: 'Color / image',
+    alPickEl: 'Pick an element from the list, or click it in the preview, to edit its look.',
+    alZoom: 'Zoom preview', alZoomOff: 'Zoom out', alFontSample: 'Welcome back, hero', alFontsT: 'Font', alBlankDone: 'The card is empty now — add elements with the buttons', alAdded: 'Added',
+    alSecCard2: 'Card & background', alMsgNote: 'Type the welcome text (e.g. Welcome new follower). Leave it empty to use the default text.'
   });
 
   /* ---------- الإعدادات ---------- */
   const KEY = 'se_kalert', POS = ['top', 'bottom', 'tr', 'tl', 'br', 'bl', 'center', 'custom'], DURS = [0, 3, 5, 8, 10, 15, 20, 30];
   const ANIMS = ['slide', 'pop', 'fade'], ICOS = ['heart', 'star', 'bolt', 'crown'], WEIGHTS = [400, 600, 700, 800];
   /* خطوط حسب اللغة (خطوط ويندوز الجاهزة + بعض الخطوط الشائعة لو مثبّتة عند المستخدم) — تُعرض فقط المتوفر منها */
-  const FONTS_AR = ['Segoe UI', 'Tahoma', 'Arial', 'Times New Roman', 'Dubai', 'Sakkal Majalla', 'Traditional Arabic', 'Simplified Arabic', 'Arabic Typesetting', 'Andalus', 'Aldhabi', 'Courier New', 'Microsoft Sans Serif', 'Cairo', 'Tajawal', 'Almarai', 'Amiri', 'Noto Naskh Arabic', 'IBM Plex Sans Arabic'];
+  const FONTS_AR = ['Segoe UI', 'Tahoma', 'Arial', 'Times New Roman', 'Dubai', 'Sakkal Majalla', 'Traditional Arabic', 'Simplified Arabic', 'Arabic Typesetting', 'Andalus', 'Aldhabi', 'Courier New', 'Microsoft Sans Serif', 'Cairo', 'Tajawal', 'Almarai', 'Amiri', 'Noto Naskh Arabic', 'IBM Plex Sans Arabic', 'Noto Kufi Arabic', 'Noto Sans Arabic', 'Reem Kufi', 'El Messiri', 'Changa', 'Lalezar', 'Markazi Text', 'Mada', 'Readex Pro', 'Harmattan', 'Lemonada', 'Baloo Bhaijaan 2', 'Rubik'];
+  /* أسماء الخطوط بالعربي (تظهر في قائمة الخطوط لما تكون لغة القالب عربي) */
+  const FNAME_AR = { 'Segoe UI': 'سيجو', 'Tahoma': 'تاهوما', 'Arial': 'أريال', 'Times New Roman': 'تايمز', 'Dubai': 'دبي', 'Sakkal Majalla': 'سكّال مجلة', 'Traditional Arabic': 'العربية التقليدية', 'Simplified Arabic': 'العربية المبسّطة', 'Arabic Typesetting': 'الخط الطباعي', 'Andalus': 'أندلس', 'Aldhabi': 'الذهبي', 'Courier New': 'كورير', 'Microsoft Sans Serif': 'مايكروسوفت سانس', 'Cairo': 'القاهرة', 'Tajawal': 'تجوّل', 'Almarai': 'المراعي', 'Amiri': 'أميري', 'Noto Naskh Arabic': 'نوتو نسخ', 'IBM Plex Sans Arabic': 'بلكس عربي', 'Noto Kufi Arabic': 'نوتو كوفي', 'Noto Sans Arabic': 'نوتو سانس', 'Reem Kufi': 'ريم كوفي', 'El Messiri': 'المسيري', 'Changa': 'تشانغا', 'Lalezar': 'لالزار', 'Markazi Text': 'مركزي', 'Mada': 'مدى', 'Readex Pro': 'ريديكس', 'Harmattan': 'هارمتن', 'Lemonada': 'ليمونادا', 'Baloo Bhaijaan 2': 'بالو بهيجان', 'Rubik': 'روبيك' };
   const FONTS_EN = ['Segoe UI', 'Arial', 'Verdana', 'Tahoma', 'Trebuchet MS', 'Impact', 'Arial Black', 'Georgia', 'Times New Roman', 'Palatino Linotype', 'Comic Sans MS', 'Courier New', 'Lucida Console', 'Consolas', 'Bahnschrift', 'Segoe Script', 'Calibri', 'Cambria'];
   const FONTS_ = Array.from(new Set(FONTS_AR.concat(FONTS_EN)));
   const fontOk = (() => {                                  // هل الخط مثبّت؟ (مقارنة عرض نص مع الخطوط العامة)
@@ -454,11 +477,11 @@
     fr.readAsDataURL(file);
   }
   function openDialog() {
-    const orig = JSON.stringify(CFG); let committed = false, sel = 'nm', tab = 'tpl', drag = null, raf = 0, tnCustom = false, testName = TESTN[CFG.follow.lang];
+    const orig = JSON.stringify(CFG); let zoom = 1, committed = false, sel = (CFG.follow.msg.show ? 'msg' : CFG.follow.nm.show ? 'nm' : CFG.follow.img.show ? 'img' : 'card'), tab = 'build', drag = null, raf = 0, tnCustom = false, testName = TESTN[CFG.follow.lang];
     const f = () => CFG.follow, esc2 = esc, rtl = (document.documentElement.dir || 'ltr'), box = $('dlgBox');
     const newIds = new Set(), oldIds = new Set();
     const TYPES = [['follow', 'heart', 'alFollowH']];          // أنواع الأليرتات — نضيف هنا لاحقاً (اشتراك، هدية...)
-    const TABS = [['tpl', 'grid', 'alTabTpl'], ['txt', 'text', 'alTabTxt'], ['med', 'film', 'alTabMed'], ['look', 'palette', 'alTabLook'], ['gen', 'sliders', 'alTabGen']];
+    const TABS = [['build', 'plus', 'alTabBuild'], ['tpl', 'grid', 'alTabTpl'], ['look', 'palette', 'alTabLook'], ['med', 'film', 'alTabMed'], ['gen', 'sliders', 'alTabGen']];
     const side = () => `<div class="al-side"><div class="al-sideT">${esc2(t('alTypes'))}</div>${TYPES.map(([k, i, l]) => `<button type="button" class="al-tab on" data-type="${k}"><i data-ic="${i}"></i><span>${esc2(t(l))}</span></button>`).join('')}</div>`;
 
     /* --- بناء الحقول (كل حقل يتسجل في REG ليُربط بعد الرسم) --- */
@@ -470,12 +493,15 @@
     const rg = (id, label, get, a, b, set) => { REG.push({ k: 'rg', id, set, get, a, b }); const v = Math.round(get()); return `<label class="f al-rg"><span>${esc2(label)}</span><input type="range" id="${id}" min="${a}" max="${b}" value="${v}"><input type="number" class="al-num" id="${id}N" min="${a}" max="${b}" value="${v}"></label>`; };
     const sec = (k, title, inner, hint) => `<div class="al-sec ${sel === k ? 'sel' : ''}" data-sec="${k}"><div class="al-secT">${esc2(title)}</div>${hint ? `<div class="al-hint">${esc2(hint)}</div>` : ''}${inner}</div>`;
     const fontOpts = cur => { const b = (f().lang === 'en' ? FONTS_EN : FONTS_AR).filter(fontOk); if (!b.includes(cur)) b.unshift(cur); return b.map(x => [x, x, `font-family:'${x}',sans-serif`]); }, wOpts = [[400, t('alW4')], [600, t('alW6')], [700, t('alW7')], [800, t('alW8')]];
+    const fontLabel = x => (f().lang === 'ar' && FNAME_AR[x]) ? FNAME_AR[x] : x;
+    const fontChips = (key, cur) => `<div class="f full"><span>${esc2(t('alFontsT'))}</span><div class="al-fonts" data-fk="${key}">${fontOpts(cur).map(([x]) => `<button type="button" class="al-font ${x === cur ? 'on' : ''}" data-font="${esc2(x)}" style="font-family:'${x}','Segoe UI',Tahoma,sans-serif"><b>${esc2(fontLabel(x))}</b><small>${esc2(f().lang === 'ar' ? t('alFontSample') : DEFTXT.en)}</small></button>`).join('')}</div></div>`;
     const txtSec = (key, title, showLbl, extra, hint) => {
       const o = () => f()[key], W = f().w, H = f().h;
       return sec(key, title, `
-        ${tg('al_' + key + 'Show', showLbl, () => o().show, v => o().show = v)}
+        ${showLbl ? tg('al_' + key + 'Show', showLbl, () => o().show, v => o().show = v) : ''}
         ${extra || ''}
-        <div class="grid2">${sl('al_' + key + 'Font', t('alFont'), fontOpts(o().font), () => o().font, v => o().font = v)}${sl('al_' + key + 'W', t('alWeight'), wOpts, () => o().weight, v => o().weight = +v)}</div>
+        ${fontChips(key, o().font)}
+        <div class="grid2">${sl('al_' + key + 'W', t('alWeight'), wOpts, () => o().weight, v => o().weight = +v)}</div>
         ${rg('al_' + key + 'Size', t('alSize'), () => o().size, 10, 160, v => o().size = v)}
         ${cl('al_' + key + 'Color', t('alColor'), () => o().color, v => o().color = v)}
         ${rg('al_' + key + 'X', t('alX'), () => o().x, -60, W + 60, v => o().x = v)}
@@ -516,26 +542,38 @@
       REG = []; const g = f();
       if (tab === 'tpl') return `
         ${sec('lang', t('alLang'), `<div class="al-langs">${[['ar', 'عربي'], ['en', 'English']].map(([l, n]) => `<button type="button" class="al-lang ${g.lang === l ? 'on' : ''}" data-lang="${l}">${n}</button>`).join('')}</div>`, t('alLangHint'))}
-        ${sec('tpl', t('alTplT'), `<div class="al-tpls">${TPLS.map(tp => `<button type="button" class="al-tpl ${g.tpl === tp.id ? 'on' : ''}" data-tpl="${tp.id}"><canvas width="360" height="124" data-tp="${tp.id}"></canvas><span class="al-tpn">${esc2(lang === 'ar' ? tp.ar : tp.en)}</span>${tp.vid ? `<em>${esc2(t('alTplVid'))}</em>` : ''}</button>`).join('')}</div>`, t('alTplHint'))}
-        ${sec('bgs', t('alSecBg'), `
-          <div class="grid2">${cl('alBg', t('alBg'), () => g.bg, v => g.bg = v)}${cl('alBg2', t('alBg2'), () => g.bg2, v => g.bg2 = v)}</div>
-          ${rg('alBgA', t('alBgA'), () => g.bgA, 0, 100, v => g.bgA = v)}
-          <div class="al-row"><button type="button" class="dbtn primary" id="alBgPick">${esc2(t(g.bgimg.data ? 'alBgChange' : 'alBgAdd'))}</button><button type="button" class="dbtn" id="alBgRm" ${g.bgimg.data ? '' : 'disabled'}>${esc2(t('alBgRm'))}</button></div>
-          <input type="file" id="alBgFile" accept="image/*" style="display:none">
-          ${rg('alBgDim', t('alBgDim'), () => g.bgimg.dim, 0, 85, v => g.bgimg.dim = Math.round(v))}`, t('alBgHint'))}`;
-      if (tab === 'txt') return `
-        ${txtSec('msg', t('alSecMsg'), t('alMsgShow'), tx('al_msgText', t('alMsgText'), () => g.msg.text, v => g.msg.text = v.trim().slice(0, 40), DEFTXT[f().lang]))}
-        ${txtSec('nm', t('alSecNm'), t('alNmShow'), '', t('alNmNote'))}`;
-      if (tab === 'med') return `
-        ${sec('img', t('alSecImg'), `
-          <div class="al-row"><button type="button" class="dbtn primary" id="alPick">${esc2(t(g.img.data ? 'alChangeImg' : 'alAddImg'))}</button><button type="button" class="dbtn" id="alRm" ${g.img.data ? '' : 'disabled'}>${esc2(t('alRemove'))}</button></div>
-          <input type="file" id="alFile" accept="image/*" style="display:none">
-          ${tg('alImgShow', t('alShowImg'), () => g.img.show, v => g.img.show = v)}
-          ${sl('alIco', t('alIco'), [['heart', t('alIcoHeart')], ['star', t('alIcoStar')], ['bolt', t('alIcoBolt')], ['crown', t('alIcoCrown')]], () => g.ico, v => g.ico = v)}
+        ${sec('tpl', t('alTplT'), `<div class="al-tpls">${TPLS.map(tp => `<button type="button" class="al-tpl ${g.tpl === tp.id ? 'on' : ''}" data-tpl="${tp.id}"><canvas width="360" height="124" data-tp="${tp.id}"></canvas><span class="al-tpn">${esc2(lang === 'ar' ? tp.ar : tp.en)}</span>${tp.vid ? `<em>${esc2(t('alTplVid'))}</em>` : ''}</button>`).join('')}</div>`, t('alTplHint'))}`;
+      if (tab === 'build') {
+        const addB = (k, lbl, ic) => `<button type="button" class="dbtn primary" data-add="${k}"><i data-ic="${ic || 'plus'}"></i><span>${esc2(t(lbl))}</span></button>`;
+        const row = (k, ic, title, on, adds, onTxt) => `<div class="al-el ${on ? 'has' : ''} ${sel === k ? 'sel' : ''}" data-el="${k}"><span class="al-elI"><i data-ic="${ic}"></i></span><span class="al-elT"><b>${esc2(title)}</b><small>${esc2(on ? (onTxt || t('alElOn')) : t('alElOff'))}</small></span><span class="al-elB">${on ? `<button type="button" class="dbtn" data-edit="${k}">${esc2(t('alEdit'))}</button><button type="button" class="dbtn danger" data-del="${k}">${esc2(t('alDelete'))}</button>` : adds}</span></div>`;
+        const els = row('img', 'image', t('alElImg'), g.img.show, addB('img', 'alAddImg2', 'image') + `<button type="button" class="dbtn" data-add="ico">${esc2(t('alAddIco'))}</button>`, g.img.data ? t('alElOn') : t('alAddIco'))
+          + row('msg', 'chat', t('alElMsg'), g.msg.show, addB('msg', 'alAddMsg'))
+          + row('nm', 'userplus', t('alElNm'), g.nm.show, addB('nm', 'alAddNm'))
+          + `<div class="al-el has ${sel === 'card' ? 'sel' : ''}" data-el="card"><span class="al-elI"><i data-ic="palette"></i></span><span class="al-elT"><b>${esc2(t('alElBg'))}</b><small>${esc2(g.bgimg.data ? t('alElOn') : t('alElBgOn'))}</small></span><span class="al-elB"><button type="button" class="dbtn" data-edit="card">${esc2(t('alEdit'))}</button>${g.bgimg.data ? `<button type="button" class="dbtn danger" data-del="bg">${esc2(t('alDelete'))}</button>` : addB('bg', 'alAddBg', 'image')}</span></div>`;
+        let props = '';
+        if (sel === 'msg' && g.msg.show) props = txtSec('msg', t('alSecMsg'), '', tx('al_msgText', t('alMsgText'), () => g.msg.text, v => g.msg.text = v.trim().slice(0, 40), DEFTXT[g.lang]), t('alMsgNote'));
+        else if (sel === 'nm' && g.nm.show) props = txtSec('nm', t('alSecNm'), '', '', t('alNmNote'));
+        else if (sel === 'img' && g.img.show) props = sec('img', t('alSecImg'), `
+          <div class="al-row"><button type="button" class="dbtn primary" data-add="img">${esc2(t(g.img.data ? 'alChangeImg' : 'alAddImg'))}</button></div>
+          ${g.img.data ? '' : sl('alIco', t('alIco'), [['heart', t('alIcoHeart')], ['star', t('alIcoStar')], ['bolt', t('alIcoBolt')], ['crown', t('alIcoCrown')]], () => g.ico, v => g.ico = v)}
           ${rg('alISize', t('alSize'), () => g.img.size, 24, 200, v => g.img.size = v)}
           ${rg('alIX', t('alX'), () => g.img.x, -60, g.w + 60, v => g.img.x = v)}
-          ${rg('alIY', t('alY'), () => g.img.y, -60, g.h + 60, v => g.img.y = v)}
-          <div class="al-row"><button type="button" class="dbtn" data-rs="img">${esc2(t('alReset'))}</button></div>`)}
+          ${rg('alIY', t('alY'), () => g.img.y, -60, g.h + 60, v => g.img.y = v)}`);
+        else if (sel === 'card') props = sec('card', t('alSecCard2'), `
+          <div class="grid2">${cl('alBg', t('alBg'), () => g.bg, v => g.bg = v)}${cl('alBg2', t('alBg2'), () => g.bg2, v => g.bg2 = v)}</div>
+          ${rg('alBgA', t('alBgA'), () => g.bgA, 0, 100, v => g.bgA = v)}
+          <div class="al-row"><button type="button" class="dbtn primary" data-add="bg">${esc2(t(g.bgimg.data ? 'alBgChange' : 'alBgAdd'))}</button></div>
+          ${g.bgimg.data ? rg('alBgDim', t('alBgDim'), () => g.bgimg.dim, 0, 85, v => g.bgimg.dim = Math.round(v)) : ''}
+          ${rg('alW', t('alCW'), () => g.w, 240, 900, v => g.w = Math.round(v))}
+          ${rg('alH', t('alCH'), () => g.h, 70, 520, v => g.h = Math.round(v))}`, t('alBgHint'));
+        else props = `<div class="al-hint al-pick">${esc2(t('alPickEl'))}</div>`;
+        return `
+        <input type="file" id="alFile" accept="image/*" style="display:none"><input type="file" id="alBgFile" accept="image/*" style="display:none">
+        ${sec('start', t('alStartT'), `<div class="al-row al-start"><button type="button" class="dbtn danger" id="alBlank"><i data-ic="refresh"></i><span>${esc2(t('alBlank'))}</span></button><button type="button" class="dbtn" data-tab-go="tpl"><i data-ic="grid"></i><span>${esc2(t('alPickTpl'))}</span></button></div><div class="al-langrow"><span>${esc2(t('alLang'))}</span><div class="al-langs">${[['ar', 'عربي'], ['en', 'English']].map(([l, n]) => `<button type="button" class="al-lang ${g.lang === l ? 'on' : ''}" data-lang="${l}">${n}</button>`).join('')}</div></div>`, t('alStartHint'))}
+        ${sec('els', t('alElsT'), `<div class="al-els">${els}</div>`, t('alElsHint'))}
+        ${props}`;
+      }
+      if (tab === 'med') return `
         ${sec('vid', t('alSecVid'), `
           ${fileRow(g.vid.name, !!g.vid.id, 'alVPick', 'alVRm', t('alVidAdd'), t('alVidChange'), t('alVidRm'))}
           <input type="file" id="alVFile" accept="video/mp4,video/webm,.mp4,.webm,.mov,.m4v" style="display:none">
@@ -584,7 +622,7 @@
         <div class="al-left">
           <div class="al-stage"><div class="al-prevT">${esc2(t('alPrev'))}</div><canvas id="alPrev" class="al-prev" width="800" height="450"></canvas></div>
           <div class="al-tools"><label class="f al-tn"><span>${esc2(t('alTestNm'))}</span><input type="text" id="alTestNm" maxlength="24" value="${esc2(testName)}"></label>
-            <button type="button" class="dbtn primary al-play" id="alPlay"><i data-ic="play"></i><span>${esc2(t('alPlay'))}</span></button></div>
+            <button type="button" class="dbtn al-zoom" id="alZoom"><i data-ic="search"></i><span>${esc2(t('alZoom'))}</span></button><button type="button" class="dbtn primary al-play" id="alPlay"><i data-ic="play"></i><span>${esc2(t('alPlay'))}</span></button></div>
         </div>
         <div class="al-right"><div class="al-segs" id="alTabs">${tabsHtml()}</div><div class="al-ctl" id="alPanel">${panel()}</div></div>
       </div></div>`;
@@ -613,7 +651,8 @@
       c.setTransform(1, 0, 0, 1, 0, 0); c.clearRect(0, 0, cv_.width, cv_.height);
       const bgG = c.createLinearGradient(0, 0, cv_.width, cv_.height); bgG.addColorStop(0, '#1d2230'); bgG.addColorStop(1, '#0f1218'); c.fillStyle = bgG; c.fillRect(0, 0, cv_.width, cv_.height);
       c.strokeStyle = 'rgba(255,255,255,.04)'; c.lineWidth = 1; for (let i = 40; i < cv_.width; i += 40) { c.beginPath(); c.moveTo(i, 0); c.lineTo(i, cv_.height); c.stroke(); } for (let j = 40; j < cv_.height; j += 40) { c.beginPath(); c.moveTo(0, j); c.lineTo(cv_.width, j); c.stroke(); }
-      c.setTransform(SC, 0, 0, SC, 0, 0);
+      if (zoom > 1) { const [zx, zy] = cardXY(), pvx = zx + cf.w / 2, pvy = zy + cf.h / 2; c.setTransform(SC * zoom, 0, 0, SC * zoom, SC * (640 - pvx * zoom), SC * (360 - pvy * zoom)); }
+      else c.setTransform(SC, 0, 0, SC, 0, 0);
       const live = advance(now) && curA && curA.test;
       if (live) drawAlert(c, 1280, 720, cf, curA, now - curA.t0, holdOf(cf));
       else {
@@ -633,18 +672,22 @@
       }
       raf = requestAnimationFrame(paintPrev);
     }
-    const toAbs = e => { const r = pc().getBoundingClientRect(); return [(e.clientX - r.left) / r.width * 1280, (e.clientY - r.top) / r.height * 720]; };
-    const toCard = e => { const r = pc().getBoundingClientRect(), [x, y] = cardXY(); return [(e.clientX - r.left) / r.width * 1280 - x, (e.clientY - r.top) / r.height * 720 - y]; };
+    const toAbs = e => {                                       // مكان المؤشر بإحداثيات الشاشة 1280×720 (يراعي التقريب)
+      const r = pc().getBoundingClientRect(), fx = (e.clientX - r.left) / r.width * 1280, fy = (e.clientY - r.top) / r.height * 720;
+      if (zoom <= 1) return [fx, fy];
+      const cf = f(), [x, y] = cardXY(); return [x + cf.w / 2 + (fx - 640) / zoom, y + cf.h / 2 + (fy - 360) / zoom];
+    };
+    const toCard = e => { const [ax, ay] = toAbs(e), [x, y] = cardXY(); return [ax - x, ay - y]; };
     function hit(px, py) {
       const g = f();
       for (const k of ['nm', 'msg']) { if (!g[k].show) continue; const b = tbox(k); if (px >= b.x - 8 && px <= b.x + b.w + 8 && py >= b.y - 8 && py <= b.y + b.h + 8) return k; }
       if (g.img.show && Math.hypot(px - g.img.x, py - g.img.y) <= g.img.size / 2 + 8) return 'img';
-      if (px >= 0 && px <= g.w && py >= 0 && py <= g.h) return 'card';
+      if (zoom <= 1 && px >= 0 && px <= g.w && py >= 0 && py <= g.h) return 'card';
       return null;
     }
     function select(k, fromCanvas) {
       sel = k;
-      if (fromCanvas) { const want = k === 'img' ? 'med' : 'txt'; if (tab !== want) { tab = want; refresh(); } }
+      if (fromCanvas) { if (tab !== 'build') tab = 'build'; refresh(); return; }
       document.querySelectorAll('.al-sec').forEach(x => x.classList.toggle('sel', x.dataset.sec === k));
       const el = document.querySelector(`.al-sec[data-sec="${k}"]`); if (el) el.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
     }
@@ -657,7 +700,7 @@
         if (curA && curA.test) return;
         const [px, py] = toCard(e), k = hit(px, py); if (!k) return;
         if (k === 'card') {
-          const [ax, ay] = toAbs(e), [cx, cy] = cardXY(); sel = 'card';
+          const [ax, ay] = toAbs(e), [cx, cy] = cardXY(); sel = 'card'; if (tab === 'build') refresh();
           document.querySelectorAll('.al-sec').forEach(x => x.classList.remove('sel'));
           drag = { k, dx: cx - ax, dy: cy - ay }; cv_.setPointerCapture(e.pointerId); e.preventDefault(); return;
         }
@@ -710,6 +753,35 @@
     }
     function readGen() { save(); paintBtn(); }
 
+    /* ---------- v2.3: بناء الأليرت من الصفر ---------- */
+    function relayout() {                                      // يرتب النصوص حسب وجود الصورة وعدد العناصر
+      const g = f(), left = g.img.show ? Math.round(g.img.x + g.img.size / 2 + 16) : 14, cx = Math.round((left + g.w - 14) / 2);
+      ['msg', 'nm'].forEach(k => { g[k].x = cx; });
+      if (g.msg.show && g.nm.show) { g.msg.y = Math.round(g.h / 2 - 17); g.nm.y = Math.round(g.h / 2 + 19); }
+      else { g.msg.y = g.nm.y = Math.round(g.h / 2); }
+    }
+    function blankCard() {
+      const g = f(), o = Object.assign(DEFF(), { tpl: 'custom', lang: g.lang, on: g.on, dur: g.dur, pos: 'center', px: g.px, py: g.py, vid: g.vid, snd: g.snd });
+      o.img = Object.assign(DIMG(), { show: false }); o.msg = Object.assign(DMSG(), { show: false }); o.nm = Object.assign(DNAME(), { show: false });
+      const n = norm(o); n.img.data = ''; n.msg.text = ''; CFG.follow = n; sel = 'card';
+      save(); refresh(); toast(t('alBlankDone'), 2200);
+    }
+    function addEl(k) {
+      const g = f();
+      if (k === 'img') { const fi = $('alFile'); if (fi) fi.click(); return; }
+      if (k === 'bg') { const fi = $('alBgFile'); if (fi) fi.click(); return; }
+      if (k === 'ico') { g.img.show = true; g.img.data = ''; g.img.y = Math.round(g.h / 2); k = 'img'; }
+      else if (k === 'msg') g.msg.show = true; else if (k === 'nm') g.nm.show = true;
+      sel = k; relayout(); save(); refresh();
+      if (k === 'msg') { const i = $('al_msgText'); if (i) i.focus(); }
+    }
+    function delEl(k) {
+      const g = f();
+      if (k === 'bg') g.bgimg.data = ''; else if (k === 'img') { g.img.show = false; g.img.data = ''; } else g[k].show = false;
+      if (sel === k) sel = 'card';
+      if (k !== 'bg') relayout();
+      save(); refresh();
+    }
     function bindPanel() {
       const g = f(), on = (id, ev, fn) => { const el = $(id); if (el) el.addEventListener(ev, fn); };
       REG.forEach(r => {
@@ -732,15 +804,22 @@
       });
       // لغة القالب + الخلفية + التوسيط
       document.querySelectorAll('[data-lang]').forEach(b => b.onclick = () => setLang(b.dataset.lang));
-      on('alBgPick', 'click', () => $('alBgFile').click());
-      on('alBgFile', 'change', e => { const fl = e.target.files && e.target.files[0]; e.target.value = ''; if (fl) readBg(fl, d => { g.bgimg.data = d; save(); refresh(); }); });
-      on('alBgRm', 'click', () => { g.bgimg.data = ''; save(); refresh(); });
-      on('alCenterBtn', 'click', () => { g.pos = 'center'; save(); refresh(); });
+      // v2.3: أزرار الإضافة / التعديل / الحذف + قالب فارغ + الخطوط
+      document.querySelectorAll('[data-add]').forEach(b => b.onclick = () => addEl(b.dataset.add));
+      document.querySelectorAll('[data-edit]').forEach(b => b.onclick = () => { sel = b.dataset.edit; refresh(); });
+      document.querySelectorAll('[data-del]').forEach(b => b.onclick = () => delEl(b.dataset.del));
+      document.querySelectorAll('[data-tab-go]').forEach(b => b.onclick = () => { tab = b.dataset.tabGo; refresh(); $('alPanel').scrollTop = 0; });
+      document.querySelectorAll('.al-el').forEach(r => r.onclick = e => { if (e.target.closest('button')) return; const k = r.dataset.el; if (k === 'card' || (k === 'img' ? g.img.show : g[k].show)) { sel = k; refresh(); } });
+      on('alBlank', 'click', blankCard);
+      document.querySelectorAll('.al-fonts').forEach(box_ => box_.querySelectorAll('.al-font').forEach(b => b.onclick = () => {
+        const o = f()[box_.dataset.fk]; if (!o) return; o.font = b.dataset.font; save();
+        box_.querySelectorAll('.al-font').forEach(x => x.classList.toggle('on', x === b));
+      }));
+            on('alBgFile', 'change', e => { const fl = e.target.files && e.target.files[0]; e.target.value = ''; if (fl) readBg(fl, d => { g.bgimg.data = d; sel = 'card'; save(); refresh(); }); });
+            on('alCenterBtn', 'click', () => { g.pos = 'center'; save(); refresh(); });
       // صورة
-      on('alPick', 'click', () => $('alFile').click());
-      on('alFile', 'change', e => { const fl = e.target.files && e.target.files[0]; if (!fl) return; readImg(fl, d => { g.img.data = d; g.img.show = true; save(); sel = 'img'; refresh(); }); });
-      on('alRm', 'click', () => { g.img.data = ''; save(); refresh(); });
-      // فيديو
+            on('alFile', 'change', e => { const fl = e.target.files && e.target.files[0]; e.target.value = ''; if (!fl) return; readImg(fl, d => { const wasOn = g.img.show; g.img.data = d; g.img.show = true; if (!wasOn) g.img.y = Math.round(g.h / 2); relayout(); save(); sel = 'img'; refresh(); toast(t('alAdded'), 1200); }); });
+            // فيديو
       on('alVPick', 'click', () => $('alVFile').click());
       on('alVFile', 'change', e => { const fl = e.target.files && e.target.files[0]; e.target.value = ''; if (fl) pickMedia('video', fl); });
       on('alVRm', 'click', () => { dropId(g.vid.id); g.vid = DVID(); save(); refresh(); });
@@ -756,7 +835,7 @@
         else { const keep = g[k].text; g[k] = Object.assign({}, T[k], { text: keep }); }
         save(); refresh();
       });
-      on('alAll', 'click', () => { const n = fromTpl(TPLS[0], f()); n.msg.text = ''; n.pos = 'center'; CFG.follow = n; save(); paintBtn(); refresh(); });
+      on('alAll', 'click', () => { const n = fromTpl(TPLS[0], f()); n.msg.text = ''; n.pos = 'center'; CFG.follow = n; sel = 'msg'; save(); paintBtn(); refresh(); });
       document.querySelectorAll('.al-sec').forEach(x => x.addEventListener('focusin', () => { const k = x.dataset.sec; if (k === 'img' || k === 'nm' || k === 'msg') { sel = k; document.querySelectorAll('.al-sec').forEach(y => y.classList.toggle('sel', y === x)); } }));
     }
     function paintThumbs() {
@@ -785,6 +864,7 @@
         bindPrev(); bindPanel(); paintThumbs(); paintPrev(); prepAll();
         on_('alTestNm', 'input', e => { const v = e.target.value.trim(); tnCustom = !!v; testName = v.slice(0, 24) || TESTN[f().lang]; });
         on_('alPlay', 'click', runTest);
+        on_('alZoom', 'click', () => { zoom = zoom > 1 ? 1 : 2; const z = $('alZoom'); if (z) { z.classList.toggle('on', zoom > 1); const sp = z.querySelector('span'); if (sp) sp.textContent = t(zoom > 1 ? 'alZoomOff' : 'alZoom'); } });
         dlgClose = () => {
           cancelAnimationFrame(raf); stopPA(); box.classList.remove('al-box');
           if (pvEl) { try { pvEl.pause(); pvEl.removeAttribute('src'); pvEl.load(); } catch (e) {} pvEl = null; pvId = ''; }

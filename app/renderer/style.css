@@ -1882,3 +1882,77 @@ body.k-bigmode #dkKick .k-nav button{flex-direction:row;justify-content:center;g
 .al-lang:hover{border-color:var(--line3)}
 .al-lang.on{border-color:var(--ac);background:rgba(var(--ac-rgb),.16);box-shadow:0 0 0 1px var(--ac)}
 .al-ctl select option{font-size:15px}
+
+
+/* ================= v2.3: ترتيب جديد للواجهة =================
+   يسار: شات Kick بكامل الطول  |  وسط: المعاينة + (المشاهد · العناصر · الخلاط)  |  يمين: التحكم + الجلسة
+   الفواصل بين الأعمدة قابلة للسحب (دبل-كليك = رجوع للافتراضي). */
+:root{--kick-w:360px;--side-w:300px;--dock-h:224px}
+.studio{gap:0;padding:8px 10px 6px}
+.col-kick{order:0;flex:none;width:var(--kick-w);min-width:0;min-height:0;display:flex;flex-direction:column}
+#kickResz{order:1}
+.work-main{order:2}
+#sideResz{order:3}
+.work-side{order:4;width:var(--side-w);gap:10px}
+.col-kick #dkKick{flex:1 1 0;min-height:0;min-width:0;width:auto}
+.work-side #dkSession{flex:1 1 0;min-height:0;min-width:0;width:auto}
+.work-side #dkSession .dock-head{cursor:default}
+.side-resz{width:10px}
+
+/* لوحة التحكم: زر البث كبير وواضح */
+.ctrl-panel .cp-body{padding:10px;gap:8px}
+.ctrl-panel .cp-top{grid-template-columns:1fr}
+.ctrl-panel .cp-top .cp-timer{flex-direction:row;justify-content:space-between;padding:8px 14px}
+.ctrl-panel .cp-top .cp-timer b{font-size:26px}
+.ctrl-panel .cp-top #go{min-height:52px;font-size:16px}
+.ctrl-panel .cp-body > .cbtn{display:flex}
+
+/* الجلسة داخل العمود الأيمن: بطاقات مرتبة */
+#dkSession #kpSession .kx-scroll{overflow:auto}
+#dkSession #kpSession .ks-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+
+/* الصف السفلي (3 صناديق) */
+.work-main .docks{flex:none}
+.docks > .dock{min-width:140px}
+#dkScenes{--w:.9}#dkSources{--w:1.1}#dkMixer{--w:1.3}
+
+@media (max-width:1366px){ :root{--kick-w:330px;--side-w:270px} }
+@media (max-width:1180px){ :root{--kick-w:300px;--side-w:250px} }
+
+/* ================= v2.3: نافذة الأليرتات — تبويب «بناء الأليرت» ================= */
+.al-start{gap:8px}
+.al-start .dbtn{display:inline-flex;align-items:center;gap:7px;padding:9px 14px}
+.al-start .dbtn i,.al-el .dbtn i{display:inline-flex;width:15px;height:15px}
+.al-start .dbtn svg,.al-el .dbtn svg{width:15px;height:15px;fill:none;stroke:currentColor;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round}
+.al-els{display:flex;flex-direction:column;gap:8px}
+.al-el{display:flex;align-items:center;gap:11px;padding:9px 10px;border-radius:12px;border:1px solid var(--line);background:var(--panel2,var(--inp));transition:border-color .12s,background .12s;cursor:default}
+.al-el.has{cursor:pointer}
+.al-el.has:hover{border-color:var(--line3)}
+.al-el.sel{border-color:#ffd400;box-shadow:0 0 0 1px #ffd40055}
+.al-elI{width:38px;height:38px;border-radius:10px;display:grid;place-items:center;flex:none;background:var(--hov);color:var(--mut)}
+.al-el.has .al-elI{background:color-mix(in srgb,var(--ac) 16%,transparent);color:var(--ac-t)}
+.al-elI svg{width:19px;height:19px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.al-elT{flex:1;min-width:0;display:flex;flex-direction:column;gap:2px}
+.al-elT b{font-size:13px;font-weight:800}
+.al-elT small{font-size:11px;color:var(--mut);font-weight:600}
+.al-el.has .al-elT small{color:var(--ok)}
+.al-elB{display:flex;gap:6px;flex-wrap:wrap;justify-content:flex-end}
+.al-elB .dbtn{display:inline-flex;align-items:center;gap:6px;padding:6px 11px;font-size:12px;white-space:nowrap}
+.al-pick{text-align:center;padding:14px;border:1px dashed var(--line2);border-radius:12px}
+
+/* قائمة الخطوط: كل خط بشكله، واسمه بالعربي */
+.al-fonts{display:grid;grid-template-columns:repeat(auto-fill,minmax(128px,1fr));gap:7px;max-height:216px;overflow:auto;padding:2px}
+.al-font{display:flex;flex-direction:column;gap:3px;align-items:center;justify-content:center;text-align:center;padding:8px 6px;border-radius:11px;border:1.5px solid var(--line);background:var(--panel2,var(--inp));color:var(--txt);cursor:pointer;min-height:58px;transition:border-color .12s,background .12s}
+.al-font b{font-size:16px;font-weight:700;line-height:1.25}
+.al-font small{font-size:11.5px;color:var(--mut);line-height:1.2}
+.al-font:hover{border-color:var(--line3)}
+.al-font.on{border-color:var(--ac);background:var(--sel);box-shadow:0 0 0 1px var(--ac)}
+.al-font.on b{color:var(--ac-t)}
+.al-langrow{display:flex;align-items:center;gap:10px;justify-content:space-between}
+.al-langrow > span{font-size:12px;font-weight:800;color:var(--mut);white-space:nowrap}
+.al-langrow .al-langs{flex:1;max-width:240px}
+.al-langrow .al-lang{padding:7px 10px;font-size:12.5px}
+.al-tools .al-zoom{display:inline-flex;align-items:center;gap:6px;white-space:nowrap}
+.al-tools .al-zoom i{display:inline-flex;width:15px;height:15px}
+.al-tools .al-zoom svg{width:15px;height:15px;fill:none;stroke:currentColor;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round}
+.al-tools .al-zoom.on{border-color:var(--ac);color:var(--ac-t)}

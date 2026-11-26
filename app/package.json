@@ -5,22 +5,22 @@
   "main": "main.js",
   "author": "Stream Extra",
   "license": "MIT",
-  "version": "2.2",
+  "version": "2.3",
   "releaseDate": "2026-11-26",
   "notes": {
     "ar": [
-      "أليرت المتابعة: صارت القوالب 4 أنواع فقط (كيك كلاسيك، نيون، زجاجي، ذهبي VIP) وكل قالب يعمل بالعربي والإنجليزي — اختر لغة القالب فيتغيّر نص رسالة الترحيب الافتراضي (متابع جديد / New follower) والخطوط",
-      "أكثر من 10 خطوط عربية وإنجليزية: قائمة الخطوط تتغيّر حسب لغة القالب، وكل خط معروض بشكله، وتظهر فقط الخطوط المتوفرة على جهازك",
-      "خلفية القالب: تغيير لون الخلفية والتدرّج والشفافية، أو إضافة صورة خلفية مع التحكم بتعتيمها",
-      "رسالة الترحيب واسم الحساب: تكبير وتصغير وتغيير اللون والخط والمكان، وعجلة الماوس فوق النص في المعاينة تكبّره وتصغّره",
-      "القالب يظهر الآن في وسط الشاشة افتراضياً، ويمكن تحريكه بالسحب بالماوس في المعاينة (يلتصق بالمنتصف تلقائياً) أو بالأرقام من تبويب «عام»"
+      "ترتيب جديد للواجهة: شات Kick على اليسار بكامل الطول، المعاينة بالوسط وتحتها (المشاهد · العناصر · الخلاط)، ولوحة التحكم + الجلسة على اليمين. الفواصل بين الأعمدة قابلة للسحب",
+      "أليرت المتابعة: تبويب جديد «بناء الأليرت» — زر «قالب فارغ من الصفر» ثم أزرار إضافة: صورة · رسالة ترحيب · اسم الحساب · خلفية، وكل عنصر تحركه بالماوس وتكبّره بالعجلة",
+      "الخطوط العربية صارت تظهر بأسمائها بالعربي وكل خط بشكله الحقيقي (أكثر من 25 خط عربي إذا كانت مثبتة على جهازك)",
+      "زر «تقريب المعاينة» لتعديل النصوص والصورة بدقة",
+      "إصلاح: أليرت المتابعة يظهر الآن عند أي متابعة جديدة على Kick (حتى لو وصل الحدث أولاً من صفحة لوحة Kick أو بدون اسم)، ولا يتكرر لنفس الشخص خلال 20 دقيقة"
     ],
     "en": [
-      "Follow alert: now only 4 templates (Kick Classic, Neon, Glass, Gold VIP), and every template works in Arabic and English — pick the template language and the default welcome text (متابع جديد / New follower) and the fonts follow it",
-      "10+ Arabic and English fonts: the font list changes with the template language, each font is shown in its own look, and only fonts installed on your PC are listed",
-      "Template background: change the background color, gradient and opacity, or add a background image with adjustable dimming",
-      "Welcome message and account name: resize, recolor, change font and position; the mouse wheel over a text in the preview resizes it",
-      "The template now shows in the middle of the screen by default and can be moved by dragging it in the preview (it snaps to the center) or with numbers in the General tab"
+      "New layout: Kick chat on the left (full height), preview in the middle with Scenes · Sources · Mixer under it, and Controls + Session on the right. Column dividers are draggable",
+      "Follow alert: new “Build” tab — a “Blank template” button, then add buttons for image · welcome message · account name · background; drag each element with the mouse and resize it with the wheel",
+      "Arabic fonts are now listed with Arabic names, each shown in its own look (25+ Arabic fonts if installed on your PC)",
+      "“Zoom preview” button for precise editing of texts and image",
+      "Fix: the follow alert now shows for every new Kick follower (even when the event first arrives from the Kick dashboard page or without a name), and is not repeated for the same person within 20 minutes"
     ]
   }
 }

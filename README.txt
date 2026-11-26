@@ -49,6 +49,16 @@ Build_StreamExtra.cmd still builds a portable "StreamExtra" folder for testing. 
 
 Your settings and Kick link are stored in %AppData%\StreamExtra (+ a backup in %LocalAppData%\StreamExtra-Backup).
 
+v2.3
+----
+- NEW LAYOUT: Kick chat = LEFT column (full height) | preview in the MIDDLE with Scenes - Sources - Mixer under it | Controls + Session = RIGHT column.
+  Drag the thin lines between the columns to resize them (double-click = default). The reset button (preview bar) restores everything.
+- Follow alert, new "Build" tab (first tab): "Blank template" button, then ADD buttons: Image, Welcome message, Account name, Background.
+  Each element is dragged in the preview and resized with the mouse wheel. "Zoom preview" button for fine editing.
+- Fonts: Arabic fonts are listed with ARABIC names and each one is shown in its own look (only fonts installed on the PC are listed).
+- FIX: the alert now shows for every new Kick follower. Before, if the follow reached the app first from the Kick dashboard page, the real-time event was
+  treated as a duplicate and no alert appeared. Follow events without a name also work now. Same person = one alert per 20 minutes.
+
 v2.2
 ----
 - Follow alert: only 4 TEMPLATES now (Kick Classic, Neon, Glass, Gold VIP). Each one works in Arabic AND English:

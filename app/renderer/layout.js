@@ -11,9 +11,9 @@
   Object.assign(I18N.en, { layoutResetT: 'Reset box layout and sizes', layoutLockT: 'Lock / unlock box layout' });
 
   const row = document.querySelector('.docks'); if (!row) return;
-  const ORDER_K = 'se_dock_order2', W_K = 'se_dock_w2', SIDE_K = 'se_side_w';
-  const DEF_ORDER = ['dkScenes', 'dkSources', 'dkMixer', 'dkSession'];
-  const DEF_W = { dkScenes: .8, dkSources: .9, dkMixer: 1.1, dkSession: 1.5 };
+  const ORDER_K = 'se_dock_order2', W_K = 'se_dock_w2', SIDE_K = 'se_side_w2';
+  const DEF_ORDER = ['dkScenes', 'dkSources', 'dkMixer'];
+  const DEF_W = { dkScenes: .9, dkSources: 1.1, dkMixer: 1.3 };
   const docks = () => [...row.querySelectorAll(':scope > .dock')];
   const byId = id => document.getElementById(id);
   const rtl = () => getComputedStyle(row).direction === 'rtl';
@@ -37,7 +37,7 @@
   function reset() {
     DEF_ORDER.forEach(id => { const d = byId(id); if (d) row.appendChild(d); });
     docks().forEach(d => d.style.setProperty('--w', String(DEF_W[d.id] || 1)));
-    if (side) { setSide(SIDE_DEF); LS.set(SIDE_K, String(SIDE_DEF)); }
+    try { resetCols(); } catch (e) {}
     save();
   }
 
@@ -90,21 +90,29 @@
   });
 
 
-  /* ---------- العمود الجانبي (التحكم + الشات): اسحب الخط الفاصل لتوسيعه أو تضييقه ---------- */
-  const side = byId('workSide'), sr = byId('sideResz'), SIDE_DEF = 380, SIDE_MIN = 300, SIDE_MAX = 640;
-  const setSide = v => document.documentElement.style.setProperty('--side-w', Math.round(v) + 'px');
-  if (side && sr) {
-    const v0 = parseInt(LS.get(SIDE_K, String(SIDE_DEF)), 10); setSide(v0 >= SIDE_MIN && v0 <= SIDE_MAX ? v0 : SIDE_DEF);
-    sr.addEventListener('dblclick', () => { setSide(SIDE_DEF); LS.set(SIDE_K, String(SIDE_DEF)); try { window.dispatchEvent(new Event('resize')); } catch (e) {} });
-    sr.addEventListener('pointerdown', e => {
+  /* ---------- العمودان الجانبيان: يسار = شات Kick · يمين = التحكم + الجلسة (اسحب الخط الفاصل) ----------
+     الحاوية دائماً LTR فنستخدم اتجاه المؤشر الفعلي: العمود اليساري يكبر بسحب الخط لليمين، واليميني بسحبه لليسار. */
+  const COLS = [
+    { el: byId('colKick'), rz: byId('kickResz'), v: '--kick-w', key: 'se_kick_w', def: 360, min: 280, max: 620, dir: 1 },
+    { el: byId('workSide'), rz: byId('sideResz'), v: '--side-w', key: SIDE_K, def: 300, min: 250, max: 480, dir: -1 }
+  ];
+  const setCol = (c, v) => document.documentElement.style.setProperty(c.v, Math.round(v) + 'px');
+  const side = byId('workSide'), SIDE_DEF = 300;
+  function setSide(v) { setCol(COLS[1], v); }
+  COLS.forEach(c => {
+    if (!c.el || !c.rz) return;
+    const v0 = parseInt(LS.get(c.key, String(c.def)), 10); setCol(c, v0 >= c.min && v0 <= c.max ? v0 : c.def);
+    c.rz.addEventListener('dblclick', () => { setCol(c, c.def); LS.set(c.key, String(c.def)); try { window.dispatchEvent(new Event('resize')); } catch (e) {} });
+    c.rz.addEventListener('pointerdown', e => {
       if (e.button !== 0 || document.body.classList.contains('dock-locked')) return;
-      e.preventDefault(); sr.setPointerCapture(e.pointerId); sr.classList.add('drag'); document.body.classList.add('dock-sizing');
-      const x0 = e.clientX, w0 = side.getBoundingClientRect().width, sgn = rtl() ? 1 : -1;
+      e.preventDefault(); c.rz.setPointerCapture(e.pointerId); c.rz.classList.add('drag'); document.body.classList.add('dock-sizing');
+      const x0 = e.clientX, w0 = c.el.getBoundingClientRect().width;
       let cur = w0;
-      sr.onpointermove = ev => { cur = clamp(w0 + (ev.clientX - x0) * sgn, SIDE_MIN, Math.min(SIDE_MAX, innerWidth * 0.55)); setSide(cur); };
-      sr.onpointerup = sr.onpointercancel = () => { sr.onpointermove = sr.onpointerup = sr.onpointercancel = null; sr.classList.remove('drag'); document.body.classList.remove('dock-sizing'); LS.set(SIDE_K, String(Math.round(cur))); try { window.dispatchEvent(new Event('resize')); } catch (e) {} };
+      c.rz.onpointermove = ev => { cur = clamp(w0 + (ev.clientX - x0) * c.dir, c.min, Math.min(c.max, innerWidth * 0.34)); setCol(c, cur); };
+      c.rz.onpointerup = c.rz.onpointercancel = () => { c.rz.onpointermove = c.rz.onpointerup = c.rz.onpointercancel = null; c.rz.classList.remove('drag'); document.body.classList.remove('dock-sizing'); LS.set(c.key, String(Math.round(cur))); try { window.dispatchEvent(new Event('resize')); } catch (e) {} };
     });
-  }
+  });
+  function resetCols() { COLS.forEach(c => { if (c.el) { setCol(c, c.def); LS.set(c.key, String(c.def)); } }); }
 
   const rb = byId('layoutReset'); if (rb) { rb.onclick = reset; try { paintIcons(rb); } catch (e) {} }
   const lb = byId('layoutLock');

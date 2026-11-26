@@ -35,121 +35,8 @@ document.documentElement.dataset.theme=t;}catch(e){document.documentElement.data
 </header>
 
 <main class="studio">
-  <div class="work-main">
-  <!-- ===== Preview (center) + properties drawer ===== -->
-  <section class="stage-wrap">
-    <div class="stage-main">
-      <div class="stage-bar">
-        <span class="p-title"><i data-ic="monitor"></i><span data-i="preview"></span></span>
-        <span class="pv-scene" id="pvScene"></span>
-        <span class="stage-res">1280×720</span>
-        <div class="sp"></div>
-        <button class="icon-btn" id="guidesBtn" data-tt="guides"><i data-ic="grid"></i></button>
-        <button class="icon-btn" id="layoutReset" data-tt="layoutResetT"><i data-ic="refresh"></i></button>
-        <button class="icon-btn" id="layoutLock" data-tt="layoutLockT"><i data-ic="lock"></i></button>
-        <button class="sbtn" id="openProps"><i data-ic="sliders"></i><span data-i="props"></span></button>
-      </div>
-      <div class="stage" id="stage">
-        <div class="preview" id="pv">
-          <canvas id="cv" width="1280" height="720"></canvas>
-          <div id="guides"></div>
-          <div id="sel" hidden>
-            <b data-h="nw"></b><b data-h="n"></b><b data-h="ne"></b>
-            <b data-h="w"></b><b data-h="e"></b>
-            <b data-h="sw"></b><b data-h="s"></b><b data-h="se"></b>
-          </div>
-        </div>
-      </div>
-    </div>
-    <aside class="drawer" id="drawer">
-      <div class="drawer-in">
-        <div class="d-head"><span class="d-title" id="drawerTitle"></span><button class="icon-btn" id="closeDrawer"><i data-ic="x"></i></button></div>
-        <div class="d-body" id="tabProps"></div>
-      </div>
-    </aside>
-  </section>
-
-  <div class="split" id="split" role="separator" aria-orientation="horizontal"></div>
-
-  <!-- ===== Docks (OBS-style) ===== -->
-  <section class="docks">
-    <section class="dock" id="dkScenes">
-      <div class="dock-head"><span class="p-title"><i data-ic="film"></i><span data-i="scenes"></span></span><label class="tr-quick" data-tt="transition"><i data-ic="shuffle"></i><select id="trQuick"></select></label></div>
-      <div class="list" id="sceneList"></div>
-      <div class="dock-foot">
-        <button class="icon-btn" id="addScene" data-tt="addScene"><i data-ic="plus"></i></button>
-        <button class="icon-btn" id="scDel" data-tt="delScene"><i data-ic="minus"></i></button>
-        <span class="sp"></span>
-        <button class="icon-btn" id="scUp" data-tt="moveUp"><i data-ic="up"></i></button>
-        <button class="icon-btn" id="scDown" data-tt="moveDown"><i data-ic="down"></i></button>
-      </div>
-    </section>
-
-    <section class="dock" id="dkSources">
-      <div class="dock-head"><span class="p-title"><i data-ic="layers"></i><span data-i="sources"></span></span></div>
-      <div class="list" id="srcList"></div>
-      <div class="dock-foot">
-        <button class="icon-btn" id="addSrc" data-tt="addSource"><i data-ic="plus"></i></button>
-        <button class="icon-btn" id="srcDel" data-tt="delSource"><i data-ic="minus"></i></button>
-        <button class="icon-btn" id="srcProps" data-tt="props"><i data-ic="settings"></i></button>
-        <span class="sp"></span>
-        <button class="icon-btn" id="srcUp" data-tt="forward"><i data-ic="up"></i></button>
-        <button class="icon-btn" id="srcDown" data-tt="back"><i data-ic="down"></i></button>
-      </div>
-    </section>
-
-    <section class="dock" id="dkMixer">
-      <div class="dock-head"><span class="p-title"><i data-ic="volume"></i><span data-i="mixer"></span></span><span class="scn-chip" id="mxScene" data-tt="perScene"></span></div>
-      <div class="list mixer" id="mixList"></div>
-      <div class="mx master" id="mixMaster"></div>
-    </section>
-
-    <section class="dock" id="dkSession">
-      <div class="dock-head">
-        <span class="p-title"><i data-ic="activity"></i><span data-i="kTabSession"></span></span>
-      </div>
-      <div class="k-pane" id="kpSession">
-        <div class="kx-scroll ks">
-          <div class="kx-bar">
-            <div class="kx-bt"><b data-i="kxSession"></b><small class="ks-barline"><b class="kx-pill" id="kxStatus">–</b><span class="kx-test" id="ksTestTag" hidden></span><span class="ks-clock"><i data-ic="clock"></i><span class="ks-time" id="kxTime" dir="ltr">–</span></span></small></div>
-            <button class="kx-demo" id="ksDemo" type="button"><i data-ic="play"></i><span id="ksDemoT"></span></button>
-          </div>
-          <div class="ks-grid">
-            <div class="kx-cell wide" data-c="view"><div class="kx-ch"><i data-ic="eye"></i><small data-i="kxViewers"></small></div><b id="kxViewers">–</b><em id="ksViewersD"></em></div>
-            <div class="kx-cell" data-c="fol"><div class="kx-ch"><i data-ic="users"></i><small data-i="kxFollowers"></small></div><b id="kxFollowers">–</b><em id="ksFolD"></em></div>
-            <div class="kx-cell" data-c="sub"><div class="kx-ch"><i data-ic="star"></i><small data-i="kxSubs"></small></div><b id="kxSubs">–</b><em id="ksSubsD"></em></div>
-            <div class="kx-cell" data-c="peak"><div class="kx-ch"><i data-ic="activity"></i><small data-i="ksPeak"></small></div><b id="ksPeak">–</b></div>
-            <div class="kx-cell" data-c="avg"><div class="kx-ch"><i data-ic="sliders"></i><small data-i="ksAvg"></small></div><b id="ksAvg">–</b></div>
-            <div class="kx-cell" data-c="mpm"><div class="kx-ch"><i data-ic="zap"></i><small data-i="ksMpm"></small></div><b id="ksMpm">–</b></div>
-            <div class="kx-cell" data-c="chat"><div class="kx-ch"><i data-ic="chat"></i><small data-i="ksChatters"></small></div><b id="ksChatters">–</b></div>
-            <div class="kx-cell" data-c="msg"><div class="kx-ch"><i data-ic="chat"></i><small data-i="ksMsgs"></small></div><b id="ksMsgs">–</b></div>
-          </div>
-          <div class="ks-card">
-            <div class="ks-ch"><b data-i="ksChart"></b><small id="ksChartNote"></small></div>
-            <svg class="ks-svg" id="ksChart" viewBox="0 0 300 84" preserveAspectRatio="none"></svg>
-          </div>
-          <div class="ks-card ks-rows" id="ksRows"></div>
-        </div>
-      </div>
-
-    </section>
-
-
-  </section>
-  </div>
-  <div class="side-resz" id="sideResz" role="separator" aria-orientation="vertical"></div>
-  <aside class="work-side" id="workSide">
-    <aside class="ctrl-panel" id="ctrlPanel">
-      <div class="cp-head"><span class="p-title"><i data-ic="radio"></i><span data-i="controls"></span></span><span class="cp-live"><i></i>LIVE</span></div>
-      <div class="cp-body">
-        <div class="cp-top">
-          <div class="cp-timer"><b id="cpTimer">00:00:00</b><small id="cpStatus"></small></div>
-          <button id="go"></button>
-        </div>
-        <button class="cbtn" id="openSettings"><i data-ic="settings"></i><span data-i="settings"></span></button>
-        <button class="cbtn" id="kAlert" type="button" data-tt="kAlertT"><i data-ic="bell"></i><span data-i="kAlertT"></span></button>
-      </div>
-    </aside>
+  <!-- ===== يسار: شات Kick (عمود كامل) ===== -->
+  <aside class="col-kick" id="colKick">
     <section class="dock" id="dkKick" data-ktab="chat">
       <div class="dock-head kh">
         <span class="p-title"><i data-ic="chat"></i><span data-i="kChat"></span><span class="k-dot" id="kDot"></span></span>
@@ -348,6 +235,126 @@ document.documentElement.dataset.theme=t;}catch(e){document.documentElement.data
           <button class="sbtn" id="kWebLogin" type="button" hidden><i data-ic="link"></i><span data-i="kWebLogin"></span></button>
         </form>
       </div>
+    </section>
+  </aside>
+  <div class="side-resz" id="kickResz" role="separator" aria-orientation="vertical"></div>
+
+  <!-- ===== وسط: المعاينة + المشاهد / العناصر / الخلاط ===== -->
+  <div class="work-main">
+  <!-- ===== Preview (center) + properties drawer ===== -->
+  <section class="stage-wrap">
+    <div class="stage-main">
+      <div class="stage-bar">
+        <span class="p-title"><i data-ic="monitor"></i><span data-i="preview"></span></span>
+        <span class="pv-scene" id="pvScene"></span>
+        <span class="stage-res">1280×720</span>
+        <div class="sp"></div>
+        <button class="icon-btn" id="guidesBtn" data-tt="guides"><i data-ic="grid"></i></button>
+        <button class="icon-btn" id="layoutReset" data-tt="layoutResetT"><i data-ic="refresh"></i></button>
+        <button class="icon-btn" id="layoutLock" data-tt="layoutLockT"><i data-ic="lock"></i></button>
+        <button class="sbtn" id="openProps"><i data-ic="sliders"></i><span data-i="props"></span></button>
+      </div>
+      <div class="stage" id="stage">
+        <div class="preview" id="pv">
+          <canvas id="cv" width="1280" height="720"></canvas>
+          <div id="guides"></div>
+          <div id="sel" hidden>
+            <b data-h="nw"></b><b data-h="n"></b><b data-h="ne"></b>
+            <b data-h="w"></b><b data-h="e"></b>
+            <b data-h="sw"></b><b data-h="s"></b><b data-h="se"></b>
+          </div>
+        </div>
+      </div>
+    </div>
+    <aside class="drawer" id="drawer">
+      <div class="drawer-in">
+        <div class="d-head"><span class="d-title" id="drawerTitle"></span><button class="icon-btn" id="closeDrawer"><i data-ic="x"></i></button></div>
+        <div class="d-body" id="tabProps"></div>
+      </div>
+    </aside>
+  </section>
+
+  <div class="split" id="split" role="separator" aria-orientation="horizontal"></div>
+
+  <!-- ===== Docks (OBS-style) ===== -->
+  <section class="docks">
+    <section class="dock" id="dkScenes">
+      <div class="dock-head"><span class="p-title"><i data-ic="film"></i><span data-i="scenes"></span></span><label class="tr-quick" data-tt="transition"><i data-ic="shuffle"></i><select id="trQuick"></select></label></div>
+      <div class="list" id="sceneList"></div>
+      <div class="dock-foot">
+        <button class="icon-btn" id="addScene" data-tt="addScene"><i data-ic="plus"></i></button>
+        <button class="icon-btn" id="scDel" data-tt="delScene"><i data-ic="minus"></i></button>
+        <span class="sp"></span>
+        <button class="icon-btn" id="scUp" data-tt="moveUp"><i data-ic="up"></i></button>
+        <button class="icon-btn" id="scDown" data-tt="moveDown"><i data-ic="down"></i></button>
+      </div>
+    </section>
+
+    <section class="dock" id="dkSources">
+      <div class="dock-head"><span class="p-title"><i data-ic="layers"></i><span data-i="sources"></span></span></div>
+      <div class="list" id="srcList"></div>
+      <div class="dock-foot">
+        <button class="icon-btn" id="addSrc" data-tt="addSource"><i data-ic="plus"></i></button>
+        <button class="icon-btn" id="srcDel" data-tt="delSource"><i data-ic="minus"></i></button>
+        <button class="icon-btn" id="srcProps" data-tt="props"><i data-ic="settings"></i></button>
+        <span class="sp"></span>
+        <button class="icon-btn" id="srcUp" data-tt="forward"><i data-ic="up"></i></button>
+        <button class="icon-btn" id="srcDown" data-tt="back"><i data-ic="down"></i></button>
+      </div>
+    </section>
+
+    <section class="dock" id="dkMixer">
+      <div class="dock-head"><span class="p-title"><i data-ic="volume"></i><span data-i="mixer"></span></span><span class="scn-chip" id="mxScene" data-tt="perScene"></span></div>
+      <div class="list mixer" id="mixList"></div>
+      <div class="mx master" id="mixMaster"></div>
+    </section>
+
+
+
+  </section>
+  </div>
+  <div class="side-resz" id="sideResz" role="separator" aria-orientation="vertical"></div>
+  <!-- ===== يمين: التحكم + الجلسة ===== -->
+  <aside class="work-side" id="workSide">
+    <aside class="ctrl-panel" id="ctrlPanel">
+      <div class="cp-head"><span class="p-title"><i data-ic="radio"></i><span data-i="controls"></span></span><span class="cp-live"><i></i>LIVE</span></div>
+      <div class="cp-body">
+        <div class="cp-top">
+          <div class="cp-timer"><b id="cpTimer">00:00:00</b><small id="cpStatus"></small></div>
+          <button id="go"></button>
+        </div>
+        <button class="cbtn" id="openSettings"><i data-ic="settings"></i><span data-i="settings"></span></button>
+        <button class="cbtn" id="kAlert" type="button" data-tt="kAlertT"><i data-ic="bell"></i><span data-i="kAlertT"></span></button>
+      </div>
+    </aside>
+    <section class="dock" id="dkSession">
+      <div class="dock-head">
+        <span class="p-title"><i data-ic="activity"></i><span data-i="kTabSession"></span></span>
+      </div>
+      <div class="k-pane" id="kpSession">
+        <div class="kx-scroll ks">
+          <div class="kx-bar">
+            <div class="kx-bt"><b data-i="kxSession"></b><small class="ks-barline"><b class="kx-pill" id="kxStatus">–</b><span class="kx-test" id="ksTestTag" hidden></span><span class="ks-clock"><i data-ic="clock"></i><span class="ks-time" id="kxTime" dir="ltr">–</span></span></small></div>
+            <button class="kx-demo" id="ksDemo" type="button"><i data-ic="play"></i><span id="ksDemoT"></span></button>
+          </div>
+          <div class="ks-grid">
+            <div class="kx-cell wide" data-c="view"><div class="kx-ch"><i data-ic="eye"></i><small data-i="kxViewers"></small></div><b id="kxViewers">–</b><em id="ksViewersD"></em></div>
+            <div class="kx-cell" data-c="fol"><div class="kx-ch"><i data-ic="users"></i><small data-i="kxFollowers"></small></div><b id="kxFollowers">–</b><em id="ksFolD"></em></div>
+            <div class="kx-cell" data-c="sub"><div class="kx-ch"><i data-ic="star"></i><small data-i="kxSubs"></small></div><b id="kxSubs">–</b><em id="ksSubsD"></em></div>
+            <div class="kx-cell" data-c="peak"><div class="kx-ch"><i data-ic="activity"></i><small data-i="ksPeak"></small></div><b id="ksPeak">–</b></div>
+            <div class="kx-cell" data-c="avg"><div class="kx-ch"><i data-ic="sliders"></i><small data-i="ksAvg"></small></div><b id="ksAvg">–</b></div>
+            <div class="kx-cell" data-c="mpm"><div class="kx-ch"><i data-ic="zap"></i><small data-i="ksMpm"></small></div><b id="ksMpm">–</b></div>
+            <div class="kx-cell" data-c="chat"><div class="kx-ch"><i data-ic="chat"></i><small data-i="ksChatters"></small></div><b id="ksChatters">–</b></div>
+            <div class="kx-cell" data-c="msg"><div class="kx-ch"><i data-ic="chat"></i><small data-i="ksMsgs"></small></div><b id="ksMsgs">–</b></div>
+          </div>
+          <div class="ks-card">
+            <div class="ks-ch"><b data-i="ksChart"></b><small id="ksChartNote"></small></div>
+            <svg class="ks-svg" id="ksChart" viewBox="0 0 300 84" preserveAspectRatio="none"></svg>
+          </div>
+          <div class="ks-card ks-rows" id="ksRows"></div>
+        </div>
+      </div>
+
     </section>
   </aside>
 </main>
