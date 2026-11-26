@@ -1490,7 +1490,7 @@ let guides = LS.get('se_guides', '0') === '1';
 function applyGuides(){ document.body.classList.toggle('guides', guides); $('guidesBtn').classList.toggle('on', guides); }
 $('guidesBtn').onclick = () => { guides = !guides; LS.set('se_guides', guides ? '1' : '0'); applyGuides(); };
 
-const DOCK_DEF = 290; let dockH = parseInt(LS.get('se_dockh', String(DOCK_DEF)), 10); if(!(dockH >= 140 && dockH <= 700)) dockH = DOCK_DEF;
+const DOCK_DEF = 340; let dockH = parseInt(LS.get('se_dockh', String(DOCK_DEF)), 10); if(!(dockH >= 140 && dockH <= 700)) dockH = DOCK_DEF;
 function applyDock(){ document.documentElement.style.setProperty('--dock-h', dockH + 'px'); }
 (() => {
   const sp = $('split');

@@ -148,10 +148,11 @@ input:focus,select:focus,textarea:focus{border-color:${ac}!important;box-shadow:
     if (s !== D.slug) { D.slug = s; const c = $('kChan'); if (c && s) { c.textContent = '@' + s; c.hidden = false; } Object.keys(D.views).forEach(k => { if (k !== D.tab) { D.views[k].remove(); delete D.views[k]; } }); }
     mountTab(D.tab);
     readerStart(D.slug);
-    if (D.slug && D.slug !== D.dashSlug) {          // v1.5: الجلسة ظاهرة دائماً بجانب الشات، فنجلب بياناتها من Kick مباشرة
-      D.dashSlug = D.slug; D.dashTab = 'session';
-      try { api.kickDashTab({ slug: D.slug, tab: 'session' }); } catch (e) {}
-      try { if (window.KX && KX.tab) KX.tab('session'); } catch (e) {}
+    const want = D.tab === 'chat' ? 'session' : D.tab;            // v1.5: الجلسة ظاهرة دائماً، فالشات يعني جلب بيانات الجلسة
+    if (D.slug && (D.slug !== D.dashSlug || want !== D.dashTab)) {
+      D.dashSlug = D.slug; D.dashTab = want;
+      try { api.kickDashTab({ slug: D.slug, tab: want }); } catch (e) {}
+      try { if (window.KX && KX.tab) KX.tab(D.tab); } catch (e) {}
     }
     Object.keys(PAGES).forEach(k => { const w = wrapFor(k); if (w) { w.querySelector('.kd-slug').textContent = D.slug ? '@' + D.slug : ''; w.querySelector('.kd-need').hidden = !!D.slug; } });
   }

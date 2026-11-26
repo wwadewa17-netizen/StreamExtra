@@ -1620,13 +1620,45 @@ html[data-theme=light] .sp-card{box-shadow:0 4px 16px rgba(20,20,30,.06)}
 .brand-wrap img,.st-brand img{border-radius:0!important;box-shadow:none!important;background:none!important;object-fit:contain;filter:drop-shadow(0 3px 9px rgba(var(--ac-rgb),.45))}
 
 
-/* ================= v1.5: الشات + الجلسة جنب بعض دائماً (بدون تبويبات) ================= */
-#kTabs{display:none!important}
-#dkKick{display:grid!important;grid-template-columns:minmax(0,1fr) minmax(0,1fr);grid-template-rows:auto minmax(0,1fr)}
-#dkKick > .dock-head{grid-column:1/-1}
-#dkKick > #kpChat, #dkKick > #kpSession{display:flex!important;grid-row:2;min-width:0;min-height:0}
-#dkKick > #kpSession{border-inline-start:1px solid var(--line)}
-#dkKick > #kpActivity, #dkKick > #kpMod, #dkKick > #kpChannel, #dkKick > #kpInfo{display:none!important}
+/* ================= v1.5: الجلسة لوحة مستقلة + صناديق قابلة للتحريك وتغيير الحجم ================= */
+.docks{display:flex!important;flex-direction:row;gap:10px!important;grid-template-columns:none!important}
+.docks > .dock{position:relative;flex:var(--w,1) 1 0;min-width:150px;transition:box-shadow .15s,opacity .15s}
+#dkScenes{--w:.72}#dkSources{--w:.85}#dkMixer{--w:1}#dkSession{--w:1.35}#dkKick{--w:1.9;min-width:260px}
+#dkSession{min-width:210px}
+.dock-head{cursor:grab;user-select:none;-webkit-user-select:none}
+.dock-head button,.dock-head select,.dock-head input,.dock-head label,.dock-head .k-tabs{cursor:pointer}
+.dock.dragging{opacity:.72;box-shadow:0 0 0 2px var(--ac),0 18px 44px rgba(0,0,0,.55);z-index:20;cursor:grabbing}
+.dock.dragging .dock-head{cursor:grabbing}
+body.dock-moving,body.dock-moving *{cursor:grabbing!important;user-select:none!important}
+body.dock-sizing,body.dock-sizing *{cursor:ew-resize!important;user-select:none!important}
+.dresz{position:absolute;top:0;bottom:0;inset-inline-end:-6px;width:12px;cursor:ew-resize;z-index:8;touch-action:none}
+.dresz::after{content:"";position:absolute;top:50%;left:50%;width:4px;height:44px;margin:-22px 0 0 -2px;border-radius:4px;background:var(--line2);opacity:0;transition:.15s}
+.dock:hover > .dresz::after{opacity:.55}
+.dresz:hover::after,.dresz.drag::after{opacity:1!important;background:var(--ac)}
+.docks > .dock:last-child > .dresz{display:none}
+body.k-bigmode #dkKick > .dresz{display:none}
+
+/* الجلسة: لوحة مستقلة */
+#dkSession > #kpSession{display:flex!important;flex:1;min-height:0;container-type:inline-size}
+#dkSession .dock-head{justify-content:space-between}
+body.k-bigmode #dkKick{width:min(440px,94vw)}
 #dkKick .k-stats{display:flex}
-#dkKick .dock-head .k-chan{margin-inline-start:6px}
-body.k-bigmode #dkKick{width:min(920px,96vw)}
+
+/* --- الجلسة بتصميم مضغوط وواضح --- */
+#kpSession .kx-scroll{padding:10px;gap:9px;background:var(--inp)}
+#kpSession .kx-bar{flex-wrap:wrap;gap:8px}
+#kpSession .kx-bt > b{display:none}
+#kpSession .kx-bt{flex:1;min-width:0}
+#kpSession .ks-barline{margin-top:0;gap:8px}
+#kpSession .kx-pill{min-height:26px;padding:0 12px!important;font-size:12px!important}
+#kpSession .ks-time{font-size:20px!important}
+#kpSession .kx-demo{height:28px;padding:0 11px;font-size:11.5px}
+#kpSession .ks-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:7px}
+#kpSession .ks-grid .kx-cell.wide{grid-column:1/-1}
+#kpSession .kx-cell{padding:8px 10px;gap:3px;border-radius:10px}
+#kpSession .ks-grid .kx-cell b{font-size:19px}
+#kpSession .ks-grid .kx-cell small{font-size:11.5px}
+#kpSession .ks-card{padding:9px 11px;border-radius:10px}
+#kpSession .ks-svg{height:64px}
+#kpSession .ks-r{font-size:12px;padding:7px 0}
+@container (min-width:330px){ #kpSession .ks-grid{grid-template-columns:repeat(3,minmax(0,1fr))} #kpSession .ks-grid .kx-cell.wide{grid-column:1/-1} #kpSession .ks-grid .kx-cell b{font-size:17px} #kpSession .kx-cell{padding:7px 9px} #kpSession .ks-grid .kx-cell small{font-size:11px} }

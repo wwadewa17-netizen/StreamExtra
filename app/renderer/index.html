@@ -44,6 +44,7 @@ document.documentElement.dataset.theme=t;}catch(e){document.documentElement.data
         <span class="stage-res">1280×720</span>
         <div class="sp"></div>
         <button class="icon-btn" id="guidesBtn" data-tt="guides"><i data-ic="grid"></i></button>
+        <button class="icon-btn" id="layoutReset" data-tt="layoutResetT"><i data-ic="refresh"></i></button>
         <button class="sbtn" id="openProps"><i data-ic="sliders"></i><span data-i="props"></span></button>
       </div>
       <div class="stage" id="stage">
@@ -109,13 +110,42 @@ document.documentElement.dataset.theme=t;}catch(e){document.documentElement.data
       <div class="mx master" id="mixMaster"></div>
     </section>
 
+    <section class="dock" id="dkSession">
+      <div class="dock-head">
+        <span class="p-title"><i data-ic="activity"></i><span data-i="kTabSession"></span></span>
+      </div>
+      <div class="k-pane" id="kpSession">
+        <div class="kx-scroll ks">
+          <div class="kx-bar">
+            <div class="kx-bt"><b data-i="kxSession"></b><small class="ks-barline"><b class="kx-pill" id="kxStatus">–</b><span class="kx-test" id="ksTestTag" hidden></span><span class="ks-clock"><i data-ic="clock"></i><span class="ks-time" id="kxTime" dir="ltr">–</span></span></small></div>
+            <button class="kx-demo" id="ksDemo" type="button"><i data-ic="play"></i><span id="ksDemoT"></span></button>
+          </div>
+          <div class="ks-grid">
+            <div class="kx-cell wide" data-c="view"><div class="kx-ch"><i data-ic="eye"></i><small data-i="kxViewers"></small></div><b id="kxViewers">–</b><em id="ksViewersD"></em></div>
+            <div class="kx-cell" data-c="fol"><div class="kx-ch"><i data-ic="users"></i><small data-i="kxFollowers"></small></div><b id="kxFollowers">–</b><em id="ksFolD"></em></div>
+            <div class="kx-cell" data-c="sub"><div class="kx-ch"><i data-ic="star"></i><small data-i="kxSubs"></small></div><b id="kxSubs">–</b><em id="ksSubsD"></em></div>
+            <div class="kx-cell" data-c="peak"><div class="kx-ch"><i data-ic="activity"></i><small data-i="ksPeak"></small></div><b id="ksPeak">–</b></div>
+            <div class="kx-cell" data-c="avg"><div class="kx-ch"><i data-ic="sliders"></i><small data-i="ksAvg"></small></div><b id="ksAvg">–</b></div>
+            <div class="kx-cell" data-c="mpm"><div class="kx-ch"><i data-ic="zap"></i><small data-i="ksMpm"></small></div><b id="ksMpm">–</b></div>
+            <div class="kx-cell" data-c="chat"><div class="kx-ch"><i data-ic="chat"></i><small data-i="ksChatters"></small></div><b id="ksChatters">–</b></div>
+            <div class="kx-cell" data-c="msg"><div class="kx-ch"><i data-ic="chat"></i><small data-i="ksMsgs"></small></div><b id="ksMsgs">–</b></div>
+          </div>
+          <div class="ks-card">
+            <div class="ks-ch"><b data-i="ksChart"></b><small id="ksChartNote"></small></div>
+            <svg class="ks-svg" id="ksChart" viewBox="0 0 300 84" preserveAspectRatio="none"></svg>
+          </div>
+          <div class="ks-card ks-rows" id="ksRows"></div>
+        </div>
+      </div>
+
+    </section>
+
     <section class="dock" id="dkKick">
       <div class="dock-head">
         <span class="p-title"><i data-ic="chat"></i><span data-i="kChat"></span><span class="k-dot" id="kDot"></span></span>
         <span class="k-chan" id="kChan" dir="ltr" hidden></span>
         <nav class="k-tabs" id="kTabs">
           <button class="on" data-kt="chat" type="button" data-tt="kTabChat"><i data-ic="chat"></i><span data-i="kTabChat"></span></button>
-          <button data-kt="session" type="button" data-tt="kTabSession"><i data-ic="activity"></i><span data-i="kTabSession"></span></button>
           <button data-kt="activity" type="button" data-tt="kTabActivity"><i data-ic="heart"></i><span data-i="kTabActivity"></span></button>
           <button data-kt="mod" type="button" data-tt="kTabMod"><i data-ic="shield"></i><span data-i="kTabMod"></span></button>
           <button data-kt="channel" type="button" data-tt="kTabChannel"><i data-ic="sliders"></i><span data-i="kTabChannel"></span></button>
@@ -158,31 +188,6 @@ document.documentElement.dataset.theme=t;}catch(e){document.documentElement.data
             <button class="icon-btn" id="kGear" type="button" data-tt="kickTab"><i data-ic="settings"></i></button>
             <button class="icon-btn" id="kDiag" type="button" data-tt="kDiagT"><i data-ic="info"></i></button>
           </div>
-        </div>
-      </div>
-
-      <!-- ===== معلومات الجلسة ===== -->
-      <div class="k-pane" id="kpSession">
-        <div class="kx-scroll ks">
-          <div class="kx-bar">
-            <div class="kx-bt"><b data-i="kxSession"></b><small class="ks-barline"><b class="kx-pill" id="kxStatus">–</b><span class="kx-test" id="ksTestTag" hidden></span><span class="ks-clock"><i data-ic="clock"></i><span class="ks-time" id="kxTime" dir="ltr">–</span></span></small></div>
-            <button class="kx-demo" id="ksDemo" type="button"><i data-ic="play"></i><span id="ksDemoT"></span></button>
-          </div>
-          <div class="ks-grid">
-            <div class="kx-cell wide" data-c="view"><div class="kx-ch"><i data-ic="eye"></i><small data-i="kxViewers"></small></div><b id="kxViewers">–</b><em id="ksViewersD"></em></div>
-            <div class="kx-cell" data-c="fol"><div class="kx-ch"><i data-ic="users"></i><small data-i="kxFollowers"></small></div><b id="kxFollowers">–</b><em id="ksFolD"></em></div>
-            <div class="kx-cell" data-c="sub"><div class="kx-ch"><i data-ic="star"></i><small data-i="kxSubs"></small></div><b id="kxSubs">–</b><em id="ksSubsD"></em></div>
-            <div class="kx-cell" data-c="peak"><div class="kx-ch"><i data-ic="activity"></i><small data-i="ksPeak"></small></div><b id="ksPeak">–</b></div>
-            <div class="kx-cell" data-c="avg"><div class="kx-ch"><i data-ic="sliders"></i><small data-i="ksAvg"></small></div><b id="ksAvg">–</b></div>
-            <div class="kx-cell" data-c="mpm"><div class="kx-ch"><i data-ic="zap"></i><small data-i="ksMpm"></small></div><b id="ksMpm">–</b></div>
-            <div class="kx-cell" data-c="chat"><div class="kx-ch"><i data-ic="chat"></i><small data-i="ksChatters"></small></div><b id="ksChatters">–</b></div>
-            <div class="kx-cell" data-c="msg"><div class="kx-ch"><i data-ic="chat"></i><small data-i="ksMsgs"></small></div><b id="ksMsgs">–</b></div>
-          </div>
-          <div class="ks-card">
-            <div class="ks-ch"><b data-i="ksChart"></b><small id="ksChartNote"></small></div>
-            <svg class="ks-svg" id="ksChart" viewBox="0 0 300 84" preserveAspectRatio="none"></svg>
-          </div>
-          <div class="ks-card ks-rows" id="ksRows"></div>
         </div>
       </div>
 
@@ -613,5 +618,6 @@ document.documentElement.dataset.theme=t;}catch(e){document.documentElement.data
 <script src="streamq.js"></script>
 <script src="settings.js"></script>
 <script src="updater.js"></script>
+<script src="layout.js"></script>
 </body>
 </html>

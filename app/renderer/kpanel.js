@@ -403,7 +403,7 @@
   let curTab = 'chat', tabT = null;
   X.tab = function (tb) {
     curTab = tb; clearInterval(tabT); tabT = null;
-    const kinds = tb === 'activity' ? ['activity'] : tb === 'mod' ? ['mod'] : tb === 'session' ? ['live'] : [];
+    const kinds = ['live'].concat(tb === 'activity' ? ['activity'] : tb === 'mod' ? ['mod'] : []);   // v1.5: الجلسة لوحة ظاهرة دائماً
     if (!kinds.length) return;
     const run = () => kinds.forEach(k => probe(k));
     run(); tabT = setInterval(run, 45000);

@@ -51,7 +51,8 @@ Your settings and Kick link are stored in %AppData%\StreamExtra (+ a backup in %
 
 v1.5
 ----
-- Kick panel simplified: Chat and Session are always shown side by side (no tabs, no clicking). Other tabs hidden.
+- Dock boxes (Scenes, Sources, Mixer, Session, Chat) are movable (drag title bar) and resizable (drag edge); layout saved; reset button in the preview bar.
+- Restored Activity / Moderation / Channel / Info menus in the Kick panel (from v1.4). Session stays its own dock.
 
 v1.4
 ----
