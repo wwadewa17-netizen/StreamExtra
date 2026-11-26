@@ -558,7 +558,7 @@ function dropMedia(it){
 async function gcAssets(){
   try{
     const used = histUsedAssets(); S.scenes.forEach(s => s.items.forEach(i => i.assetId && used.add(i.assetId)));
-    for(const k of await idbKeys()){ if(!used.has(k)){ await idbDel(k); if(imgs[k]){ URL.revokeObjectURL(imgs[k].src); delete imgs[k]; } } }
+    for(const k of await idbKeys()){ if(!used.has(k) && !String(k).startsWith('alert_')){ await idbDel(k); if(imgs[k]){ URL.revokeObjectURL(imgs[k].src); delete imgs[k]; } } }
   }catch(e){}
 }
 

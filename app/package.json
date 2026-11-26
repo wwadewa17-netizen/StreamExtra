@@ -5,20 +5,22 @@
   "main": "main.js",
   "author": "Stream Extra",
   "license": "MIT",
-  "version": "2.0",
+  "version": "2.1",
   "releaseDate": "2026-11-26",
   "notes": {
     "ar": [
-      "تصميم جديد لصفحات Kick داخل الدردشة: شريط أقسام واحد في الأعلى بأزرار متجاورة (الدردشة · النشاط · المشرف · القناة · المعلومات)",
-      "صفحة القناة صارت شغالة بالكامل ومرتبة بفئات واضحة: إعدادات سريعة، الوصول للدردشة، خيارات الدردشة، خيارات القناة",
-      "تحسين صفحتي النشاط والمشرف: شريط أدوات مرتب، فلاتر في صف واحد قابل للتمرير، وبطاقات إحصاء أوضح",
-      "نافذة الأليرتات: قائمة أنواع الأليرتات على الشمال (المتابعة حالياً)، وكل إعدادات الأليرت في صفحة واحدة: معاينة بالسحب، إضافة صورة، اسم الحساب (حجم/لون/مكان)، وشكل البطاقة"
+      "قوالب جاهزة لأليرت المتابعة: 11 قالباً (كيك كلاسيك، نيون، زجاجي، بنفسجي، ناري، محيط، ذهبي VIP، أبيض بسيط، كبسولة، غروب، سينمائي) تُطبَّق بنقرة واحدة مع معاينة حيّة لكل قالب، وتبقى صورتك ونصوصك وملفاتك كما هي",
+      "رسالة الترحيب واسم المتابع صارا منفصلين: لكل واحد نصه وخطه وسماكته وحجمه ولونه ومكانه، ويُسحبان بالماوس مباشرة في المعاينة",
+      "نظام صوت احترافي: إضافة أغنية (MP3 / WAV / OGG / M4A) مع مستوى الصوت ونقطة البدء وتلاشي النهاية وزر استماع، والصوت يصل للبث ولسماعاتك",
+      "إضافة فيديو MP4 بصوته (الأغنية والصورة في مقطع واحد) يظهر داخل بطاقة الأليرت، ومدة «تلقائي» تُبقي الأليرت حتى نهاية الفيديو",
+      "تصميم جديد لنافذة الأليرتات: معاينة مباشرة مع اسم تجريبي وزر تشغيل، وتبويبات (القوالب · النصوص · الوسائط · الشكل · عام)، وتحكم بحجم البطاقة والتدرّج والتوهج واللمعة والشرارات وحركة الظهور"
     ],
     "en": [
-      "New design for the Kick pages inside the chat: one tab bar at the top with side-by-side buttons (Chat · Activity · Moderation · Channel · Info)",
-      "The Channel page is fully working again and neatly grouped: quick presets, chat access, chat options, channel options",
-      "Cleaner Activity and Moderation pages: tidy toolbar, single-row scrollable filters and clearer stat cards",
-      "Alerts window: alert types list on the left (Follow for now) and all settings on one page: draggable preview, add image, account name (size/color/position) and card look"
+      "Ready-made follow-alert templates: 11 looks (Kick Classic, Neon, Glass, Violet, Fire, Ocean, Gold VIP, Clean White, Pill, Sunset, Cinema) applied in one click with a live thumbnail each; your image, texts and files are kept",
+      "Welcome message and follower name are now separate: each has its own text, font, weight, size, color and position, and both can be dragged right in the preview",
+      "Professional sound system: add a song (MP3 / WAV / OGG / M4A) with volume, start point, fade-out and a Listen button; the sound reaches the stream and your speakers",
+      "Add an MP4 video with its own sound (song + picture in a single clip) shown inside the alert card; the «Auto» duration keeps the alert until the video ends",
+      "New alerts window design: live preview with a test name and a play button, tabs (Templates · Texts · Media · Look · General), and control over card size, gradient, glow, shine, sparkles and entrance animation"
     ]
   }
 }

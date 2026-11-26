@@ -49,6 +49,18 @@ Build_StreamExtra.cmd still builds a portable "StreamExtra" folder for testing. 
 
 Your settings and Kick link are stored in %AppData%\StreamExtra (+ a backup in %LocalAppData%\StreamExtra-Backup).
 
+v2.1
+----
+- Follow alert: 11 ready-made TEMPLATES (Kick Classic, Neon, Glass, Violet, Fire, Ocean, Gold VIP, Clean White, Pill, Sunset, Cinema).
+  One click applies a template; your image, texts, song and video are kept. Each template has a live thumbnail.
+- The WELCOME MESSAGE and the FOLLOWER NAME are now two separate elements: own text / font / weight / size / color / position, both draggable in the preview.
+  (Old v2.0 alert settings are converted automatically.)
+- SONG: add MP3/WAV/OGG/M4A with volume, start second, fade-out and a Listen button. Plays through the mixer, so it reaches the stream and your speakers.
+- VIDEO MP4: add a video with its own sound (song + picture in one clip). It is drawn inside the alert card; duration "Auto" keeps the alert until the video ends.
+  Song and video files are stored inside the app (IndexedDB, keys start with "alert_") and are not removed by the asset cleanup.
+- Alerts window redesigned: live preview + test name + Play button, tabs (Templates | Texts | Media | Look | General),
+  card size, gradient background, border glow, glass effect, moving shine, sparkles, entrance animation (slide / pop / fade), screen-center position.
+
 v2.0
 ----
 - Kick pages (inside the chat) redesigned: ONE tab bar at the top, all buttons side by side:
