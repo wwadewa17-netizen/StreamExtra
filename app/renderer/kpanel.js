@@ -31,7 +31,7 @@
     kxActEmpty: 'لا يوجد نشاط بعد. المتابعون الجدد والاشتراكات والهدايا تظهر هنا فور حدوثها.',
     kxModEmpty: 'لا توجد إجراءات بعد. الحذف والحظر والتايم أوت يظهرون هنا.',
     kxModNeed: 'إجراءات المشرف (حذف / تايم أوت / حظر) تحتاج صلاحية إضافية. اضغط "إعادة الربط" ووافق مرة وحدة.',
-    kxFollow: 'تابع القناة', kxFollowN: 'متابع جديد', kxSub: 'اشترك في القناة', kxResub: 'جدّد اشتراكه ({n} أشهر)', kxGift: 'أهدى {n} اشتراك',
+    kxFollow: 'تابع القناة', kxFollowN: 'متابع جديد', kxFetching: 'جاري جلب الاسم…', kxOpenProf: 'فتح حسابه على Kick', kxCopyName: 'نسخ الاسم', kxReplay: 'إعادة تشغيل الأليرت', kxCopied: 'تم نسخ الاسم', kxSub: 'اشترك في القناة', kxResub: 'جدّد اشتراكه ({n} أشهر)', kxGift: 'أهدى {n} اشتراك',
     kxReward: 'استبدل: {r}', kxKicks: 'أرسل {n} KICKs', kxFirst: 'دردش للتو لأول مرة', kxStart: 'بدأ البث', kxEnd: 'انتهى البث',
     kxDel: 'حذف رسالة', kxDelOf: 'حذف رسالة من {u}', kxBan: 'حظر {u}', kxTimeout: 'تايم أوت {u} · {m}', kxUnban: 'فك حظر {u}',
     kxNow: 'الآن', kxAgo: 'قبل {v}', kxS: 'ثانية', kxM: 'دقيقة', kxH: 'ساعة', kxD: 'يوم',
@@ -81,7 +81,7 @@
     kxActEmpty: 'No activity yet. New followers, subs and gifts show up here as they happen.',
     kxModEmpty: 'No actions yet. Deletes, bans and timeouts show up here.',
     kxModNeed: 'Moderator actions (delete / timeout / ban) need one extra permission. Press "Reconnect" and approve once.',
-    kxFollow: 'followed the channel', kxFollowN: 'New follower', kxSub: 'subscribed', kxResub: 'resubscribed ({n} months)', kxGift: 'gifted {n} subs',
+    kxFollow: 'followed the channel', kxFollowN: 'New follower', kxFetching: 'Fetching name…', kxOpenProf: 'Open profile on Kick', kxCopyName: 'Copy name', kxReplay: 'Replay alert', kxCopied: 'Name copied', kxSub: 'subscribed', kxResub: 'resubscribed ({n} months)', kxGift: 'gifted {n} subs',
     kxReward: 'redeemed: {r}', kxKicks: 'sent {n} KICKs', kxFirst: 'chatted for the first time', kxStart: 'Stream started', kxEnd: 'Stream ended',
     kxDel: 'Deleted a message', kxDelOf: 'Deleted a message from {u}', kxBan: 'Banned {u}', kxTimeout: 'Timed out {u} · {m}', kxUnban: 'Unbanned {u}',
     kxNow: 'now', kxAgo: '{v} ago', kxS: 'sec', kxM: 'min', kxH: 'h', kxD: 'd',
@@ -203,14 +203,45 @@
     FA.t = now;
     try { SEAlert.push('follow', user); } catch (e) {}
   }
+  /* ---- v2.5: أسماء المتابعين ----
+     Kick غالباً ترسل حدث المتابعة بدون اسم. نحتفظ بالمتابع (بدون اسم) ثم نجلب الاسم من لوحة Kick بعد ثواني،
+     وأول ما يوصل الاسم نربطه بنفس الصف (بدل صفّين) ونُشغّل الأليرت باسمه. */
+  const PEND = [];
+  const pendClear = p => { clearTimeout(p.t); const i = PEND.indexOf(p); if (i >= 0) PEND.splice(i, 1); };
+  function holdAlert(key) {                                  // أليرت بانتظار الاسم (حد أقصى 8 ثواني ثم يظهر بدون اسم)
+    if (!window.SEAlert) return;
+    if (!linkedNow()) { followAlert('', key, false); return; }
+    if (key && !once('fa:' + key)) return;
+    const p = { t: 0 }; p.t = setTimeout(() => { pendClear(p); followAlert('', '', false); }, 8000); PEND.push(p);
+  }
+  function askNames() {
+    [1200, 4000, 8000, 16000, 30000].forEach(ms => setTimeout(() => {
+      if (act.some(a => a.type === 'follow' && !a.user && !a.demo && Date.now() - a.ts < 150000)) probe('activity');
+    }, ms));
+  }
+  function enrichFollow(user, ts) {                          // يربط اسماً حقيقياً بأقرب متابع بلا اسم (خلال 5 دقائق)
+    const u = String(user || '').toLowerCase(); if (!u) return false;
+    if (act.some(a => a.type === 'follow' && String(a.user || '').toLowerCase() === u)) return false;
+    let best = null;
+    act.forEach(a => { if (a.type === 'follow' && !a.user && !a.demo) { const d = Math.abs((a.ts || 0) - (ts || Date.now())); if (d < 300000 && (!best || d < best.d)) best = { a, d }; } });
+    if (!best) return false;
+    best.a.user = user; fresh.add(best.a.ts + '|follow|' + user);
+    const p = PEND[0]; if (p) { pendClear(p); followAlert(user, '', false); }
+    save(); paintAct(); return true;
+  }
   function addAct(o) {
-    if (o.type === 'follow') followAlert(o.user, o.key, !!o.demo);
+    if (o.type === 'follow') { if (o.user || o.demo) followAlert(o.user, o.key, !!o.demo); else holdAlert(o.key); }
     if (o.key && !once('a:' + o.key)) return;
+    if (o.type === 'follow' && !o.user && !o.demo) {         // حدث بلا اسم وصل بعد ما وصل اسم نفس المتابع من لوحة Kick → لا نكرّره
+      const now = Date.now(), tw = act.find(a => a.type === 'follow' && a.user && !a.c && !a.demo && now - a.ts < 30000);
+      if (tw) { tw.c = 1; const p = PEND[0]; if (p) pendClear(p); return; }
+    }
     const it = { type: o.type, user: o.user || '', n: o.n, r: o.r, ts: o.ts || Date.now(), k: o.k || '', x: o.x || '' }; if (o.demo) it.demo = 1;
     if (dupAct(it)) return;
     act.unshift(it); fresh.add(it.ts + '|' + it.type + '|' + it.user);
     if (act.length > LIM) act.length = LIM;
     save(); paintAct();
+    if (it.type === 'follow' && !it.user && !it.demo) askNames();
   }
   function actText(a) {
     switch (a.type) {
@@ -229,10 +260,10 @@
   }
   const AV = ['#53fc18', '#3ea6ff', '#ff6b9a', '#ffb02e', '#a78bfa', '#2dd4bf', '#ff7a59', '#6ee7b7'];
   const avColor = n => { let h = 0; String(n || '?').split('').forEach(c => { h = (h * 31 + c.charCodeAt(0)) >>> 0; }); return AV[h % AV.length]; };
-  const rowHtml = (type, icon, title, sub, ts, isNew, user, demo) => {
+  const rowHtml = (type, icon, title, sub, ts, isNew, user, demo, acts, pend) => {
     const av = user ? `<span class="kx-av" style="--av:${avColor(user)}">${esc(String(user).trim().charAt(0).toUpperCase())}<i class="kx-avb" data-t="${esc(type)}">${ic(icon, 10)}</i></span>`
       : `<i class="kx-ic" data-t="${esc(type)}">${ic(icon, 15)}</i>`;
-    return `<div class="kx-item${isNew ? ' new' : ''}" data-t="${esc(type)}">${av}<div class="kx-tx"><b>${esc(title)}${demo ? `<span class="kx-dtag">${esc(t('kdmActTag'))}</span>` : ''}</b><small>${esc(sub)}</small></div><span class="kx-ago"><span class="kx-agot" data-ts="${ts}">${esc(ago(ts))}</span><small>${esc(clock(ts))}</small></span></div>`;
+    return `<div class="kx-item${isNew ? ' new' : ''}" data-t="${esc(type)}">${av}<div class="kx-tx"><b${user ? '' : ' class="kx-noname"'}>${esc(title)}${demo ? `<span class="kx-dtag">${esc(t('kdmActTag'))}</span>` : ''}</b><small${pend ? ' class="kx-pend"' : ''}>${esc(sub)}</small></div>${acts || ''}<span class="kx-ago"><span class="kx-agot" data-ts="${ts}">${esc(ago(ts))}</span><small>${esc(clock(ts))}</small></span></div>`;
   };
   function filtersHtml(list, cur, counts) {
     return list.map(([k, lbl]) => `<button type="button" class="kx-fb${cur === k ? ' on' : ''}" data-f="${k}">${esc(t(lbl))}<i>${counts[k] || 0}</i></button>`).join('');
@@ -241,6 +272,15 @@
     let out = '', last = '';
     items.forEach(a => { const d = dayLabel(a.ts); if (d !== last) { last = d; out += `<div class="kx-day">${esc(d)}</div>`; } out += rowFn(a); });
     return out;
+  }
+  function actBtns(a) {                                      // أزرار سريعة لكل صف له اسم: فتح الحساب · نسخ الاسم · (للمتابعة) إعادة الأليرت
+    if (!a.user) return '';
+    const u = esc(a.user), b = (k, i, l) => `<button type="button" class="kx-ab" data-a="${k}" data-u="${u}" title="${esc(t(l))}" aria-label="${esc(t(l))}">${ic(i, 13)}</button>`;
+    return `<span class="kx-acts">${b('open', 'ext', 'kxOpenProf')}${b('copy', 'copy', 'kxCopyName')}${a.type === 'follow' ? b('replay', 'bell', 'kxReplay') : ''}</span>`;
+  }
+  function actRow(a) {
+    const pend = a.type === 'follow' && !a.user && !a.demo && linkedNow() && Date.now() - a.ts < 90000;
+    return rowHtml(a.type, ACT_IC[a.type] || 'info', a.user || actText(a), a.user ? actText(a) : (pend ? t('kxFetching') : ''), a.ts, fresh.has(a.ts + '|' + a.type + '|' + a.user), a.user, a.demo, actBtns(a), pend);
   }
   const ACT_OTHER = ['raid', 'reward', 'kicks', 'tip', 'live', 'end', 'other'];
   function paintAct() {
@@ -251,7 +291,7 @@
     setHtml($('kxActF'), filtersHtml([['all', 'kxfAll'], ['follow', 'kxfFollow'], ['sub', 'kxfSub'], ['gift', 'kxfGift'], ['other', 'kxfOther'], ['first', 'kxfFirst']], F.act, c));
     const f = F.act;
     const list = act.filter(a => f === 'all' ? true : f === 'other' ? ACT_OTHER.includes(a.type) : a.type === f).sort((a, b) => b.ts - a.ts);
-    setHtml(el, list.length ? groupHtml(list, a => rowHtml(a.type, ACT_IC[a.type] || 'info', a.user || actText(a), a.user ? actText(a) : '', a.ts, fresh.has(a.ts + '|' + a.type + '|' + a.user), a.user, a.demo)) : `<div class="k-empty">${esc(t('kxActEmpty'))}</div>`);
+    setHtml(el, list.length ? groupHtml(list, a => actRow(a)) : `<div class="k-empty">${esc(t('kxActEmpty'))}</div>`);
     if (fresh.size) setTimeout(() => { fresh = new Set(); }, 800);
   }
 
@@ -303,6 +343,12 @@
     const e = $('kxModNeed'); if (e) e.hidden = !need;
   }
   $('kxModReauth').onclick = () => { if (X.ctx && X.ctx.reauth) X.ctx.reauth(); };
+  $('kxAct').addEventListener('click', e => {
+    const b = e.target.closest('[data-a]'); if (!b) return; const u = b.dataset.u || '';
+    if (b.dataset.a === 'open') { try { api.kickOpenUser(u); } catch (x) {} }
+    else if (b.dataset.a === 'copy') { try { navigator.clipboard.writeText(u).then(() => toast('✔ ' + t('kxCopied'))); } catch (x) {} }
+    else if (b.dataset.a === 'replay') { try { SEAlert.push('follow', u, true); } catch (x) {} }
+  });
   $('kxActF').addEventListener('click', e => { const b = e.target.closest('[data-f]'); if (!b) return; F.act = b.dataset.f; paintAct(); });
   $('kxModF').addEventListener('click', e => { const b = e.target.closest('[data-f]'); if (!b) return; F.mod = b.dataset.f; paintMod(); });
   function noteLogin(on) {
@@ -406,6 +452,7 @@
       const r = normItem(it, i); if (!r) return;
       if (r.kind === 'act') {
         if (r.v.type === 'follow' && !r.approx && r.v.user && r.v.ts >= APP_T0 - 30000 && Date.now() - r.v.ts < 180000) followAlert(r.v.user, '', false);
+        if (r.v.type === 'follow' && r.v.user && enrichFollow(r.v.user, r.v.ts)) return;   // v2.5: ربط الاسم بمتابع وصل بلا اسم
         if (!dupAct(r.v)) { act.push(r.v); ca = true; }
       }
       else if (!dupMod(r.v)) { mod.push(r.v); cm = true; }
@@ -843,7 +890,7 @@
     lock: '<rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/>',
     smile: '<circle cx="12" cy="12" r="10"/><path d="M8 14s1.5 2 4 2 4-2 4-2"/><line x1="9" y1="9" x2="9.01" y2="9"/><line x1="15" y1="9" x2="15.01" y2="9"/>'
   });
-  const linkedNow = () => { const c = cfg(); return !!(c && c.connected) || !!(X.ctx && X.ctx.wl && X.ctx.wl()); };
+  function linkedNow() { const c = cfg(); return !!(c && c.connected) || !!(X.ctx && X.ctx.wl && X.ctx.wl()); }
   const PRESETS = {
     normal: { slow: false, followers: false, subs: false, emotes: false, account: false, bot: false },
     shield: { followers: true, followMin: 10, slow: true, interval: 5, bot: true },

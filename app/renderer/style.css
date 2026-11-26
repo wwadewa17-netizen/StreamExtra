@@ -1868,7 +1868,7 @@ body.k-bigmode #dkKick .k-nav button{flex-direction:row;justify-content:center;g
 .al-fn{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;direction:ltr;text-align:start}
 .al-tpls{display:grid;grid-template-columns:1fr 1fr;gap:10px}
 .al-tpl{position:relative;display:flex;flex-direction:column;gap:6px;padding:6px 6px 9px;border-radius:13px;border:2px solid var(--line);background:var(--panel2);cursor:pointer;text-align:center;color:var(--txt);transition:border-color .12s,transform .12s,box-shadow .12s}
-.al-tpl canvas{width:100%;height:auto;aspect-ratio:360/124;border-radius:9px;display:block}
+.al-tpl canvas{width:100%;height:auto;aspect-ratio:360/170;border-radius:9px;display:block}
 .al-tpl:hover{border-color:var(--line3);transform:translateY(-1px)}
 .al-tpl.on{border-color:var(--ac);box-shadow:0 0 0 1px var(--ac),0 6px 18px rgba(var(--ac-rgb),.28)}
 .al-tpl.on::after{content:"✓";position:absolute;top:11px;inset-inline-end:11px;width:21px;height:21px;border-radius:50%;background:var(--ac);color:#fff;font-size:12px;font-weight:900;display:grid;place-items:center;box-shadow:0 2px 8px rgba(0,0,0,.4)}
@@ -1956,3 +1956,15 @@ body.k-bigmode #dkKick .k-nav button{flex-direction:row;justify-content:center;g
 .al-tools .al-zoom i{display:inline-flex;width:15px;height:15px}
 .al-tools .al-zoom svg{width:15px;height:15px;fill:none;stroke:currentColor;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round}
 .al-tools .al-zoom.on{border-color:var(--ac);color:var(--ac-t)}
+
+/* ================= v2.5: صفحة النشاط — صفوف المتابعين ================= */
+.kx-item[data-t=follow] .kx-tx b{font-size:13.5px;letter-spacing:.1px}
+.kx-noname{color:var(--mut)!important;font-weight:700!important}
+.kx-pend{display:inline-flex;align-items:center;gap:6px}
+.kx-pend::before{content:"";width:10px;height:10px;border-radius:50%;border:2px solid var(--tc,#3ea6ff);border-top-color:transparent;animation:kxSpin .8s linear infinite;flex:none}
+@keyframes kxSpin{to{transform:rotate(360deg)}}
+.kx-acts{display:flex;gap:4px;flex:none;opacity:0;transition:opacity .12s}
+.kx-item:hover .kx-acts,.kx-item:focus-within .kx-acts{opacity:1}
+.kx-ab{display:grid;place-items:center;width:26px;height:26px;border-radius:8px;border:1px solid var(--line2);background:var(--panel2);color:var(--mut);cursor:pointer;padding:0;transition:background .12s,color .12s,border-color .12s}
+.kx-ab:hover{background:color-mix(in srgb,var(--tc,var(--ac)) 22%,var(--panel2));color:var(--txt);border-color:var(--tc,var(--ac))}
+.kx-ab svg{width:13px;height:13px}

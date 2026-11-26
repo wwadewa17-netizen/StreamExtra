@@ -1,7 +1,8 @@
 /* ============================================================
-   نظام الأليرتات (v2.3) — أليرت المتابعة الجديدة
+   نظام الأليرتات (v2.4) — أليرت المتابعة الجديدة
    - يُرسم الأليرت على نفس الكانفس (cv) اللي ينبث، فيظهر في المعاينة وعند المشاهدين.
    - يشتغل من حدث المتابعة اللي يوصل لموجز النشاط (kpanel.js → addAct).
+   - v2.4: التصميم الافتراضي الجديد «ستريم إكسترا» (لوقو متحرك + أهلاً وسهلاً / Welcome + اسم الحساب بالأحمر) · وضع «مقطع كامل» (فيديو بملء الشاشة ويظهر مربع الاسم في آخره) · عناصر فيديو/أغنية داخل تبويب البناء.
    - v2.3: تبويب «بناء الأليرت»: قالب فارغ من الصفر + أزرار إضافة (صورة · رسالة ترحيب · اسم الحساب · خلفية) · خطوط عربية بأسماء عربية وكل خط بشكله · الأليرت يظهر عند أي متابعة جديدة على Kick (إصلاح).
    - v2.2: 4 قوالب بلغتين (عربي / English) · خطوط عربية وإنجليزية حسب لغة القالب · خلفية القالب (ألوان/تدرّج/صورة) · القالب في وسط الشاشة وقابل للسحب والتحريك.
    - v2.1: قوالب جاهزة · رسالة الترحيب واسم المتابع منفصلان · أغنية · فيديو MP4 (بصوته) · نافذة بتبويبات.
@@ -66,7 +67,18 @@
     alEdit: 'تعديل', alDelete: 'حذف', alElOn: 'مضاف', alElOff: 'غير مضاف', alElBgOn: 'لون / صورة',
     alPickEl: 'اختر عنصراً من القائمة أو اضغط عليه داخل المعاينة لتعديل شكله.',
     alZoom: 'تقريب المعاينة', alZoomOff: 'تصغير المعاينة', alFontSample: 'أهلاً بك يا بطل', alFontsT: 'الخط', alBlankDone: 'البطاقة فارغة الآن — أضف العناصر بالأزرار', alAdded: 'تمت الإضافة',
-    alSecCard2: 'البطاقة والخلفية', alMsgNote: 'اكتب نص الترحيب (مثل: أهلاً بالمتابع الجديد). اتركه فارغاً لاستخدام النص الافتراضي.'
+    alSecCard2: 'البطاقة والخلفية', alMsgNote: 'اكتب نص الترحيب (مثل: أهلاً بالمتابع الجديد). اتركه فارغاً لاستخدام النص الافتراضي.',
+    /* v2.4 */
+    alStartHint: 'ابنِ الأليرت بنفسك: اضغط «قالب فارغ» ثم أضف العناصر بالأزرار (لوقو · ترحيب · اسم الحساب · فيديو · أغنية). أو اختر قالباً جاهزاً وعدّل عليه.',
+    alAddLogo: 'لوقو الموقع', alIcoLogo: 'لوقو الموقع', alImgFx: 'حركة اللوقو / الصورة',
+    alFxNone: 'بدون حركة', alFxPulse: 'نبض + توهج', alFxFloat: 'طفو هادئ', alFxOrbit: 'احترافي: هالة + حلقات دوّارة',
+    alElVid: 'مقطع الفيديو', alElSnd: 'الأغنية',
+    alVidMode: 'طريقة عرض الفيديو', alVidModeCard: 'داخل البطاقة', alVidModeFull: 'مقطع كامل على الشاشة (يظهر مربع الاسم في نهايته)',
+    alVidFit: 'ملاءمة المقطع للشاشة', alFitCover: 'ملء الشاشة (قص الأطراف)', alFitContain: 'المقطع كامل بدون قص',
+    alNameAt: 'ظهور مربع الاسم قبل نهاية المقطع بـ (ثانية)',
+    alVidNote: 'ارفع مقطع MP4 (مثل مقطع أنمي) فيُشغَّل مع صوته. «داخل البطاقة» يعرضه داخل البطاقة، و«مقطع كامل» يعرضه على كامل الشاشة وفي آخره يظهر مربع فيه اسم المتابع. مدة «تلقائي» تُبقي الأليرت حتى نهاية المقطع.',
+    alVidNote2: 'المقطع يملأ الشاشة كاملة، وقبل نهايته بالثواني التي تحددها يظهر مربع القالب (لوقو · ترحيب · اسم المتابع). تقدر تحذف اللوقو والترحيب من تبويب «بناء الأليرت» ليبقى مربع الاسم فقط. مدة الظهور تُضبط على «تلقائي».',
+    alModeFullOn: 'تم تفعيل «مقطع كامل»: مربع الاسم صار بأسفل الشاشة ومدة الظهور تلقائية'
   });
   Object.assign(I18N.en, {
     kAlertT: 'Alert settings',
@@ -118,12 +130,23 @@
     alEdit: 'Edit', alDelete: 'Remove', alElOn: 'Added', alElOff: 'Not added', alElBgOn: 'Color / image',
     alPickEl: 'Pick an element from the list, or click it in the preview, to edit its look.',
     alZoom: 'Zoom preview', alZoomOff: 'Zoom out', alFontSample: 'Welcome back, hero', alFontsT: 'Font', alBlankDone: 'The card is empty now — add elements with the buttons', alAdded: 'Added',
-    alSecCard2: 'Card & background', alMsgNote: 'Type the welcome text (e.g. Welcome new follower). Leave it empty to use the default text.'
+    alSecCard2: 'Card & background', alMsgNote: 'Type the welcome text (e.g. Welcome new follower). Leave it empty to use the default text.',
+    /* v2.4 */
+    alStartHint: 'Build your own alert: press “Blank template”, then add elements with the buttons (logo · welcome · account name · video · song). Or pick a ready-made template and tweak it.',
+    alAddLogo: 'Site logo', alIcoLogo: 'Site logo', alImgFx: 'Logo / image animation',
+    alFxNone: 'No animation', alFxPulse: 'Pulse + glow', alFxFloat: 'Gentle float', alFxOrbit: 'Pro: halo + orbiting rings',
+    alElVid: 'Video clip', alElSnd: 'Song',
+    alVidMode: 'Video display mode', alVidModeCard: 'Inside the card', alVidModeFull: 'Full-screen clip (name box appears at its end)',
+    alVidFit: 'Fit clip to screen', alFitCover: 'Fill screen (crop edges)', alFitContain: 'Whole clip, no crop',
+    alNameAt: 'Show the name box this many seconds before the clip ends',
+    alVidNote: 'Upload an MP4 (e.g. an anime clip); it plays with its sound. “Inside the card” shows it in the card; “Full-screen clip” fills the whole screen and a box with the follower name appears at the end. “Auto” duration keeps the alert until the clip ends.',
+    alVidNote2: 'The clip fills the whole screen, and the template box (logo · welcome · follower name) appears the chosen number of seconds before it ends. Remove the logo and welcome from the Build tab to keep only the name box. Display time is set to “Auto”.',
+    alModeFullOn: '“Full-screen clip” enabled: the name box moved to the bottom and display time is Auto'
   });
 
   /* ---------- الإعدادات ---------- */
   const KEY = 'se_kalert', POS = ['top', 'bottom', 'tr', 'tl', 'br', 'bl', 'center', 'custom'], DURS = [0, 3, 5, 8, 10, 15, 20, 30];
-  const ANIMS = ['slide', 'pop', 'fade'], ICOS = ['heart', 'star', 'bolt', 'crown'], WEIGHTS = [400, 600, 700, 800];
+  const ANIMS = ['slide', 'pop', 'fade'], ICOS = ['heart', 'star', 'bolt', 'crown', 'logo'], IMGFX = ['none', 'pulse', 'float', 'orbit'], WEIGHTS = [400, 600, 700, 800];
   /* خطوط حسب اللغة (خطوط ويندوز الجاهزة + بعض الخطوط الشائعة لو مثبّتة عند المستخدم) — تُعرض فقط المتوفر منها */
   const FONTS_AR = ['Segoe UI', 'Tahoma', 'Arial', 'Times New Roman', 'Dubai', 'Sakkal Majalla', 'Traditional Arabic', 'Simplified Arabic', 'Arabic Typesetting', 'Andalus', 'Aldhabi', 'Courier New', 'Microsoft Sans Serif', 'Cairo', 'Tajawal', 'Almarai', 'Amiri', 'Noto Naskh Arabic', 'IBM Plex Sans Arabic', 'Noto Kufi Arabic', 'Noto Sans Arabic', 'Reem Kufi', 'El Messiri', 'Changa', 'Lalezar', 'Markazi Text', 'Mada', 'Readex Pro', 'Harmattan', 'Lemonada', 'Baloo Bhaijaan 2', 'Rubik'];
   /* أسماء الخطوط بالعربي (تظهر في قائمة الخطوط لما تكون لغة القالب عربي) */
@@ -139,19 +162,19 @@
       return (cache[name] = ok);
     };
   })();
-  const DEFTXT = { ar: 'متابع جديد', en: 'New follower' }, DEFNAME = { ar: 'متابع', en: 'Follower' }, TESTN = { ar: 'اسم_المتابع', en: 'follower_name' };
+  const DEFTXT = { ar: 'أهلاً وسهلاً', en: 'Welcome' }, DEFNAME = { ar: 'متابع', en: 'Follower' }, TESTN = { ar: 'اسم_المتابع', en: 'follower_name' };
   const curLang = () => (typeof lang !== 'undefined' && lang === 'en') ? 'en' : 'ar';
   const FONT = '"Segoe UI", Tahoma, Arial, sans-serif';
-  const DIMG = () => ({ data: '', show: true, x: 56, y: 56, size: 72 });
+  const DIMG = () => ({ data: '', show: true, x: 190, y: 112, size: 120, fx: 'orbit' });
   const DBGI = () => ({ data: '', dim: 35 });
-  const DNAME = () => ({ show: true, x: 276, y: 76, size: 36, color: '#ffffff', font: 'Segoe UI', weight: 800 });
-  const DMSG = () => ({ show: true, text: '', x: 276, y: 44, size: 22, color: '#53fc18', font: 'Segoe UI', weight: 700 });
-  const DVID = () => ({ id: '', name: '', vol: 100, show: true });
+  const DNAME = () => ({ show: true, x: 190, y: 284, size: 38, color: '#ffffff', font: 'Segoe UI', weight: 800 });
+  const DMSG = () => ({ show: true, text: '', x: 190, y: 226, size: 30, color: '#ff6b80', font: 'Segoe UI', weight: 700 });
+  const DVID = () => ({ id: '', name: '', vol: 100, show: true, mode: 'card', fit: 'cover', nameSec: 3 });
   const DSND = () => ({ id: '', name: '', vol: 80, start: 0, fade: 1 });
   const DEFF = () => ({
-    v: 2, lang: 'ar', px: 405, py: 304, bgimg: DBGI(), tpl: 'classic', on: true, dur: 5, pos: 'center', anim: 'slide', fx: false, w: 470, h: 112,
-    radius: 24, bw: 3, glow: 0, glass: false, shine: false, ico: 'heart',
-    accent: '#53fc18', bg: '#0e1014', bg2: '#0e1014', bgA: 94,
+    v: 3, lang: 'ar', px: 450, py: 195, bgimg: DBGI(), tpl: 'site', on: true, dur: 5, pos: 'center', anim: 'pop', fx: false, w: 380, h: 330,
+    radius: 26, bw: 3, glow: 22, glass: false, shine: true, ico: 'logo',
+    accent: '#d4213f', bg: '#0b0b0e', bg2: '#1c0a11', bgA: 96,
     img: DIMG(), nm: DNAME(), msg: DMSG(), vid: DVID(), snd: DSND()
   });
   const num = (v, a, b, d) => { v = +v; return isFinite(v) ? Math.max(a, Math.min(b, v)) : d; };
@@ -168,15 +191,15 @@
     f.lang = (o.lang === 'en' || o.lang === 'ar') ? o.lang : curLang();
     f.tpl = String(f.tpl || 'custom').slice(0, 24); f.on = !!f.on; f.dur = DURS.includes(+f.dur) ? +f.dur : 5; f.pos = POS.includes(f.pos) ? f.pos : 'center';
     if (!o.v || o.v < 2) f.pos = 'center';                   // ترحيل من v2.1: القالب في وسط الشاشة
-    f.v = 2; f.px = Math.round(num(f.px, -900, 1700, 405)); f.py = Math.round(num(f.py, -600, 1100, 304));
-    f.anim = ANIMS.includes(f.anim) ? f.anim : 'slide'; f.fx = !!f.fx; f.glass = !!f.glass; f.shine = !!f.shine; f.ico = ICOS.includes(f.ico) ? f.ico : 'heart';
-    f.w = Math.round(num(f.w, 240, 900, 470)); f.h = Math.round(num(f.h, 70, 520, 112));
+    f.v = 3; f.px = Math.round(num(f.px, -900, 1700, 450)); f.py = Math.round(num(f.py, -600, 1100, 195));
+    f.anim = ANIMS.includes(f.anim) ? f.anim : 'slide'; f.fx = !!f.fx; f.glass = !!f.glass; f.shine = !!f.shine; f.ico = ICOS.includes(f.ico) ? f.ico : 'logo';
+    f.w = Math.round(num(f.w, 240, 900, 380)); f.h = Math.round(num(f.h, 70, 520, 330));
     f.radius = Math.round(num(f.radius, 0, 80, 24)); f.bw = Math.round(num(f.bw, 0, 10, 3)); f.glow = Math.round(num(f.glow, 0, 60, 0));
-    f.accent = hex(f.accent, '#53fc18'); f.bg = hex(f.bg, '#0e1014'); f.bg2 = hex(f.bg2, f.bg); f.bgA = num(f.bgA, 0, 100, 94);
+    f.accent = hex(f.accent, '#d4213f'); f.bg = hex(f.bg, '#0e1014'); f.bg2 = hex(f.bg2, f.bg); f.bgA = num(f.bgA, 0, 100, 94);
     const bg_ = Object.assign(DBGI(), o.bgimg || {});
     f.bgimg = { data: typeof bg_.data === 'string' && bg_.data.startsWith('data:image/') ? bg_.data : '', dim: Math.round(num(bg_.dim, 0, 85, 35)) };
     const i = Object.assign(DIMG(), o.img || {});
-    f.img = { data: typeof i.data === 'string' && i.data.startsWith('data:image/') ? i.data : '', show: i.show !== false, x: num(i.x, -60, f.w + 60, 56), y: num(i.y, -60, f.h + 60, 56), size: num(i.size, 24, 200, 72) };
+    f.img = { data: typeof i.data === 'string' && i.data.startsWith('data:image/') ? i.data : '', show: i.show !== false, x: num(i.x, -60, f.w + 60, 190), y: num(i.y, -60, f.h + 60, 112), size: num(i.size, 24, 200, 120), fx: IMGFX.includes(i.fx) ? i.fx : 'none' };
     const nmDef = DNAME(); f.nm = normTxt(o.nm, nmDef, f); f.nm.text = '';
     if (o.msg) f.msg = normTxt(o.msg, DMSG(), f);
     else {                                                   // ترحيل إعدادات v2.0: النص الصغير كان فوق الاسم
@@ -185,21 +208,27 @@
     }
     delete f.text;
     const v = Object.assign(DVID(), o.vid || {}), s = Object.assign(DSND(), o.snd || {});
-    f.vid = { id: /^alert_[\w-]{3,60}$/.test(v.id) ? v.id : '', name: String(v.name || '').slice(0, 80), vol: num(v.vol, 0, 100, 100), show: v.show !== false };
+    f.vid = { id: /^alert_[\w-]{3,60}$/.test(v.id) ? v.id : '', name: String(v.name || '').slice(0, 80), vol: num(v.vol, 0, 100, 100), show: v.show !== false, mode: v.mode === 'full' ? 'full' : 'card', fit: v.fit === 'contain' ? 'contain' : 'cover', nameSec: Math.round(num(v.nameSec, 1, 20, 3)) };
     f.snd = { id: /^alert_[\w-]{3,60}$/.test(s.id) ? s.id : '', name: String(s.name || '').slice(0, 80), vol: num(s.vol, 0, 100, 80), start: Math.round(num(s.start, 0, 600, 0)), fade: Math.round(num(s.fade, 0, 5, 1)) };
     return f;
   }
   function load() {
     let o = {}; try { o = JSON.parse(LS.get(KEY, '{}')) || {}; } catch (e) {}
-    return { follow: norm(o.follow) };
+    const fo = o.follow;
+    if (fo && (fo.v || 0) < 3) {                            // ترحيل v2.4: التصميم الافتراضي الجديد (مع إبقاء صورتك وفيديوك وأغنيتك ونصك)
+      const old = norm(fo); if (old.msg.text === 'متابع جديد' || old.msg.text === 'New follower') old.msg.text = '';
+      return { follow: fromTpl(TPLS[0], old, old.lang) };
+    }
+    return { follow: norm(fo) };
   }
-  let CFG = load();
+  let CFG;
   const save = () => LS.set(KEY, JSON.stringify(CFG));
 
   /* ---------- القوالب الجاهزة ---------- */
-  const GEO = { w: 470, h: 112, img: { x: 56, y: 56, size: 72, show: true }, msg: { x: 276, y: 44, size: 22 }, nm: { x: 276, y: 76, size: 36 } };
+  const GEO = { w: 470, h: 112, img: { x: 56, y: 56, size: 72, show: true, fx: 'none' }, msg: { x: 276, y: 44, size: 22 }, nm: { x: 276, y: 76, size: 36 } };
   const mk = p => Object.assign({}, GEO, p, { img: Object.assign({}, GEO.img, p.img), msg: Object.assign({}, GEO.msg, p.msg), nm: Object.assign({}, GEO.nm, p.nm) });
   const TPLS = [
+    { id: 'site', ar: 'ستريم إكسترا', en: 'Stream Extra', fn: { ar: 'Segoe UI', en: 'Segoe UI' }, p: mk({ w: 380, h: 330, accent: '#d4213f', bg: '#0b0b0e', bg2: '#1c0a11', bgA: 96, radius: 26, bw: 3, glow: 22, shine: true, fx: false, ico: 'logo', anim: 'pop', img: { x: 190, y: 112, size: 120, fx: 'orbit' }, msg: { x: 190, y: 226, size: 30, color: '#ff6b80' }, nm: { x: 190, y: 284, size: 38, color: '#ffffff' } }) },
     { id: 'classic', ar: 'كيك كلاسيك', en: 'Kick Classic', fn: { ar: 'Segoe UI', en: 'Segoe UI' }, p: mk({ accent: '#53fc18', bg: '#0e1014', bg2: '#0e1014', bgA: 94, radius: 24, bw: 3, glow: 0, ico: 'heart', anim: 'slide', msg: { color: '#53fc18' }, nm: { color: '#ffffff' } }) },
     { id: 'neon', ar: 'نيون', en: 'Neon', fn: { ar: 'Tahoma', en: 'Bahnschrift' }, p: mk({ accent: '#00e5ff', bg: '#090a1f', bg2: '#1a0b3a', bgA: 96, radius: 18, bw: 3, glow: 26, shine: true, fx: true, ico: 'bolt', anim: 'pop', msg: { color: '#ff4fd8' }, nm: { color: '#ffffff' } }) },
     { id: 'glass', ar: 'زجاجي', en: 'Glass', fn: { ar: 'Dubai', en: 'Segoe UI' }, p: mk({ accent: '#bfe3ff', bg: '#1b2a44', bg2: '#2c3e63', bgA: 62, radius: 30, bw: 2, glass: true, shine: true, ico: 'star', anim: 'fade', msg: { color: '#cfe6ff' }, nm: { color: '#ffffff' } }) },
@@ -217,6 +246,7 @@
     return n;
   }
   const tplById = id => TPLS.find(x => x.id === id) || TPLS[0];
+  CFG = load();
 
   /* ---------- الملفات (صوت / فيديو) ---------- */
   const MED = {};                                           // id → { url, dur, bad }
@@ -301,6 +331,7 @@
   const ease = p => 1 - Math.pow(1 - p, 3);
   const back = t => { t = Math.max(0, Math.min(1, t)); const c1 = 1.70158, c3 = c1 + 1; return 1 + c3 * Math.pow(t - 1, 3) + c1 * Math.pow(t - 1, 2); };
   const rnd = s => { const v = Math.sin(s * 12.9898) * 43758.5453; return v - Math.floor(v); };
+  const LOGO = new Image(); try { LOGO.src = window.SE_LOGO || ''; } catch (e) {}
   const imgCache = {};
   function getImg(src) {
     if (!src) return null;
@@ -316,6 +347,8 @@
   const tfont = o => `${o.weight} ${o.size}px "${o.font}", "Segoe UI", Tahoma, Arial, sans-serif`;
   function putText(c, s, o, x, y, maxW, shadow) {
     c.save(); c.textAlign = 'center'; c.textBaseline = 'middle'; c.font = tfont(o); c.fillStyle = o.color;
+    const tw = c.measureText(s).width;
+    if (tw > maxW) { o = Object.assign({}, o, { size: o.size * Math.max(.55, maxW / tw) }); c.font = tfont(o); }   // اسم طويل: نصغّر الخط قبل القص
     c.direction = /[\u0590-\u08FF]/.test(s) ? 'rtl' : 'ltr';
     if (shadow) { c.shadowColor = 'rgba(0,0,0,.8)'; c.shadowBlur = 9; c.shadowOffsetY = 1; }
     c.fillText(fit(c, s, maxW), x, y); c.restore();
@@ -392,28 +425,50 @@
         c.transform(1, 0, -.3, 1, 0, 0); c.fillStyle = sh; c.fillRect(bx + y * .3, y - 4, bw, H + 8); c.restore();
       }
     }
-    // الصورة (أو الأيقونة الافتراضية)
+    // الصورة / لوقو الموقع (حركة: نبض · طفو · هالة وحلقات دوّارة)
     const g = cf.img;
     if (g.show) {
-      const cx = x + g.x, cy = y + g.y, r = g.size / 2, ACF = rgba(AC, .16);
-      if (g.data) {
-        const im = getImg(g.data);
-        c.save(); c.beginPath(); c.arc(cx, cy, r, 0, Math.PI * 2); c.closePath(); c.clip();
-        c.fillStyle = ACF; c.fillRect(cx - r, cy - r, g.size, g.size);
-        if (im) { const k = Math.max(g.size / im.naturalWidth, g.size / im.naturalHeight), dw = im.naturalWidth * k, dh = im.naturalHeight * k; c.drawImage(im, cx - dw / 2, cy - dh / 2, dw, dh); }
-        c.restore();
-        c.beginPath(); c.arc(cx, cy, r, 0, Math.PI * 2); c.lineWidth = 2; c.strokeStyle = AC; c.stroke();
-      } else {
-        c.beginPath(); c.arc(cx, cy, r, 0, Math.PI * 2); c.fillStyle = onVid ? 'rgba(0,0,0,.35)' : ACF; c.fill();
-        c.lineWidth = 2; c.strokeStyle = AC; c.stroke();
-        c.save(); c.translate(cx, cy + 2 * g.size / 72); const s = (g.size / 72) * (1 + 0.08 * Math.sin(el / 160));
-        c.scale(s, s); iconPath(c, cf.ico); c.fillStyle = AC; c.fill(); c.restore();
+      const fx = g.fx || 'none', tt = el / 1000, S0 = g.size, r0 = S0 / 2, ACF = rgba(AC, .16);
+      const ent = fx === 'none' ? 1 : back(Math.min(1, el / 700));
+      const sc = ent * (fx === 'pulse' || fx === 'orbit' ? 1 + .035 * Math.sin(tt * 2.6) : 1);
+      const cx = x + g.x, cy = y + g.y + (fx === 'float' || fx === 'orbit' ? Math.sin(tt * 1.8) * 4 : 0);
+      const asLogo = !g.data && cf.ico === 'logo' && LOGO.complete && LOGO.naturalWidth;
+      c.save();
+      if (fx === 'orbit' || fx === 'pulse') {                // هالة متوهجة خلف الصورة
+        const hr = S0 * (fx === 'orbit' ? .95 : .8), ha = .22 + .12 * Math.sin(tt * 2.2), hg = c.createRadialGradient(cx, cy, S0 * .3, cx, cy, hr);
+        hg.addColorStop(0, rgba(AC, ha)); hg.addColorStop(1, rgba(AC, 0)); c.fillStyle = hg; c.beginPath(); c.arc(cx, cy, hr, 0, Math.PI * 2); c.fill();
       }
+      if (fx === 'orbit') {                                  // حلقتان دوّارتان + نقطة مضيئة تدور
+        c.save(); c.lineCap = 'round'; c.strokeStyle = AC; c.shadowColor = AC; c.shadowBlur = 10; c.globalAlpha *= Math.max(0, Math.min(1, ent));
+        c.lineWidth = 2.5; c.beginPath(); c.arc(cx, cy, S0 * .68, tt * 1.7, tt * 1.7 + Math.PI * .95); c.stroke();
+        c.lineWidth = 1.8; c.beginPath(); c.arc(cx, cy, S0 * .76, -tt * 1.15 + Math.PI, -tt * 1.15 + Math.PI * 1.6); c.stroke();
+        const da = tt * 2.4; c.fillStyle = '#ffffff'; c.beginPath(); c.arc(cx + Math.cos(da) * S0 * .76, cy + Math.sin(da) * S0 * .76, 3.2, 0, Math.PI * 2); c.fill();
+        c.restore();
+      }
+      c.translate(cx, cy); c.scale(sc, sc); c.translate(-cx, -cy);
+      if (asLogo) {
+        c.shadowColor = rgba(AC, .65); c.shadowBlur = 16; c.drawImage(LOGO, cx - r0, cy - r0, S0, S0);
+      } else if (g.data) {
+        const im = getImg(g.data);
+        c.save(); c.beginPath(); c.arc(cx, cy, r0, 0, Math.PI * 2); c.closePath(); c.clip();
+        c.fillStyle = ACF; c.fillRect(cx - r0, cy - r0, S0, S0);
+        if (im) { const k = Math.max(S0 / im.naturalWidth, S0 / im.naturalHeight), dw = im.naturalWidth * k, dh = im.naturalHeight * k; c.drawImage(im, cx - dw / 2, cy - dh / 2, dw, dh); }
+        c.restore();
+        c.beginPath(); c.arc(cx, cy, r0, 0, Math.PI * 2); c.lineWidth = 2; c.strokeStyle = AC; c.stroke();
+      } else {
+        const ik = cf.ico === 'logo' ? 'heart' : cf.ico;
+        c.beginPath(); c.arc(cx, cy, r0, 0, Math.PI * 2); c.fillStyle = onVid ? 'rgba(0,0,0,.35)' : ACF; c.fill();
+        c.lineWidth = 2; c.strokeStyle = AC; c.stroke();
+        c.save(); c.translate(cx, cy + 2 * S0 / 72); const s2 = (S0 / 72) * (1 + 0.08 * Math.sin(el / 160));
+        c.scale(s2, s2); iconPath(c, ik); c.fillStyle = AC; c.fill(); c.restore();
+      }
+      c.restore();
     }
     // النصوص: رسالة الترحيب + اسم المتابع (كل واحد مستقل)
     const maxW = Math.max(60, W - 40);
-    if (cf.msg.show) putText(c, label, cf.msg, x + cf.msg.x, y + cf.msg.y, maxW, onVid);
-    if (cf.nm.show) putText(c, name, cf.nm, x + cf.nm.x, y + cf.nm.y, maxW, onVid);
+    const stg = (o, str, d) => { const a2 = Math.max(0, Math.min(1, (el - d) / 380)); c.save(); c.globalAlpha *= a2; putText(c, str, o, x + o.x, y + o.y + (1 - a2) * 10, maxW, onVid); c.restore(); };   // ظهور متتابع: الترحيب ثم الاسم
+    if (cf.msg.show) stg(cf.msg, label, 250);
+    if (cf.nm.show) stg(cf.nm, name, 450);
     c.restore();
   }
   function slot(cf, w, h) {
@@ -422,17 +477,30 @@
     const x = pos === 'tl' || pos === 'bl' ? M : pos === 'tr' || pos === 'br' ? w - W - M : (w - W) / 2;
     return [x, pos === 'center' ? (h - H) / 2 : top ? M : h - H - M, top];
   }
+  const isFull = cf => cf.vid.mode === 'full' && !!cf.vid.id;
+  function fullVid(c, w, h, cf, ve, al) {                   // الفيديو بملء الشاشة (قص أو احتواء)
+    if (!cf.vid.show || !ve || ve.readyState < 2 || !ve.videoWidth) return false;
+    const k = (cf.vid.fit === 'contain' ? Math.min : Math.max)(w / ve.videoWidth, h / ve.videoHeight), dw = ve.videoWidth * k, dh = ve.videoHeight * k;
+    c.save(); c.globalAlpha = Math.max(0, Math.min(1, al)); c.drawImage(ve, (w - dw) / 2, (h - dh) / 2, dw, dh); c.restore(); return true;
+  }
   function drawAlert(c, w, h, cf, a, el, hold) {
-    const H = cf.h, M = 36; let p = 1;
-    if (el < IN) p = ease(el / IN); else if (el > IN + hold) p = 1 - ease(Math.min(1, (el - IN - hold) / OUT));
+    const H = cf.h, M = 36, endC = IN + hold; let t0 = 0;
+    if (isFull(cf)) {                                       // وضع المقطع الكامل: الفيديو بالشاشة كلها، ومربع الاسم يطلع بنهايته
+      const vp = el < IN ? ease(el / IN) : el > endC ? 1 - ease(Math.min(1, (el - endC) / OUT)) : 1;
+      fullVid(c, w, h, cf, a.v ? a.v.e : null, vp);
+      t0 = Math.max(0, endC - cf.vid.nameSec * 1000);
+      if (el < t0) return;
+    }
+    const e = el - t0; let p = ease(Math.min(1, e / IN));
+    if (el > endC) p = Math.min(p, 1 - ease(Math.min(1, (el - endC) / OUT)));
     const [x, y0, top] = slot(cf, w, h); let dy = 0, s = 1;
     if (cf.anim === 'slide') dy = (1 - p) * (H + M) * (cf.pos === 'center' ? 1 : top ? -1 : 1);
-    else if (cf.anim === 'pop') s = el < IN ? .6 + .4 * back(el / IN) : el > IN + hold ? .8 + .2 * p : 1;
+    else if (cf.anim === 'pop') s = e < IN ? .6 + .4 * back(e / IN) : el > endC ? .8 + .2 * p : 1;
     c.save();
     if (s !== 1) { const cx = x + cf.w / 2, cy = y0 + H / 2; c.translate(cx, cy); c.scale(s, s); c.translate(-cx, -cy); }
-    card(c, x, y0 + dy, cf, a.user, p, el, { video: a.v ? a.v.e : null });
+    card(c, x, y0 + dy, cf, a.user, p, e, { video: isFull(cf) ? null : (a.v ? a.v.e : null) });
     c.restore();
-    if (cf.fx) sparks(c, x, y0, cf, el, a.seed);
+    if (cf.fx) sparks(c, x, y0, cf, e, a.seed);
   }
   // يحرّك الطابور (آمن لو انستدعى أكثر من مرة بنفس الإطار) — يرجّع true لو في أليرت ظاهر
   function advance(now) {
@@ -538,27 +606,55 @@
       fr.readAsDataURL(file);
     }
 
+    const mediaInputs = () => `<input type="file" id="alVFile" accept="video/mp4,video/webm,.mp4,.webm,.mov,.m4v" style="display:none"><input type="file" id="alSFile" accept="audio/*,.mp3,.wav,.ogg,.m4a,.aac,.flac,.opus" style="display:none">`;
+    const vidSec = () => {
+      const g = f(), full = g.vid.mode === 'full';
+      return sec('vid', t('alSecVid'), `
+        ${fileRow(g.vid.name, !!g.vid.id, 'alVPick', 'alVRm', t('alVidAdd'), t('alVidChange'), t('alVidRm'))}
+        ${sl('alVMode', t('alVidMode'), [['card', t('alVidModeCard')], ['full', t('alVidModeFull')]], () => g.vid.mode, v => {
+          g.vid.mode = v === 'full' ? 'full' : 'card';
+          if (v === 'full') { if (g.pos === 'center') g.pos = 'bottom'; g.dur = 0; toast(t('alModeFullOn'), 3500); }
+          setTimeout(refresh, 0);
+        })}
+        ${full ? sl('alVFit', t('alVidFit'), [['cover', t('alFitCover')], ['contain', t('alFitContain')]], () => g.vid.fit, v => g.vid.fit = v) : ''}
+        ${full ? rg('alVNameAt', t('alNameAt'), () => g.vid.nameSec, 1, 20, v => g.vid.nameSec = Math.round(v)) : ''}
+        ${tg('alVShow', t('alVidShow'), () => g.vid.show, v => g.vid.show = v)}
+        ${rg('alVVol', t('alVidVol'), () => g.vid.vol, 0, 100, v => g.vid.vol = v)}`, t(full ? 'alVidNote2' : 'alVidNote'));
+    };
+    const sndSec = () => {
+      const g = f();
+      return sec('snd', t('alSecSnd'), `
+        ${fileRow(g.snd.name, !!g.snd.id, 'alSPick', 'alSRm', t('alSndAdd'), t('alSndChange'), t('alSndRm'), `<button type="button" class="dbtn" id="alSPrev" ${g.snd.id ? '' : 'disabled'}>${esc2(t(pa ? 'alSndStop' : 'alSndPrev'))}</button>`)}
+        ${rg('alSVol', t('alSndVol'), () => g.snd.vol, 0, 100, v => g.snd.vol = v)}
+        ${rg('alSStart', t('alSndStart'), () => g.snd.start, 0, 120, v => g.snd.start = v)}
+        ${rg('alSFade', t('alSndFade'), () => g.snd.fade, 0, 5, v => g.snd.fade = v)}`, t('alSndNote'));
+    };
     const panel = () => {
       REG = []; const g = f();
       if (tab === 'tpl') return `
         ${sec('lang', t('alLang'), `<div class="al-langs">${[['ar', 'عربي'], ['en', 'English']].map(([l, n]) => `<button type="button" class="al-lang ${g.lang === l ? 'on' : ''}" data-lang="${l}">${n}</button>`).join('')}</div>`, t('alLangHint'))}
-        ${sec('tpl', t('alTplT'), `<div class="al-tpls">${TPLS.map(tp => `<button type="button" class="al-tpl ${g.tpl === tp.id ? 'on' : ''}" data-tpl="${tp.id}"><canvas width="360" height="124" data-tp="${tp.id}"></canvas><span class="al-tpn">${esc2(lang === 'ar' ? tp.ar : tp.en)}</span>${tp.vid ? `<em>${esc2(t('alTplVid'))}</em>` : ''}</button>`).join('')}</div>`, t('alTplHint'))}`;
+        ${sec('tpl', t('alTplT'), `<div class="al-tpls">${TPLS.map(tp => `<button type="button" class="al-tpl ${g.tpl === tp.id ? 'on' : ''}" data-tpl="${tp.id}"><canvas width="360" height="170" data-tp="${tp.id}"></canvas><span class="al-tpn">${esc2(lang === 'ar' ? tp.ar : tp.en)}</span>${tp.vid ? `<em>${esc2(t('alTplVid'))}</em>` : ''}</button>`).join('')}</div>`, t('alTplHint'))}`;
       if (tab === 'build') {
         const addB = (k, lbl, ic) => `<button type="button" class="dbtn primary" data-add="${k}"><i data-ic="${ic || 'plus'}"></i><span>${esc2(t(lbl))}</span></button>`;
         const row = (k, ic, title, on, adds, onTxt) => `<div class="al-el ${on ? 'has' : ''} ${sel === k ? 'sel' : ''}" data-el="${k}"><span class="al-elI"><i data-ic="${ic}"></i></span><span class="al-elT"><b>${esc2(title)}</b><small>${esc2(on ? (onTxt || t('alElOn')) : t('alElOff'))}</small></span><span class="al-elB">${on ? `<button type="button" class="dbtn" data-edit="${k}">${esc2(t('alEdit'))}</button><button type="button" class="dbtn danger" data-del="${k}">${esc2(t('alDelete'))}</button>` : adds}</span></div>`;
-        const els = row('img', 'image', t('alElImg'), g.img.show, addB('img', 'alAddImg2', 'image') + `<button type="button" class="dbtn" data-add="ico">${esc2(t('alAddIco'))}</button>`, g.img.data ? t('alElOn') : t('alAddIco'))
+        const els = row('img', 'image', t('alElImg'), g.img.show, addB('img', 'alAddImg2', 'image') + addB('logo', 'alAddLogo', 'image') + `<button type="button" class="dbtn" data-add="ico">${esc2(t('alAddIco'))}</button>`, g.img.data ? t('alElOn') : (g.ico === 'logo' ? t('alIcoLogo') : t('alAddIco')))
           + row('msg', 'chat', t('alElMsg'), g.msg.show, addB('msg', 'alAddMsg'))
           + row('nm', 'userplus', t('alElNm'), g.nm.show, addB('nm', 'alAddNm'))
+          + row('vid', 'film', t('alElVid'), !!g.vid.id, addB('vid', 'alVidAdd', 'film'), g.vid.name || t('alElOn'))
+          + row('snd', 'music', t('alElSnd'), !!g.snd.id, addB('snd', 'alSndAdd', 'music'), g.snd.name || t('alElOn'))
           + `<div class="al-el has ${sel === 'card' ? 'sel' : ''}" data-el="card"><span class="al-elI"><i data-ic="palette"></i></span><span class="al-elT"><b>${esc2(t('alElBg'))}</b><small>${esc2(g.bgimg.data ? t('alElOn') : t('alElBgOn'))}</small></span><span class="al-elB"><button type="button" class="dbtn" data-edit="card">${esc2(t('alEdit'))}</button>${g.bgimg.data ? `<button type="button" class="dbtn danger" data-del="bg">${esc2(t('alDelete'))}</button>` : addB('bg', 'alAddBg', 'image')}</span></div>`;
         let props = '';
         if (sel === 'msg' && g.msg.show) props = txtSec('msg', t('alSecMsg'), '', tx('al_msgText', t('alMsgText'), () => g.msg.text, v => g.msg.text = v.trim().slice(0, 40), DEFTXT[g.lang]), t('alMsgNote'));
         else if (sel === 'nm' && g.nm.show) props = txtSec('nm', t('alSecNm'), '', '', t('alNmNote'));
         else if (sel === 'img' && g.img.show) props = sec('img', t('alSecImg'), `
           <div class="al-row"><button type="button" class="dbtn primary" data-add="img">${esc2(t(g.img.data ? 'alChangeImg' : 'alAddImg'))}</button></div>
-          ${g.img.data ? '' : sl('alIco', t('alIco'), [['heart', t('alIcoHeart')], ['star', t('alIcoStar')], ['bolt', t('alIcoBolt')], ['crown', t('alIcoCrown')]], () => g.ico, v => g.ico = v)}
+          ${g.img.data ? '' : sl('alIco', t('alIco'), [['logo', t('alIcoLogo')], ['heart', t('alIcoHeart')], ['star', t('alIcoStar')], ['bolt', t('alIcoBolt')], ['crown', t('alIcoCrown')]], () => g.ico, v => g.ico = v)}
+          ${sl('alImgFx', t('alImgFx'), [['orbit', t('alFxOrbit')], ['pulse', t('alFxPulse')], ['float', t('alFxFloat')], ['none', t('alFxNone')]], () => g.img.fx, v => g.img.fx = v)}
           ${rg('alISize', t('alSize'), () => g.img.size, 24, 200, v => g.img.size = v)}
           ${rg('alIX', t('alX'), () => g.img.x, -60, g.w + 60, v => g.img.x = v)}
           ${rg('alIY', t('alY'), () => g.img.y, -60, g.h + 60, v => g.img.y = v)}`);
+        else if (sel === 'vid' && g.vid.id) props = vidSec();
+        else if (sel === 'snd' && g.snd.id) props = sndSec();
         else if (sel === 'card') props = sec('card', t('alSecCard2'), `
           <div class="grid2">${cl('alBg', t('alBg'), () => g.bg, v => g.bg = v)}${cl('alBg2', t('alBg2'), () => g.bg2, v => g.bg2 = v)}</div>
           ${rg('alBgA', t('alBgA'), () => g.bgA, 0, 100, v => g.bgA = v)}
@@ -568,23 +664,12 @@
           ${rg('alH', t('alCH'), () => g.h, 70, 520, v => g.h = Math.round(v))}`, t('alBgHint'));
         else props = `<div class="al-hint al-pick">${esc2(t('alPickEl'))}</div>`;
         return `
-        <input type="file" id="alFile" accept="image/*" style="display:none"><input type="file" id="alBgFile" accept="image/*" style="display:none">
+        <input type="file" id="alFile" accept="image/*" style="display:none"><input type="file" id="alBgFile" accept="image/*" style="display:none">${mediaInputs()}
         ${sec('start', t('alStartT'), `<div class="al-row al-start"><button type="button" class="dbtn danger" id="alBlank"><i data-ic="refresh"></i><span>${esc2(t('alBlank'))}</span></button><button type="button" class="dbtn" data-tab-go="tpl"><i data-ic="grid"></i><span>${esc2(t('alPickTpl'))}</span></button></div><div class="al-langrow"><span>${esc2(t('alLang'))}</span><div class="al-langs">${[['ar', 'عربي'], ['en', 'English']].map(([l, n]) => `<button type="button" class="al-lang ${g.lang === l ? 'on' : ''}" data-lang="${l}">${n}</button>`).join('')}</div></div>`, t('alStartHint'))}
         ${sec('els', t('alElsT'), `<div class="al-els">${els}</div>`, t('alElsHint'))}
         ${props}`;
       }
-      if (tab === 'med') return `
-        ${sec('vid', t('alSecVid'), `
-          ${fileRow(g.vid.name, !!g.vid.id, 'alVPick', 'alVRm', t('alVidAdd'), t('alVidChange'), t('alVidRm'))}
-          <input type="file" id="alVFile" accept="video/mp4,video/webm,.mp4,.webm,.mov,.m4v" style="display:none">
-          ${tg('alVShow', t('alVidShow'), () => g.vid.show, v => g.vid.show = v)}
-          ${rg('alVVol', t('alVidVol'), () => g.vid.vol, 0, 100, v => g.vid.vol = v)}`, t('alVidNote'))}
-        ${sec('snd', t('alSecSnd'), `
-          ${fileRow(g.snd.name, !!g.snd.id, 'alSPick', 'alSRm', t('alSndAdd'), t('alSndChange'), t('alSndRm'), `<button type="button" class="dbtn" id="alSPrev" ${g.snd.id ? '' : 'disabled'}>${esc2(t(pa ? 'alSndStop' : 'alSndPrev'))}</button>`)}
-          <input type="file" id="alSFile" accept="audio/*,.mp3,.wav,.ogg,.m4a,.aac,.flac,.opus" style="display:none">
-          ${rg('alSVol', t('alSndVol'), () => g.snd.vol, 0, 100, v => g.snd.vol = v)}
-          ${rg('alSStart', t('alSndStart'), () => g.snd.start, 0, 120, v => g.snd.start = v)}
-          ${rg('alSFade', t('alSndFade'), () => g.snd.fade, 0, 5, v => g.snd.fade = v)}`, t('alSndNote'))}`;
+      if (tab === 'med') return `${mediaInputs()}${vidSec()}${sndSec()}`;
       if (tab === 'look') return `
         ${sec('card', t('alSecCard'), `
           ${rg('alW', t('alCW'), () => g.w, 240, 900, v => g.w = Math.round(v))}
@@ -656,8 +741,9 @@
       const live = advance(now) && curA && curA.test;
       if (live) drawAlert(c, 1280, 720, cf, curA, now - curA.t0, holdOf(cf));
       else {
-        const [x, y] = cardXY();
-        card(c, x, y, cf, testName, 1, now, { video: prevVid() });
+        const [x, y] = cardXY(), pvv = prevVid();
+        if (isFull(cf)) fullVid(c, 1280, 720, cf, pvv, 1);
+        card(c, x, y, cf, testName, 1, now, { video: isFull(cf) ? null : pvv });
         if (drag && drag.k === 'card') {
           c.save(); c.setLineDash([8, 6]); c.lineWidth = 1.5; c.strokeStyle = 'rgba(255,255,255,.35)';
           c.beginPath(); c.moveTo(640, 0); c.lineTo(640, 720); c.moveTo(0, 360); c.lineTo(1280, 360); c.stroke(); c.restore();
@@ -749,19 +835,27 @@
       stopPA();
       const o = isV ? f().vid : f().snd; dropId(o.id); o.id = id; o.name = file.name.slice(0, 80); newIds.add(id);
       if (isV) { o.show = true; if (f().dur !== 0) { f().dur = 0; toast(t('alVidAuto'), 4500); } }
+      if (tab === 'build') sel = isV ? 'vid' : 'snd';
       save(); refresh();
     }
     function readGen() { save(); paintBtn(); }
 
     /* ---------- v2.3: بناء الأليرت من الصفر ---------- */
-    function relayout() {                                      // يرتب النصوص حسب وجود الصورة وعدد العناصر
-      const g = f(), left = g.img.show ? Math.round(g.img.x + g.img.size / 2 + 16) : 14, cx = Math.round((left + g.w - 14) / 2);
+    function relayout() {                                      // يرتب العناصر: عمودي (البطاقة الطويلة) أو أفقي
+      const g = f();
+      if (g.h > 200) {
+        const it = []; if (g.img.show) it.push(['img', Math.round(g.img.size * (g.img.fx === 'orbit' ? 1.3 : 1.05))]); if (g.msg.show) it.push(['msg', Math.round(g.msg.size * 1.35)]); if (g.nm.show) it.push(['nm', Math.round(g.nm.size * 1.3)]);
+        const gap = 8, tot = it.reduce((q, a) => q + a[1], 0) + gap * Math.max(0, it.length - 1); let yy = (g.h - tot) / 2;
+        it.forEach(([k, hh]) => { const o = g[k]; o.x = Math.round(g.w / 2); o.y = Math.round(yy + hh / 2); yy += hh + gap; });
+        return;
+      }
+      const left = g.img.show ? Math.round(g.img.x + g.img.size / 2 + 16) : 14, cx = Math.round((left + g.w - 14) / 2);
       ['msg', 'nm'].forEach(k => { g[k].x = cx; });
       if (g.msg.show && g.nm.show) { g.msg.y = Math.round(g.h / 2 - 17); g.nm.y = Math.round(g.h / 2 + 19); }
       else { g.msg.y = g.nm.y = Math.round(g.h / 2); }
     }
     function blankCard() {
-      const g = f(), o = Object.assign(DEFF(), { tpl: 'custom', lang: g.lang, on: g.on, dur: g.dur, pos: 'center', px: g.px, py: g.py, vid: g.vid, snd: g.snd });
+      const g = f(), o = Object.assign(DEFF(), { tpl: 'custom', lang: g.lang, on: g.on, dur: g.dur, pos: (g.vid.mode === 'full' && g.vid.id) ? 'bottom' : 'center', px: g.px, py: g.py, vid: g.vid, snd: g.snd });
       o.img = Object.assign(DIMG(), { show: false }); o.msg = Object.assign(DMSG(), { show: false }); o.nm = Object.assign(DNAME(), { show: false });
       const n = norm(o); n.img.data = ''; n.msg.text = ''; CFG.follow = n; sel = 'card';
       save(); refresh(); toast(t('alBlankDone'), 2200);
@@ -770,13 +864,18 @@
       const g = f();
       if (k === 'img') { const fi = $('alFile'); if (fi) fi.click(); return; }
       if (k === 'bg') { const fi = $('alBgFile'); if (fi) fi.click(); return; }
-      if (k === 'ico') { g.img.show = true; g.img.data = ''; g.img.y = Math.round(g.h / 2); k = 'img'; }
+      if (k === 'vid') { const fi = $('alVFile'); if (fi) fi.click(); return; }
+      if (k === 'snd') { const fi = $('alSFile'); if (fi) fi.click(); return; }
+      if (k === 'logo') { g.img.show = true; g.img.data = ''; g.ico = 'logo'; g.img.fx = 'orbit'; k = 'img'; }
+      else if (k === 'ico') { g.img.show = true; g.img.data = ''; g.img.y = Math.round(g.h / 2); k = 'img'; }
       else if (k === 'msg') g.msg.show = true; else if (k === 'nm') g.nm.show = true;
       sel = k; relayout(); save(); refresh();
       if (k === 'msg') { const i = $('al_msgText'); if (i) i.focus(); }
     }
     function delEl(k) {
       const g = f();
+      if (k === 'vid') { dropId(g.vid.id); g.vid = DVID(); if (sel === 'vid') sel = 'card'; save(); refresh(); return; }
+      if (k === 'snd') { stopPA(); dropId(g.snd.id); g.snd = DSND(); if (sel === 'snd') sel = 'card'; save(); refresh(); return; }
       if (k === 'bg') g.bgimg.data = ''; else if (k === 'img') { g.img.show = false; g.img.data = ''; } else g[k].show = false;
       if (sel === k) sel = 'card';
       if (k !== 'bg') relayout();
@@ -809,7 +908,7 @@
       document.querySelectorAll('[data-edit]').forEach(b => b.onclick = () => { sel = b.dataset.edit; refresh(); });
       document.querySelectorAll('[data-del]').forEach(b => b.onclick = () => delEl(b.dataset.del));
       document.querySelectorAll('[data-tab-go]').forEach(b => b.onclick = () => { tab = b.dataset.tabGo; refresh(); $('alPanel').scrollTop = 0; });
-      document.querySelectorAll('.al-el').forEach(r => r.onclick = e => { if (e.target.closest('button')) return; const k = r.dataset.el; if (k === 'card' || (k === 'img' ? g.img.show : g[k].show)) { sel = k; refresh(); } });
+      document.querySelectorAll('.al-el').forEach(r => r.onclick = e => { if (e.target.closest('button')) return; const k = r.dataset.el; if (k === 'card' || (k === 'img' ? g.img.show : k === 'vid' ? !!g.vid.id : k === 'snd' ? !!g.snd.id : g[k].show)) { sel = k; refresh(); } });
       on('alBlank', 'click', blankCard);
       document.querySelectorAll('.al-fonts').forEach(box_ => box_.querySelectorAll('.al-font').forEach(b => b.onclick = () => {
         const o = f()[box_.dataset.fk]; if (!o) return; o.font = b.dataset.font; save();

@@ -31,6 +31,7 @@ contextBridge.exposeInMainWorld('api', {
   kickCategories: (q) => ipcRenderer.invoke('kick:categories', q),
   kickSetInfo: (req) => ipcRenderer.invoke('kick:setInfo', req),
   kickOpenWeb: (kind) => ipcRenderer.invoke('kick:openWeb', kind),
+  kickOpenUser: (name) => ipcRenderer.invoke('kick:openUser', name),
   kickWebLogin: () => ipcRenderer.invoke('kick:webLogin'),
   kickWebLogout: () => ipcRenderer.invoke('kick:webLogout'),
   kickWebToken: (t) => ipcRenderer.invoke('kick:webToken', t),

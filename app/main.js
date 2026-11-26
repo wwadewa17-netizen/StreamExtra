@@ -1640,6 +1640,7 @@ ipcMain.handle('kick:chatRestart', () => {
   const sl = bridge.slug; bridgeStop(); kick.web = {}; lastWeb = { slug: '', at: 0 };
   return { ok: true, slug: sl };
 });
+ipcMain.handle('kick:openUser', (_e, name) => { const s = String(name || '').trim().toLowerCase().replace(/_/g, '-'); if (!/^[a-z0-9][a-z0-9\-]{0,40}$/.test(s)) return { ok: false }; shell.openExternal('https://kick.com/' + s); return { ok: true }; });
 ipcMain.handle('kick:openDev', () => { shell.openExternal('https://kick.com/settings/developer'); return { ok: true }; });
 
 

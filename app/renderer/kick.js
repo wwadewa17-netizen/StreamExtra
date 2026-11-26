@@ -1036,7 +1036,6 @@ body{color:${txt}!important}
     $('kRedirect').value = K.cfg.redirectUri || 'http://localhost:8787/callback';
     $('kClientId').value = K.cfg.clientId || '';
     $('kClientSecret').value = ''; $('kClientSecret').placeholder = K.cfg.hasSecret ? '••••••••••••' : '';
-    $('kChannelIn').value = K.cfg.channel || '';
     $('kRoomIn').value = K.cfg.chatroomId || '';
     setConn(); try{ paintSync(); }catch(e){} if(window.KX) KX.cfgChanged();
   }
@@ -1047,11 +1046,11 @@ body{color:${txt}!important}
   ['kClientId', 'kClientSecret'].forEach(id => $(id).addEventListener('input', () => { try{ setConn(); }catch(e){} }));
   $('kSecEye').onclick = () => { const k = $('kClientSecret'); k.type = k.type === 'password' ? 'text' : 'password'; };
   $('kOpenDev').onclick = () => api.kickOpenDev();
-  $('kChannelIn').addEventListener('change', () => { if(!K.busy) $('kConnectBtn').click(); });   // v1.4: حفظ تلقائي لاسم القناة
+  /* v2.5: خانة اسم القناة حُذفت — القناة تُؤخذ تلقائياً من حساب Kick المسجَّل دخوله */
   $('kConnectBtn').onclick = async () => {
     if(K.busy) return;
     const was = K.cfg || {};
-    const form = { clientId: $('kClientId').value, clientSecret: $('kClientSecret').value, redirectUri: $('kRedirect').value, channel: $('kChannelIn').value, chatroomId: $('kRoomIn').value };
+    const form = { clientId: $('kClientId').value, clientSecret: $('kClientSecret').value, redirectUri: $('kRedirect').value, chatroomId: $('kRoomIn').value };
     K.busy = true; $('kConnectBtn').disabled = true;
     try{
       K.cfg = await api.kickSave(form);

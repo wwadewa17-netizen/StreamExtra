@@ -49,6 +49,24 @@ Build_StreamExtra.cmd still builds a portable "StreamExtra" folder for testing. 
 
 Your settings and Kick link are stored in %AppData%\StreamExtra (+ a backup in %LocalAppData%\StreamExtra-Backup).
 
+v2.4 (additions)
+----
+- Kick settings: the "Channel" box was REMOVED. The channel is taken automatically from the Kick account you log in with.
+- Activity page: follower names fixed. Kick often sends the follow WITHOUT a name; now the name is fetched from the Kick panel within a few seconds
+  ("Fetching name..." shows meanwhile), merged into the same row (no duplicate rows) and the alert shows the real name (waits max 8 s, then shows without name).
+- Activity rows: quick buttons on hover -> Open profile on Kick, Copy name, Replay alert.
+
+v2.4
+----
+- NEW default follow alert "Stream Extra": animated site LOGO (pulsing glow + orbiting rings) -> "أهلاً وسهلاً" / "Welcome" -> account name. Red like the site. Arabic + English (Templates tab -> Template language).
+- NEW "Full-screen clip" mode (Media tab or Build tab -> Video): the video (e.g. an anime clip) plays full screen with its own sound. N seconds before it ends a box with the follower name appears
+  (N is adjustable; the box is the same template - remove the logo/welcome in the Build tab to keep the name only). Display time is set to "Auto" automatically.
+- Song: added from Media tab or Build tab; plays with the alert on every new follower (together with the video if you add both).
+- Build tab: new add buttons -> Site logo, Video, Song. Logo animation: Orbit / Pulse / Float / None.
+- Long follower names shrink to fit instead of being cut. Welcome + name appear one after the other.
+- Old v2.3 alert settings are converted once to the new design (your image, video, song and custom text are kept).
+- New file: app/renderer/logodata.js (the logo embedded so the stream canvas is never blocked).
+
 v2.3
 ----
 - NEW LAYOUT: Kick chat = LEFT column (full height) | preview in the MIDDLE with Scenes - Sources - Mixer under it | Controls + Session = RIGHT column.
