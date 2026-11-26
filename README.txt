@@ -49,6 +49,16 @@ Build_StreamExtra.cmd still builds a portable "StreamExtra" folder for testing. 
 
 Your settings and Kick link are stored in %AppData%\StreamExtra (+ a backup in %LocalAppData%\StreamExtra-Backup).
 
+v2.2
+----
+- Follow alert: only 4 TEMPLATES now (Kick Classic, Neon, Glass, Gold VIP). Each one works in Arabic AND English:
+  Templates tab -> "Template language" (عربي / English) changes the default welcome text and the font list.
+- 10+ fonts per language (Arabic list / English list). Each font is previewed in its own look; only fonts installed on the PC are listed.
+- TEMPLATE BACKGROUND: two colors (gradient) + opacity, or a background IMAGE (with dimming). Applying a template restores its own background.
+- WELCOME MESSAGE and ACCOUNT NAME: size, color, font, weight and position. In the preview: drag to move, mouse wheel to resize.
+- The card is now in the CENTER of the screen by default. Drag the card in the preview (snaps to center) or use General tab -> "Template position" (X / Y + Center button).
+- Old v2.1 alert settings are converted automatically (card moved to the center once, texts/image/sound/video kept).
+
 v2.1
 ----
 - Follow alert: 11 ready-made TEMPLATES (Kick Classic, Neon, Glass, Violet, Fire, Ocean, Gold VIP, Clean White, Pill, Sunset, Cinema).

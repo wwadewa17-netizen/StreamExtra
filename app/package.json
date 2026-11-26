@@ -5,22 +5,22 @@
   "main": "main.js",
   "author": "Stream Extra",
   "license": "MIT",
-  "version": "2.1",
+  "version": "2.2",
   "releaseDate": "2026-11-26",
   "notes": {
     "ar": [
-      "قوالب جاهزة لأليرت المتابعة: 11 قالباً (كيك كلاسيك، نيون، زجاجي، بنفسجي، ناري، محيط، ذهبي VIP، أبيض بسيط، كبسولة، غروب، سينمائي) تُطبَّق بنقرة واحدة مع معاينة حيّة لكل قالب، وتبقى صورتك ونصوصك وملفاتك كما هي",
-      "رسالة الترحيب واسم المتابع صارا منفصلين: لكل واحد نصه وخطه وسماكته وحجمه ولونه ومكانه، ويُسحبان بالماوس مباشرة في المعاينة",
-      "نظام صوت احترافي: إضافة أغنية (MP3 / WAV / OGG / M4A) مع مستوى الصوت ونقطة البدء وتلاشي النهاية وزر استماع، والصوت يصل للبث ولسماعاتك",
-      "إضافة فيديو MP4 بصوته (الأغنية والصورة في مقطع واحد) يظهر داخل بطاقة الأليرت، ومدة «تلقائي» تُبقي الأليرت حتى نهاية الفيديو",
-      "تصميم جديد لنافذة الأليرتات: معاينة مباشرة مع اسم تجريبي وزر تشغيل، وتبويبات (القوالب · النصوص · الوسائط · الشكل · عام)، وتحكم بحجم البطاقة والتدرّج والتوهج واللمعة والشرارات وحركة الظهور"
+      "أليرت المتابعة: صارت القوالب 4 أنواع فقط (كيك كلاسيك، نيون، زجاجي، ذهبي VIP) وكل قالب يعمل بالعربي والإنجليزي — اختر لغة القالب فيتغيّر نص رسالة الترحيب الافتراضي (متابع جديد / New follower) والخطوط",
+      "أكثر من 10 خطوط عربية وإنجليزية: قائمة الخطوط تتغيّر حسب لغة القالب، وكل خط معروض بشكله، وتظهر فقط الخطوط المتوفرة على جهازك",
+      "خلفية القالب: تغيير لون الخلفية والتدرّج والشفافية، أو إضافة صورة خلفية مع التحكم بتعتيمها",
+      "رسالة الترحيب واسم الحساب: تكبير وتصغير وتغيير اللون والخط والمكان، وعجلة الماوس فوق النص في المعاينة تكبّره وتصغّره",
+      "القالب يظهر الآن في وسط الشاشة افتراضياً، ويمكن تحريكه بالسحب بالماوس في المعاينة (يلتصق بالمنتصف تلقائياً) أو بالأرقام من تبويب «عام»"
     ],
     "en": [
-      "Ready-made follow-alert templates: 11 looks (Kick Classic, Neon, Glass, Violet, Fire, Ocean, Gold VIP, Clean White, Pill, Sunset, Cinema) applied in one click with a live thumbnail each; your image, texts and files are kept",
-      "Welcome message and follower name are now separate: each has its own text, font, weight, size, color and position, and both can be dragged right in the preview",
-      "Professional sound system: add a song (MP3 / WAV / OGG / M4A) with volume, start point, fade-out and a Listen button; the sound reaches the stream and your speakers",
-      "Add an MP4 video with its own sound (song + picture in a single clip) shown inside the alert card; the «Auto» duration keeps the alert until the video ends",
-      "New alerts window design: live preview with a test name and a play button, tabs (Templates · Texts · Media · Look · General), and control over card size, gradient, glow, shine, sparkles and entrance animation"
+      "Follow alert: now only 4 templates (Kick Classic, Neon, Glass, Gold VIP), and every template works in Arabic and English — pick the template language and the default welcome text (متابع جديد / New follower) and the fonts follow it",
+      "10+ Arabic and English fonts: the font list changes with the template language, each font is shown in its own look, and only fonts installed on your PC are listed",
+      "Template background: change the background color, gradient and opacity, or add a background image with adjustable dimming",
+      "Welcome message and account name: resize, recolor, change font and position; the mouse wheel over a text in the preview resizes it",
+      "The template now shows in the middle of the screen by default and can be moved by dragging it in the preview (it snaps to the center) or with numbers in the General tab"
     ]
   }
 }

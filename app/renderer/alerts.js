@@ -1,7 +1,8 @@
 /* ============================================================
-   نظام الأليرتات (v2.1) — أليرت المتابعة الجديدة
+   نظام الأليرتات (v2.2) — أليرت المتابعة الجديدة
    - يُرسم الأليرت على نفس الكانفس (cv) اللي ينبث، فيظهر في المعاينة وعند المشاهدين.
    - يشتغل من حدث المتابعة اللي يوصل لموجز النشاط (kpanel.js → addAct).
+   - v2.2: 4 قوالب بلغتين (عربي / English) · خطوط عربية وإنجليزية حسب لغة القالب · خلفية القالب (ألوان/تدرّج/صورة) · القالب في وسط الشاشة وقابل للسحب والتحريك.
    - v2.1: قوالب جاهزة · رسالة الترحيب واسم المتابع منفصلان · أغنية · فيديو MP4 (بصوته) · نافذة بتبويبات.
    - الصوت والفيديو يمرّان عبر الخلاط (getMixer) فيصلان للبث ولسماعاتك.
    - ملفات الصوت/الفيديو تُحفظ في IndexedDB بمفاتيح تبدأ بـ alert_ (gcAssets في app.js يتجاوزها).
@@ -23,7 +24,7 @@
     alSave: 'حفظ',
     alNote: 'يظهر الأليرت على المعاينة وعلى البث نفسه عند وصول متابع جديد، ويُشغَّل صوته مع البث. لو وصل أكثر من متابع بنفس اللحظة تظهر الأليرتات واحد ورا الثاني.',
     alOnToast: 'تم تفعيل الأليرتات', alOffToast: 'تم إيقاف الأليرتات', alTestName: 'اسم_المتابع',
-    alPrev: 'معاينة مباشرة — اسحب الرسالة أو الاسم أو الصورة بالماوس', alPick: 'اختيار صورة', alRemove: 'حذف الصورة', alReset: 'إعادة الضبط',
+    alPrev: 'معاينة مباشرة — اسحب القالب أو الرسالة أو الاسم أو الصورة بالماوس، وعجلة الماوس تكبّر/تصغّر النص', alPick: 'اختيار صورة', alRemove: 'حذف الصورة', alReset: 'إعادة الضبط',
     alSize: 'الحجم', alColor: 'اللون', alShowImg: 'إظهار الصورة / الأيقونة', alImgErr: 'تعذر قراءة الصورة',
     alTypes: 'أنواع الأليرتات', alSecGen: 'الإعدادات العامة', alSecImg: 'الصورة',
     alX: 'الموضع أفقي', alY: 'الموضع عمودي', alAccent: 'لون الإطار والأيقونة', alBg: 'لون الخلفية', alBgA: 'شفافية الخلفية', alResetAll: 'إعادة ضبط التصميم',
@@ -48,7 +49,13 @@
     alAnim: 'حركة الظهور', alAnimSlide: 'انزلاق', alAnimPop: 'تكبير', alAnimFade: 'تلاشي', alSecColors: 'الألوان',
     alDurAuto: 'تلقائي (حسب الفيديو/الأغنية)', alVidAuto: 'تم ضبط مدة الظهور على «تلقائي» لتناسب طول الفيديو (تقدر تغيّرها من تبويب عام)',
     alPlay: 'تشغيل التجربة', alTestNm: 'اسم المتابع للتجربة',
-    alMediaErr: 'تعذر قراءة الملف أو أن صيغته غير مدعومة', alTooBig: 'الملف كبير جداً (الحد الأقصى {n} ميغابايت)'
+    alMediaErr: 'تعذر قراءة الملف أو أن صيغته غير مدعومة', alTooBig: 'الملف كبير جداً (الحد الأقصى {n} ميغابايت)',
+    /* v2.2 */
+    alLang: 'لغة القالب', alLangHint: 'اختر لغة القالب: يتغيّر النص الافتراضي لرسالة الترحيب (متابع جديد / New follower) وقائمة الخطوط المناسبة للغة. تظهر الخطوط المتوفرة على جهازك فقط، وكل خط بشكله.',
+    alSecBg: 'خلفية القالب', alBgAdd: 'إضافة صورة خلفية', alBgChange: 'تغيير صورة الخلفية', alBgRm: 'حذف صورة الخلفية', alBgDim: 'تعتيم صورة الخلفية',
+    alBgHint: 'غيّر لون الخلفية أو التدرّج أو ضع صورة خلفية للقالب. تطبيق قالب جديد يُرجع خلفيته الأصلية.',
+    alSecPos: 'مكان القالب على الشاشة', alPosCustom: 'مخصص', alCardX: 'موضع القالب أفقي', alCardY: 'موضع القالب عمودي', alCenterNow: 'توسيط القالب',
+    alPosHint: 'القالب يظهر افتراضياً في وسط الشاشة. اسحبه بالماوس داخل المعاينة (يلتصق بالمنتصف تلقائياً) أو عدّل الأرقام.'
   });
   Object.assign(I18N.en, {
     kAlertT: 'Alert settings',
@@ -59,7 +66,7 @@
     alSave: 'Save',
     alNote: 'The alert shows on the preview and on the stream itself when a new follower arrives, and its sound plays on the stream. If several arrive at once they show one after another.',
     alOnToast: 'Alerts enabled', alOffToast: 'Alerts disabled', alTestName: 'follower_name',
-    alPrev: 'Live preview — drag the message, name or image with the mouse', alPick: 'Choose image', alRemove: 'Remove image', alReset: 'Reset',
+    alPrev: 'Live preview — drag the card, message, name or image with the mouse; the mouse wheel resizes text', alPick: 'Choose image', alRemove: 'Remove image', alReset: 'Reset',
     alSize: 'Size', alColor: 'Color', alShowImg: 'Show image / icon', alImgErr: 'Could not read the image',
     alTypes: 'Alert types', alSecGen: 'General', alSecImg: 'Image',
     alX: 'Position X', alY: 'Position Y', alAccent: 'Border & icon color', alBg: 'Background color', alBgA: 'Background opacity', alResetAll: 'Reset design',
@@ -84,21 +91,42 @@
     alAnim: 'Entrance animation', alAnimSlide: 'Slide', alAnimPop: 'Pop', alAnimFade: 'Fade', alSecColors: 'Colors',
     alDurAuto: 'Auto (follows video/song)', alVidAuto: 'Display time set to “Auto” so the whole video plays (change it in the General tab)',
     alPlay: 'Play test', alTestNm: 'Test follower name',
-    alMediaErr: 'Could not read the file, or its format is not supported', alTooBig: 'File is too large (max {n} MB)'
+    alMediaErr: 'Could not read the file, or its format is not supported', alTooBig: 'File is too large (max {n} MB)',
+    /* v2.2 */
+    alLang: 'Template language', alLangHint: 'Pick the template language: it changes the default welcome text (متابع جديد / New follower) and the font list for that language. Only fonts installed on your PC are shown, each in its own look.',
+    alSecBg: 'Template background', alBgAdd: 'Add background image', alBgChange: 'Change background image', alBgRm: 'Remove background image', alBgDim: 'Background image dimming',
+    alBgHint: 'Change the background color or gradient, or add a background image. Applying a new template restores its original background.',
+    alSecPos: 'Template position on screen', alPosCustom: 'Custom', alCardX: 'Card position X', alCardY: 'Card position Y', alCenterNow: 'Center the card',
+    alPosHint: 'The template shows in the middle of the screen by default. Drag it in the preview (it snaps to the center) or edit the numbers.'
   });
 
   /* ---------- الإعدادات ---------- */
-  const KEY = 'se_kalert', POS = ['top', 'bottom', 'tr', 'tl', 'br', 'bl', 'center'], DURS = [0, 3, 5, 8, 10, 15, 20, 30];
+  const KEY = 'se_kalert', POS = ['top', 'bottom', 'tr', 'tl', 'br', 'bl', 'center', 'custom'], DURS = [0, 3, 5, 8, 10, 15, 20, 30];
   const ANIMS = ['slide', 'pop', 'fade'], ICOS = ['heart', 'star', 'bolt', 'crown'], WEIGHTS = [400, 600, 700, 800];
-  const FONTS_ = ['Segoe UI', 'Arial', 'Tahoma', 'Verdana', 'Impact', 'Georgia', 'Courier New'];
+  /* خطوط حسب اللغة (خطوط ويندوز الجاهزة + بعض الخطوط الشائعة لو مثبّتة عند المستخدم) — تُعرض فقط المتوفر منها */
+  const FONTS_AR = ['Segoe UI', 'Tahoma', 'Arial', 'Times New Roman', 'Dubai', 'Sakkal Majalla', 'Traditional Arabic', 'Simplified Arabic', 'Arabic Typesetting', 'Andalus', 'Aldhabi', 'Courier New', 'Microsoft Sans Serif', 'Cairo', 'Tajawal', 'Almarai', 'Amiri', 'Noto Naskh Arabic', 'IBM Plex Sans Arabic'];
+  const FONTS_EN = ['Segoe UI', 'Arial', 'Verdana', 'Tahoma', 'Trebuchet MS', 'Impact', 'Arial Black', 'Georgia', 'Times New Roman', 'Palatino Linotype', 'Comic Sans MS', 'Courier New', 'Lucida Console', 'Consolas', 'Bahnschrift', 'Segoe Script', 'Calibri', 'Cambria'];
+  const FONTS_ = Array.from(new Set(FONTS_AR.concat(FONTS_EN)));
+  const fontOk = (() => {                                  // هل الخط مثبّت؟ (مقارنة عرض نص مع الخطوط العامة)
+    const cache = {}, cx = document.createElement('canvas').getContext('2d'), S = 'mmmmmmmmmmlli0OWاللغةالعربية';
+    return name => {
+      if (name in cache) return cache[name];
+      let ok = false;
+      for (const b of ['monospace', 'serif', 'sans-serif']) { cx.font = `40px ${b}`; const w0 = cx.measureText(S).width; cx.font = `40px "${name}", ${b}`; if (cx.measureText(S).width !== w0) { ok = true; break; } }
+      return (cache[name] = ok);
+    };
+  })();
+  const DEFTXT = { ar: 'متابع جديد', en: 'New follower' }, DEFNAME = { ar: 'متابع', en: 'Follower' }, TESTN = { ar: 'اسم_المتابع', en: 'follower_name' };
+  const curLang = () => (typeof lang !== 'undefined' && lang === 'en') ? 'en' : 'ar';
   const FONT = '"Segoe UI", Tahoma, Arial, sans-serif';
   const DIMG = () => ({ data: '', show: true, x: 56, y: 56, size: 72 });
+  const DBGI = () => ({ data: '', dim: 35 });
   const DNAME = () => ({ show: true, x: 276, y: 76, size: 36, color: '#ffffff', font: 'Segoe UI', weight: 800 });
   const DMSG = () => ({ show: true, text: '', x: 276, y: 44, size: 22, color: '#53fc18', font: 'Segoe UI', weight: 700 });
   const DVID = () => ({ id: '', name: '', vol: 100, show: true });
   const DSND = () => ({ id: '', name: '', vol: 80, start: 0, fade: 1 });
   const DEFF = () => ({
-    tpl: 'classic', on: true, dur: 5, pos: 'top', anim: 'slide', fx: false, w: 470, h: 112,
+    v: 2, lang: 'ar', px: 405, py: 304, bgimg: DBGI(), tpl: 'classic', on: true, dur: 5, pos: 'center', anim: 'slide', fx: false, w: 470, h: 112,
     radius: 24, bw: 3, glow: 0, glass: false, shine: false, ico: 'heart',
     accent: '#53fc18', bg: '#0e1014', bg2: '#0e1014', bgA: 94,
     img: DIMG(), nm: DNAME(), msg: DMSG(), vid: DVID(), snd: DSND()
@@ -108,17 +136,22 @@
   const rgba = (h, a) => { const m = h.slice(1).match(/../g).map(v => parseInt(v, 16)); return `rgba(${m[0]},${m[1]},${m[2]},${a})`; };
   function normTxt(src, def, f) {
     const o = Object.assign(def, src || {});
-    return { show: o.show !== false, text: String(o.text || '').slice(0, 40), x: num(o.x, -60, f.w + 60, def.x), y: num(o.y, -60, f.h + 60, def.y), size: num(o.size, 10, 120, def.size),
+    return { show: o.show !== false, text: String(o.text || '').slice(0, 40), x: num(o.x, -60, f.w + 60, def.x), y: num(o.y, -60, f.h + 60, def.y), size: num(o.size, 10, 160, def.size),
       color: hex(o.color, def.color), font: FONTS_.includes(o.font) ? o.font : 'Segoe UI', weight: WEIGHTS.includes(+o.weight) ? +o.weight : def.weight };
   }
   function norm(o) {
     o = o || {};
     const f = Object.assign(DEFF(), o);
-    f.tpl = String(f.tpl || 'custom').slice(0, 24); f.on = !!f.on; f.dur = DURS.includes(+f.dur) ? +f.dur : 5; f.pos = POS.includes(f.pos) ? f.pos : 'top';
+    f.lang = (o.lang === 'en' || o.lang === 'ar') ? o.lang : curLang();
+    f.tpl = String(f.tpl || 'custom').slice(0, 24); f.on = !!f.on; f.dur = DURS.includes(+f.dur) ? +f.dur : 5; f.pos = POS.includes(f.pos) ? f.pos : 'center';
+    if (!o.v || o.v < 2) f.pos = 'center';                   // ترحيل من v2.1: القالب في وسط الشاشة
+    f.v = 2; f.px = Math.round(num(f.px, -900, 1700, 405)); f.py = Math.round(num(f.py, -600, 1100, 304));
     f.anim = ANIMS.includes(f.anim) ? f.anim : 'slide'; f.fx = !!f.fx; f.glass = !!f.glass; f.shine = !!f.shine; f.ico = ICOS.includes(f.ico) ? f.ico : 'heart';
     f.w = Math.round(num(f.w, 240, 900, 470)); f.h = Math.round(num(f.h, 70, 520, 112));
     f.radius = Math.round(num(f.radius, 0, 80, 24)); f.bw = Math.round(num(f.bw, 0, 10, 3)); f.glow = Math.round(num(f.glow, 0, 60, 0));
     f.accent = hex(f.accent, '#53fc18'); f.bg = hex(f.bg, '#0e1014'); f.bg2 = hex(f.bg2, f.bg); f.bgA = num(f.bgA, 0, 100, 94);
+    const bg_ = Object.assign(DBGI(), o.bgimg || {});
+    f.bgimg = { data: typeof bg_.data === 'string' && bg_.data.startsWith('data:image/') ? bg_.data : '', dim: Math.round(num(bg_.dim, 0, 85, 35)) };
     const i = Object.assign(DIMG(), o.img || {});
     f.img = { data: typeof i.data === 'string' && i.data.startsWith('data:image/') ? i.data : '', show: i.show !== false, x: num(i.x, -60, f.w + 60, 56), y: num(i.y, -60, f.h + 60, 56), size: num(i.size, 24, 200, 72) };
     const nmDef = DNAME(); f.nm = normTxt(o.nm, nmDef, f); f.nm.text = '';
@@ -144,22 +177,18 @@
   const GEO = { w: 470, h: 112, img: { x: 56, y: 56, size: 72, show: true }, msg: { x: 276, y: 44, size: 22 }, nm: { x: 276, y: 76, size: 36 } };
   const mk = p => Object.assign({}, GEO, p, { img: Object.assign({}, GEO.img, p.img), msg: Object.assign({}, GEO.msg, p.msg), nm: Object.assign({}, GEO.nm, p.nm) });
   const TPLS = [
-    { id: 'classic', ar: 'كيك كلاسيك', en: 'Kick Classic', p: mk({ accent: '#53fc18', bg: '#0e1014', bg2: '#0e1014', bgA: 94, radius: 24, bw: 3, glow: 0, ico: 'heart', anim: 'slide', msg: { color: '#53fc18' }, nm: { color: '#ffffff' } }) },
-    { id: 'neon', ar: 'نيون', en: 'Neon', p: mk({ accent: '#00e5ff', bg: '#090a1f', bg2: '#1a0b3a', bgA: 96, radius: 18, bw: 3, glow: 26, shine: true, fx: true, ico: 'bolt', anim: 'pop', msg: { color: '#ff4fd8' }, nm: { color: '#ffffff' } }) },
-    { id: 'glass', ar: 'زجاجي', en: 'Glass', p: mk({ accent: '#bfe3ff', bg: '#1b2a44', bg2: '#2c3e63', bgA: 62, radius: 30, bw: 2, glass: true, shine: true, ico: 'star', anim: 'fade', msg: { color: '#cfe6ff' }, nm: { color: '#ffffff' } }) },
-    { id: 'violet', ar: 'بنفسجي متدرّج', en: 'Violet', p: mk({ accent: '#f9a8d4', bg: '#7c3aed', bg2: '#ec4899', bgA: 100, radius: 30, bw: 0, glow: 22, shine: true, fx: true, ico: 'heart', anim: 'pop', msg: { color: '#ffe4f3' }, nm: { color: '#ffffff' } }) },
-    { id: 'fire', ar: 'ناري', en: 'Fire', p: mk({ accent: '#ffd166', bg: '#ff7a00', bg2: '#c4120a', bgA: 100, radius: 22, bw: 2, glow: 22, shine: true, fx: true, ico: 'heart', anim: 'pop', msg: { color: '#fff1c9' }, nm: { color: '#ffffff' } }) },
-    { id: 'ocean', ar: 'محيط', en: 'Ocean', p: mk({ accent: '#a5f3fc', bg: '#0891b2', bg2: '#1e3a8a', bgA: 100, radius: 26, bw: 2, glow: 14, shine: true, ico: 'star', anim: 'slide', msg: { color: '#d9f7ff' }, nm: { color: '#ffffff' } }) },
-    { id: 'gold', ar: 'ذهبي VIP', en: 'Gold VIP', p: mk({ accent: '#f5c542', bg: '#17120a', bg2: '#33260a', bgA: 97, radius: 20, bw: 3, glow: 16, shine: true, fx: true, ico: 'crown', anim: 'pop', msg: { color: '#f5c542' }, nm: { color: '#fff3c4' } }) },
-    { id: 'minimal', ar: 'أبيض بسيط', en: 'Clean White', p: mk({ accent: '#22c55e', bg: '#ffffff', bg2: '#eef2f7', bgA: 100, radius: 18, bw: 0, glow: 0, ico: 'heart', anim: 'fade', msg: { color: '#16a34a' }, nm: { color: '#0f172a' } }) },
-    { id: 'pill', ar: 'كبسولة', en: 'Pill', p: mk({ w: 420, h: 84, accent: '#53fc18', bg: '#0e1014', bg2: '#171a21', bgA: 96, radius: 42, bw: 2, glow: 0, ico: 'heart', anim: 'slide', img: { x: 44, y: 42, size: 56 }, msg: { x: 240, y: 29, size: 15, color: '#53fc18' }, nm: { x: 240, y: 56, size: 28, color: '#ffffff' } }) },
-    { id: 'sunset', ar: 'غروب', en: 'Sunset', p: mk({ accent: '#fff0d6', bg: '#f43f5e', bg2: '#f59e0b', bgA: 100, radius: 24, bw: 0, glow: 18, shine: true, ico: 'heart', anim: 'slide', msg: { color: '#fff4e0' }, nm: { color: '#ffffff' } }) },
-    { id: 'cinema', ar: 'سينمائي (للفيديو)', en: 'Cinema (video)', vid: true, p: mk({ w: 640, h: 360, pos: 'center', accent: '#53fc18', bg: '#000000', bg2: '#000000', bgA: 100, radius: 22, bw: 3, glow: 0, fx: true, ico: 'heart', anim: 'pop', img: { show: false, x: 60, y: 60, size: 72 }, msg: { x: 320, y: 268, size: 26, color: '#53fc18' }, nm: { x: 320, y: 314, size: 50, color: '#ffffff' } }) }
+    { id: 'classic', ar: 'كيك كلاسيك', en: 'Kick Classic', fn: { ar: 'Segoe UI', en: 'Segoe UI' }, p: mk({ accent: '#53fc18', bg: '#0e1014', bg2: '#0e1014', bgA: 94, radius: 24, bw: 3, glow: 0, ico: 'heart', anim: 'slide', msg: { color: '#53fc18' }, nm: { color: '#ffffff' } }) },
+    { id: 'neon', ar: 'نيون', en: 'Neon', fn: { ar: 'Tahoma', en: 'Bahnschrift' }, p: mk({ accent: '#00e5ff', bg: '#090a1f', bg2: '#1a0b3a', bgA: 96, radius: 18, bw: 3, glow: 26, shine: true, fx: true, ico: 'bolt', anim: 'pop', msg: { color: '#ff4fd8' }, nm: { color: '#ffffff' } }) },
+    { id: 'glass', ar: 'زجاجي', en: 'Glass', fn: { ar: 'Dubai', en: 'Segoe UI' }, p: mk({ accent: '#bfe3ff', bg: '#1b2a44', bg2: '#2c3e63', bgA: 62, radius: 30, bw: 2, glass: true, shine: true, ico: 'star', anim: 'fade', msg: { color: '#cfe6ff' }, nm: { color: '#ffffff' } }) },
+    { id: 'gold', ar: 'ذهبي VIP', en: 'Gold VIP', fn: { ar: 'Times New Roman', en: 'Georgia' }, p: mk({ accent: '#f5c542', bg: '#17120a', bg2: '#33260a', bgA: 97, radius: 20, bw: 3, glow: 16, shine: true, fx: true, ico: 'crown', anim: 'pop', msg: { color: '#f5c542' }, nm: { color: '#fff3c4' } }) }
   ];
-  // يبني إعداداً كاملاً من قالب مع الإبقاء على ملفات المستخدم ونصوصه
-  function fromTpl(tp, cur) {
-    const o = Object.assign(DEFF(), tp.p, { tpl: tp.id });
-    if (cur) { o.on = cur.on; o.dur = cur.dur; if (!tp.p.pos) o.pos = (cur.tpl === 'cinema' && cur.pos === 'center') ? 'top' : cur.pos; o.vid = cur.vid; o.snd = cur.snd; }
+  // يبني إعداداً كاملاً من قالب مع الإبقاء على ملفات المستخدم ونصوصه ومكان القالب
+  function fromTpl(tp, cur, lg) {
+    lg = lg || (cur && cur.lang) || curLang();
+    const pick = n => fontOk(n) ? n : 'Segoe UI', fnt = pick(tp.fn[lg]);
+    const o = Object.assign(DEFF(), tp.p, { tpl: tp.id, lang: lg });
+    o.msg = Object.assign({}, tp.p.msg, { font: fnt }); o.nm = Object.assign({}, tp.p.nm, { font: fnt });
+    if (cur) { o.on = cur.on; o.dur = cur.dur; o.pos = cur.pos; o.px = cur.px; o.py = cur.py; o.vid = cur.vid; o.snd = cur.snd; }
     const n = norm(o);
     if (cur) { n.img.data = cur.img.data; n.msg.text = cur.msg.text; }
     return n;
@@ -261,7 +290,7 @@
     let a = s; while (a.length > 1 && c.measureText(a + '…').width > maxW) a = a.slice(0, -1);
     return a + '…';
   }
-  const tfont = o => `${o.weight} ${o.size}px "${o.font}", Tahoma, Arial, sans-serif`;
+  const tfont = o => `${o.weight} ${o.size}px "${o.font}", "Segoe UI", Tahoma, Arial, sans-serif`;
   function putText(c, s, o, x, y, maxW, shadow) {
     c.save(); c.textAlign = 'center'; c.textBaseline = 'middle'; c.font = tfont(o); c.fillStyle = o.color;
     c.direction = /[\u0590-\u08FF]/.test(s) ? 'rtl' : 'ltr';
@@ -292,7 +321,7 @@
   function card(c, x, y, cf, user, p, el, opt) {
     opt = opt || {};
     const W = cf.w, H = cf.h, R = Math.min(cf.radius, W / 2, H / 2), AC = cf.accent, A = cf.bgA / 100;
-    const label = cf.msg.text || t('alFollowDef'), name = user || t('alFollowDef');
+    const label = cf.msg.text || DEFTXT[cf.lang] || DEFTXT.ar, name = user || DEFNAME[cf.lang] || DEFNAME.ar;
     c.save();
     c.globalAlpha = Math.max(0, Math.min(1, p));
     // الجسم + الظل (أو التوهج)
@@ -300,6 +329,17 @@
     const gb = c.createLinearGradient(x, y, x + W, y + H); gb.addColorStop(0, rgba(cf.bg, A)); gb.addColorStop(1, rgba(cf.bg2, A));
     rrect(c, x, y, W, H, R); c.fillStyle = gb; c.fill();
     c.shadowColor = 'transparent'; c.shadowBlur = 0; c.shadowOffsetY = 0;
+    // صورة خلفية القالب
+    if (cf.bgimg && cf.bgimg.data) {
+      const bi = getImg(cf.bgimg.data);
+      if (bi) {
+        c.save(); rrect(c, x, y, W, H, R); c.clip();
+        const kk = Math.max(W / bi.naturalWidth, H / bi.naturalHeight), bw2 = bi.naturalWidth * kk, bh2 = bi.naturalHeight * kk;
+        c.drawImage(bi, x + (W - bw2) / 2, y + (H - bh2) / 2, bw2, bh2);
+        if (cf.bgimg.dim > 0) { c.fillStyle = `rgba(0,0,0,${cf.bgimg.dim / 100})`; c.fillRect(x, y, W, H); }
+        c.restore();
+      }
+    }
     // فيديو داخل البطاقة
     let onVid = false; const ve = opt.video;
     if (cf.vid.show && ve && ve.readyState >= 2 && ve.videoWidth) {
@@ -355,6 +395,7 @@
   }
   function slot(cf, w, h) {
     const M = 36, W = cf.w, H = cf.h, pos = cf.pos, top = pos === 'top' || pos === 'tr' || pos === 'tl';
+    if (pos === 'custom') return [cf.px * w / 1280, cf.py * h / 720, cf.py * h / 720 + H / 2 < h / 2];
     const x = pos === 'tl' || pos === 'bl' ? M : pos === 'tr' || pos === 'br' ? w - W - M : (w - W) / 2;
     return [x, pos === 'center' ? (h - H) / 2 : top ? M : h - H - M, top];
   }
@@ -413,7 +454,7 @@
     fr.readAsDataURL(file);
   }
   function openDialog() {
-    const orig = JSON.stringify(CFG); let committed = false, sel = 'nm', tab = 'tpl', drag = null, raf = 0, testName = t('alTestName');
+    const orig = JSON.stringify(CFG); let committed = false, sel = 'nm', tab = 'tpl', drag = null, raf = 0, tnCustom = false, testName = TESTN[CFG.follow.lang];
     const f = () => CFG.follow, esc2 = esc, rtl = (document.documentElement.dir || 'ltr'), box = $('dlgBox');
     const newIds = new Set(), oldIds = new Set();
     const TYPES = [['follow', 'heart', 'alFollowH']];          // أنواع الأليرتات — نضيف هنا لاحقاً (اشتراك، هدية...)
@@ -424,18 +465,18 @@
     let REG = [];
     const tg = (id, label, get, set) => { REG.push({ k: 'tg', id, set }); return `<label class="k-toggle"><input type="checkbox" id="${id}" ${get() ? 'checked' : ''}><span class="k-sw"></span><b>${esc2(label)}</b></label>`; };
     const cl = (id, label, get, set) => { REG.push({ k: 'cl', id, set }); return `<label class="f al-cl"><span>${esc2(label)}</span><input type="color" id="${id}" value="${get()}"></label>`; };
-    const sl = (id, label, opts, get, set) => { REG.push({ k: 'sl', id, set }); return `<label class="f"><span>${esc2(label)}</span><select id="${id}">${opts.map(([v, l]) => `<option value="${v}" ${String(v) === String(get()) ? 'selected' : ''}>${esc2(l)}</option>`).join('')}</select></label>`; };
+    const sl = (id, label, opts, get, set) => { REG.push({ k: 'sl', id, set }); return `<label class="f"><span>${esc2(label)}</span><select id="${id}">${opts.map(([v, l, st]) => `<option value="${v}" ${st ? `style="${st}"` : ''} ${String(v) === String(get()) ? 'selected' : ''}>${esc2(l)}</option>`).join('')}</select></label>`; };
     const tx = (id, label, get, set, ph) => { REG.push({ k: 'tx', id, set }); return `<label class="f full"><span>${esc2(label)}</span><input type="text" id="${id}" maxlength="40" value="${esc2(get())}" placeholder="${esc2(ph || '')}"></label>`; };
     const rg = (id, label, get, a, b, set) => { REG.push({ k: 'rg', id, set, get, a, b }); const v = Math.round(get()); return `<label class="f al-rg"><span>${esc2(label)}</span><input type="range" id="${id}" min="${a}" max="${b}" value="${v}"><input type="number" class="al-num" id="${id}N" min="${a}" max="${b}" value="${v}"></label>`; };
     const sec = (k, title, inner, hint) => `<div class="al-sec ${sel === k ? 'sel' : ''}" data-sec="${k}"><div class="al-secT">${esc2(title)}</div>${hint ? `<div class="al-hint">${esc2(hint)}</div>` : ''}${inner}</div>`;
-    const fontOpts = FONTS_.map(x => [x, x]), wOpts = [[400, t('alW4')], [600, t('alW6')], [700, t('alW7')], [800, t('alW8')]];
+    const fontOpts = cur => { const b = (f().lang === 'en' ? FONTS_EN : FONTS_AR).filter(fontOk); if (!b.includes(cur)) b.unshift(cur); return b.map(x => [x, x, `font-family:'${x}',sans-serif`]); }, wOpts = [[400, t('alW4')], [600, t('alW6')], [700, t('alW7')], [800, t('alW8')]];
     const txtSec = (key, title, showLbl, extra, hint) => {
       const o = () => f()[key], W = f().w, H = f().h;
       return sec(key, title, `
         ${tg('al_' + key + 'Show', showLbl, () => o().show, v => o().show = v)}
         ${extra || ''}
-        <div class="grid2">${sl('al_' + key + 'Font', t('alFont'), fontOpts, () => o().font, v => o().font = v)}${sl('al_' + key + 'W', t('alWeight'), wOpts, () => o().weight, v => o().weight = +v)}</div>
-        ${rg('al_' + key + 'Size', t('alSize'), () => o().size, 10, 120, v => o().size = v)}
+        <div class="grid2">${sl('al_' + key + 'Font', t('alFont'), fontOpts(o().font), () => o().font, v => o().font = v)}${sl('al_' + key + 'W', t('alWeight'), wOpts, () => o().weight, v => o().weight = +v)}</div>
+        ${rg('al_' + key + 'Size', t('alSize'), () => o().size, 10, 160, v => o().size = v)}
         ${cl('al_' + key + 'Color', t('alColor'), () => o().color, v => o().color = v)}
         ${rg('al_' + key + 'X', t('alX'), () => o().x, -60, W + 60, v => o().x = v)}
         ${rg('al_' + key + 'Y', t('alY'), () => o().y, -60, H + 60, v => o().y = v)}
@@ -445,12 +486,45 @@
       <div class="al-file ${on ? 'has' : ''}"><i data-ic="${idPick === 'alVPick' ? 'film' : 'music'}"></i><span class="al-fn">${esc2(on ? name || '—' : t('alNoFile'))}</span></div>
       <div class="al-row"><button type="button" class="dbtn primary" id="${idPick}">${esc2(on ? chL : addL)}</button><button type="button" class="dbtn" id="${idRm}" ${on ? '' : 'disabled'}>${esc2(rmL)}</button>${extraBtn || ''}</div>`;
     let pa = null;                                             // استماع للأغنية (سماعاتي فقط)
+    const posCustom = () => { const g = f(); if (g.pos !== 'custom') { const [x, y] = slot(g, 1280, 720); g.px = Math.round(x); g.py = Math.round(y); g.pos = 'custom'; } };
+    function setLang(l) {                                      // تبديل لغة القالب: النص الافتراضي + الخطوط
+      const g = f(); if (g.lang === l) return;
+      const other = l === 'ar' ? 'en' : 'ar', list = l === 'en' ? FONTS_EN : FONTS_AR, tp = tplById(g.tpl);
+      g.lang = l;
+      if (g.msg.text === DEFTXT[other]) g.msg.text = '';
+      ['msg', 'nm'].forEach(k => { if (!list.includes(g[k].font)) g[k].font = fontOk(tp.fn[l]) ? tp.fn[l] : 'Segoe UI'; });
+      if (!tnCustom) { testName = TESTN[l]; const ti = $('alTestNm'); if (ti) ti.value = testName; }
+      save(); refresh();
+    }
+    function readBg(file, done) {                              // صورة الخلفية → JPEG حتى 960px (توفيراً للمساحة)
+      const fr = new FileReader();
+      fr.onerror = () => toast(t('alImgErr'));
+      fr.onload = () => {
+        const im = new Image();
+        im.onerror = () => toast(t('alImgErr'));
+        im.onload = () => {
+          const k = Math.min(1, 960 / Math.max(im.naturalWidth, im.naturalHeight)), cw = Math.max(1, Math.round(im.naturalWidth * k)), ch = Math.max(1, Math.round(im.naturalHeight * k));
+          const cc = document.createElement('canvas'); cc.width = cw; cc.height = ch; cc.getContext('2d').drawImage(im, 0, 0, cw, ch);
+          done(cc.toDataURL('image/jpeg', 0.86));
+        };
+        im.src = fr.result;
+      };
+      fr.readAsDataURL(file);
+    }
 
     const panel = () => {
       REG = []; const g = f();
-      if (tab === 'tpl') return sec('tpl', t('alTplT'), `<div class="al-tpls">${TPLS.map(tp => `<button type="button" class="al-tpl ${g.tpl === tp.id ? 'on' : ''}" data-tpl="${tp.id}"><canvas width="360" height="124" data-tp="${tp.id}"></canvas><span class="al-tpn">${esc2(lang === 'ar' ? tp.ar : tp.en)}</span>${tp.vid ? `<em>${esc2(t('alTplVid'))}</em>` : ''}</button>`).join('')}</div>`, t('alTplHint'));
+      if (tab === 'tpl') return `
+        ${sec('lang', t('alLang'), `<div class="al-langs">${[['ar', 'عربي'], ['en', 'English']].map(([l, n]) => `<button type="button" class="al-lang ${g.lang === l ? 'on' : ''}" data-lang="${l}">${n}</button>`).join('')}</div>`, t('alLangHint'))}
+        ${sec('tpl', t('alTplT'), `<div class="al-tpls">${TPLS.map(tp => `<button type="button" class="al-tpl ${g.tpl === tp.id ? 'on' : ''}" data-tpl="${tp.id}"><canvas width="360" height="124" data-tp="${tp.id}"></canvas><span class="al-tpn">${esc2(lang === 'ar' ? tp.ar : tp.en)}</span>${tp.vid ? `<em>${esc2(t('alTplVid'))}</em>` : ''}</button>`).join('')}</div>`, t('alTplHint'))}
+        ${sec('bgs', t('alSecBg'), `
+          <div class="grid2">${cl('alBg', t('alBg'), () => g.bg, v => g.bg = v)}${cl('alBg2', t('alBg2'), () => g.bg2, v => g.bg2 = v)}</div>
+          ${rg('alBgA', t('alBgA'), () => g.bgA, 0, 100, v => g.bgA = v)}
+          <div class="al-row"><button type="button" class="dbtn primary" id="alBgPick">${esc2(t(g.bgimg.data ? 'alBgChange' : 'alBgAdd'))}</button><button type="button" class="dbtn" id="alBgRm" ${g.bgimg.data ? '' : 'disabled'}>${esc2(t('alBgRm'))}</button></div>
+          <input type="file" id="alBgFile" accept="image/*" style="display:none">
+          ${rg('alBgDim', t('alBgDim'), () => g.bgimg.dim, 0, 85, v => g.bgimg.dim = Math.round(v))}`, t('alBgHint'))}`;
       if (tab === 'txt') return `
-        ${txtSec('msg', t('alSecMsg'), t('alMsgShow'), tx('al_msgText', t('alMsgText'), () => g.msg.text, v => g.msg.text = v.trim().slice(0, 40), t('alFollowDef')))}
+        ${txtSec('msg', t('alSecMsg'), t('alMsgShow'), tx('al_msgText', t('alMsgText'), () => g.msg.text, v => g.msg.text = v.trim().slice(0, 40), DEFTXT[f().lang]))}
         ${txtSec('nm', t('alSecNm'), t('alNmShow'), '', t('alNmNote'))}`;
       if (tab === 'med') return `
         ${sec('img', t('alSecImg'), `
@@ -481,23 +555,28 @@
           ${rg('alBW', t('alBW'), () => g.bw, 0, 10, v => g.bw = Math.round(v))}
           ${rg('alGlow', t('alGlow'), () => g.glow, 0, 60, v => g.glow = Math.round(v))}`)}
         ${sec('colors', t('alSecColors'), `
-          <div class="grid2">${cl('alAccent', t('alAccent'), () => g.accent, v => g.accent = v)}${cl('alBg', t('alBg'), () => g.bg, v => g.bg = v)}</div>
-          ${cl('alBg2', t('alBg2'), () => g.bg2, v => g.bg2 = v)}
-          ${rg('alBgA', t('alBgA'), () => g.bgA, 0, 100, v => g.bgA = v)}`)}
+          ${cl('alAccent', t('alAccent'), () => g.accent, v => g.accent = v)}`)}
         ${sec('fx', t('alSecFx'), `
           ${sl('alAnim', t('alAnim'), [['slide', t('alAnimSlide')], ['pop', t('alAnimPop')], ['fade', t('alAnimFade')]], () => g.anim, v => g.anim = v)}
           ${tg('alGlass', t('alGlass'), () => g.glass, v => g.glass = v)}
           ${tg('alShine', t('alShine'), () => g.shine, v => g.shine = v)}
           ${tg('alFx', t('alFx'), () => g.fx, v => g.fx = v)}`)}
         <div class="al-row"><button type="button" class="dbtn danger" id="alAll">${esc2(t('alResetAll'))}</button></div>`;
-      const posL = { top: 'alTop', bottom: 'alBottom', tr: 'alTR', tl: 'alTL', br: 'alBR', bl: 'alBL', center: 'alCenter' };
+      const posL = { top: 'alTop', bottom: 'alBottom', tr: 'alTR', tl: 'alTL', br: 'alBR', bl: 'alBL', center: 'alCenter', custom: 'alPosCustom' };
       return sec('gen', t('alSecGen'), `
         ${tg('alOn', t('alOn'), () => g.on, v => { g.on = v; paintBtn(); })}
         <div class="grid2">
           ${sl('alDur', t('alDur'), DURS.map(d => [d, d ? d + ' ' + t('alSec') : t('alDurAuto')]), () => g.dur, v => g.dur = +v)}
-          ${sl('alPos', t('alPos'), POS.map(p => [p, t(posL[p])]), () => g.pos, v => g.pos = v)}
+          ${sl('alPos', t('alPos'), POS.map(p => [p, t(posL[p])]), () => g.pos, v => {
+            if (v === 'custom') { const [x, y] = slot(g, 1280, 720); g.px = Math.round(x); g.py = Math.round(y); }
+            g.pos = v; setTimeout(refresh, 0);
+          })}
         </div>
-        <div class="al-hint">${esc2(t('alNote'))}</div>`);
+        <div class="al-hint">${esc2(t('alNote'))}</div>`)
+        + sec('cpos', t('alSecPos'), `
+          ${rg('alCX', t('alCardX'), () => slot(g, 1280, 720)[0], -200, 1280, v => { posCustom(); g.px = Math.round(v); })}
+          ${rg('alCY', t('alCardY'), () => slot(g, 1280, 720)[1], -200, 720, v => { posCustom(); g.py = Math.round(v); })}
+          <div class="al-row"><button type="button" class="dbtn primary" id="alCenterBtn">${esc2(t('alCenterNow'))}</button></div>`, t('alPosHint'));
     };
     const tabsHtml = () => TABS.map(([k, i, l]) => `<button type="button" class="al-seg ${tab === k ? 'on' : ''}" data-tab="${k}"><i data-ic="${i}"></i><span>${esc2(t(l))}</span></button>`).join('');
     const body = `<div class="al-wrap" style="direction:ltr">${side()}
@@ -513,7 +592,7 @@
     // --- معاينة: البطاقة في مكانها الحقيقي على كانفس 1280×720 (مصغّرة) ---
     const SC = 0.625, pc = () => $('alPrev');
     const cardXY = () => { const [x, y] = slot(f(), 1280, 720); return [x, y]; };
-    const strOf = k => k === 'nm' ? testName : (f().msg.text || t('alFollowDef'));
+    const strOf = k => k === 'nm' ? testName : (f().msg.text || DEFTXT[f().lang]);
     function tbox(k) {
       const o = f()[k], c = pc().getContext('2d'); c.save(); c.font = tfont(o);
       const w = Math.min(f().w - 40, c.measureText(strOf(k)).width); c.restore();
@@ -540,6 +619,11 @@
       else {
         const [x, y] = cardXY();
         card(c, x, y, cf, testName, 1, now, { video: prevVid() });
+        if (drag && drag.k === 'card') {
+          c.save(); c.setLineDash([8, 6]); c.lineWidth = 1.5; c.strokeStyle = 'rgba(255,255,255,.35)';
+          c.beginPath(); c.moveTo(640, 0); c.lineTo(640, 720); c.moveTo(0, 360); c.lineTo(1280, 360); c.stroke(); c.restore();
+        }
+        if (sel === 'card') { c.save(); c.setLineDash([8, 6]); c.lineWidth = 2; c.strokeStyle = '#ffd400'; c.strokeRect(x - 4, y - 4, cf.w + 8, cf.h + 8); c.restore(); }
         if (sel === 'img' || sel === 'nm' || sel === 'msg') {
           c.save(); c.translate(x, y); c.setLineDash([6, 5]); c.lineWidth = 2; c.strokeStyle = '#ffd400';
           if (sel === 'img') { const g = cf.img, r = g.size / 2 + 4; c.strokeRect(g.x - r, g.y - r, r * 2, r * 2); }
@@ -549,11 +633,13 @@
       }
       raf = requestAnimationFrame(paintPrev);
     }
+    const toAbs = e => { const r = pc().getBoundingClientRect(); return [(e.clientX - r.left) / r.width * 1280, (e.clientY - r.top) / r.height * 720]; };
     const toCard = e => { const r = pc().getBoundingClientRect(), [x, y] = cardXY(); return [(e.clientX - r.left) / r.width * 1280 - x, (e.clientY - r.top) / r.height * 720 - y]; };
     function hit(px, py) {
       const g = f();
       for (const k of ['nm', 'msg']) { if (!g[k].show) continue; const b = tbox(k); if (px >= b.x - 8 && px <= b.x + b.w + 8 && py >= b.y - 8 && py <= b.y + b.h + 8) return k; }
       if (g.img.show && Math.hypot(px - g.img.x, py - g.img.y) <= g.img.size / 2 + 8) return 'img';
+      if (px >= 0 && px <= g.w && py >= 0 && py <= g.h) return 'card';
       return null;
     }
     function select(k, fromCanvas) {
@@ -570,15 +656,32 @@
       cv_.onpointerdown = e => {
         if (curA && curA.test) return;
         const [px, py] = toCard(e), k = hit(px, py); if (!k) return;
+        if (k === 'card') {
+          const [ax, ay] = toAbs(e), [cx, cy] = cardXY(); sel = 'card';
+          document.querySelectorAll('.al-sec').forEach(x => x.classList.remove('sel'));
+          drag = { k, dx: cx - ax, dy: cy - ay }; cv_.setPointerCapture(e.pointerId); e.preventDefault(); return;
+        }
         select(k, true); drag = { k, dx: f()[k].x - px, dy: f()[k].y - py }; cv_.setPointerCapture(e.pointerId); e.preventDefault();
       };
       cv_.onpointermove = e => {
         const [px, py] = toCard(e);
         if (!drag) { cv_.style.cursor = hit(px, py) ? 'grab' : 'default'; return; }
         cv_.style.cursor = 'grabbing';
+        if (drag.k === 'card') {
+          const cf = f(), [ax, ay] = toAbs(e); let nx = Math.round(ax + drag.dx), ny = Math.round(ay + drag.dy);
+          const cx0 = Math.round((1280 - cf.w) / 2), cy0 = Math.round((720 - cf.h) / 2);
+          if (Math.abs(nx - cx0) < 10) nx = cx0; if (Math.abs(ny - cy0) < 10) ny = cy0;      // يلتصق بمنتصف الشاشة
+          cf.pos = 'custom'; cf.px = Math.max(-cf.w + 40, Math.min(1240, nx)); cf.py = Math.max(-cf.h + 40, Math.min(680, ny)); save(); sync(); return;
+        }
         const o = f()[drag.k]; o.x = Math.round(num(px + drag.dx, -60, f().w + 60, o.x)); o.y = Math.round(num(py + drag.dy, -60, f().h + 60, o.y)); save(); sync();
       };
-      cv_.onpointerup = cv_.onpointercancel = () => { drag = null; };
+      cv_.onpointerup = cv_.onpointercancel = () => { const was = drag && drag.k === 'card'; drag = null; if (was && tab === 'gen') refresh(); };
+      cv_.onwheel = e => {                                     // عجلة الماوس فوق النص/الصورة = تكبير وتصغير
+        if (curA && curA.test) return;
+        const [px, py] = toCard(e), k = hit(px, py); if (!k || k === 'card') return;
+        e.preventDefault(); const o = k === 'img' ? f().img : f()[k], lo = k === 'img' ? 24 : 10, hi = k === 'img' ? 200 : 160;
+        o.size = Math.round(num(o.size + (e.deltaY < 0 ? 2 : -2), lo, hi, o.size)); save(); sync();
+      };
     }
 
     /* --- ملفات الصوت والفيديو --- */
@@ -627,6 +730,12 @@
       document.querySelectorAll('[data-tpl]').forEach(b => b.onclick = () => {
         CFG.follow = fromTpl(tplById(b.dataset.tpl), f()); save(); refresh(); toast(t('alTplApplied'), 1500);
       });
+      // لغة القالب + الخلفية + التوسيط
+      document.querySelectorAll('[data-lang]').forEach(b => b.onclick = () => setLang(b.dataset.lang));
+      on('alBgPick', 'click', () => $('alBgFile').click());
+      on('alBgFile', 'change', e => { const fl = e.target.files && e.target.files[0]; e.target.value = ''; if (fl) readBg(fl, d => { g.bgimg.data = d; save(); refresh(); }); });
+      on('alBgRm', 'click', () => { g.bgimg.data = ''; save(); refresh(); });
+      on('alCenterBtn', 'click', () => { g.pos = 'center'; save(); refresh(); });
       // صورة
       on('alPick', 'click', () => $('alFile').click());
       on('alFile', 'change', e => { const fl = e.target.files && e.target.files[0]; if (!fl) return; readImg(fl, d => { g.img.data = d; g.img.show = true; save(); sel = 'img'; refresh(); }); });
@@ -642,22 +751,22 @@
       on('alSPrev', 'click', togglePA);
       // إعادة ضبط عنصر لقيم القالب الحالي
       document.querySelectorAll('[data-rs]').forEach(b => b.onclick = () => {
-        const k = b.dataset.rs, T = fromTpl(tplById(g.tpl), null);
+        const k = b.dataset.rs, T = fromTpl(tplById(g.tpl), null, g.lang);
         if (k === 'img') { const keep = g.img.data; g.img = Object.assign({}, T.img, { data: keep }); }
         else { const keep = g[k].text; g[k] = Object.assign({}, T[k], { text: keep }); }
         save(); refresh();
       });
-      on('alAll', 'click', () => { const n = fromTpl(TPLS[0], f()); n.msg.text = ''; n.pos = 'top'; CFG.follow = n; save(); paintBtn(); refresh(); });
+      on('alAll', 'click', () => { const n = fromTpl(TPLS[0], f()); n.msg.text = ''; n.pos = 'center'; CFG.follow = n; save(); paintBtn(); refresh(); });
       document.querySelectorAll('.al-sec').forEach(x => x.addEventListener('focusin', () => { const k = x.dataset.sec; if (k === 'img' || k === 'nm' || k === 'msg') { sel = k; document.querySelectorAll('.al-sec').forEach(y => y.classList.toggle('sel', y === x)); } }));
     }
     function paintThumbs() {
       document.querySelectorAll('canvas[data-tp]').forEach(cv_ => {
-        const cf = fromTpl(tplById(cv_.dataset.tp), null), c = cv_.getContext('2d'), Wc = cv_.width, Hc = cv_.height;
+        const cf = fromTpl(tplById(cv_.dataset.tp), null, f().lang), c = cv_.getContext('2d'), Wc = cv_.width, Hc = cv_.height;
         c.setTransform(1, 0, 0, 1, 0, 0); c.clearRect(0, 0, Wc, Hc);
         const bgG = c.createLinearGradient(0, 0, Wc, Hc); bgG.addColorStop(0, '#222838'); bgG.addColorStop(1, '#10131a'); c.fillStyle = bgG; c.fillRect(0, 0, Wc, Hc);
         const k = Math.min((Wc - 24) / cf.w, (Hc - 20) / cf.h);
         c.setTransform(k, 0, 0, k, (Wc - cf.w * k) / 2, (Hc - cf.h * k) / 2);
-        card(c, 0, 0, cf, t('alTestName'), 1, 900, {});
+        card(c, 0, 0, cf, TESTN[cf.lang], 1, 900, {});
         c.setTransform(1, 0, 0, 1, 0, 0);
       });
     }
@@ -674,7 +783,7 @@
         box.classList.add('al-box'); paintIcons($('dlgB'));
         document.querySelectorAll('.al-seg').forEach(b => b.onclick = () => { tab = b.dataset.tab; refresh(); $('alPanel').scrollTop = 0; });
         bindPrev(); bindPanel(); paintThumbs(); paintPrev(); prepAll();
-        on_('alTestNm', 'input', e => { testName = e.target.value.trim().slice(0, 24) || t('alTestName'); });
+        on_('alTestNm', 'input', e => { const v = e.target.value.trim(); tnCustom = !!v; testName = v.slice(0, 24) || TESTN[f().lang]; });
         on_('alPlay', 'click', runTest);
         dlgClose = () => {
           cancelAnimationFrame(raf); stopPA(); box.classList.remove('al-box');
