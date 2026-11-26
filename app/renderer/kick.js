@@ -235,13 +235,16 @@
   const PANE_OF = { chat: 'kpChat', session: 'kpSession', activity: 'kpActivity', mod: 'kpMod', channel: 'kpChannel', info: 'kpInfo' };
   function showTab(n){
     K.tab = n;
-    document.querySelectorAll('#kTabs [data-kt]').forEach(b => b.classList.toggle('on', b.dataset.kt === n));
+    document.querySelectorAll('#dkKick [data-kt]').forEach(b => b.classList.toggle('on', b.dataset.kt === n));
+    const dk = $('dkKick'); if(dk) dk.dataset.ktab = n;
     PANE_OF && Object.keys(PANE_OF).forEach(k => $(PANE_OF[k]).classList.toggle('on', k === n));
     if(n === 'chat'){ const el = chatEl(); el.scrollTop = el.scrollHeight; }
     if(n === 'info') paintInfo();
     if(window.KX){ KX.cfgChanged(); }
   }
-  document.querySelectorAll('#kTabs [data-kt]').forEach(b => b.onclick = () => showTab(b.dataset.kt));
+  document.querySelectorAll('#dkKick [data-kt]').forEach(b => b.onclick = () => showTab(b.dataset.kt));
+  // الضغط على الخانة المفتوحة مرة ثانية يرجع للشات
+  $('kTabs').addEventListener('click', e => { const b = e.target.closest('[data-kt]'); if(b && b.classList.contains('on')){ e.stopImmediatePropagation(); $('kBack').click(); } }, true);
   $('kBig').onclick = () => document.body.classList.toggle('k-bigmode');
   document.addEventListener('keydown', e => { if(e.key === 'Escape' && document.body.classList.contains('k-bigmode') && !K.pickerOpen) document.body.classList.remove('k-bigmode'); });
   $('kGear').onclick = () => openSettings('kick');

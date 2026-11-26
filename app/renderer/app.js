@@ -412,6 +412,7 @@ function drawSceneBody(count){
     }catch(e){}
     ctx.restore();
   }
+  try{ if(window.SEAlert) SEAlert.draw(ctx, w, h); }catch(e){}   // أليرتات البث (متابع جديد...) فوق كل المشهد
 }
 function blit(src, sw, sh, it, fit){
   if(fit === 'stretch'){ ctx.drawImage(src, it.x, it.y, it.w, it.h); return; }

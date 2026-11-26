@@ -5,20 +5,20 @@
   "main": "main.js",
   "author": "Stream Extra",
   "license": "MIT",
-  "version": "1.7",
+  "version": "1.8",
   "releaseDate": "2026-11-26",
   "notes": {
     "ar": [
-      "صناديق الواجهة (المشاهد، العناصر، الخلاط، الجلسة، الشات) قابلة للتحريك بسحب شريط العنوان وللتكبير والتصغير بسحب الحافة، وتُحفظ تلقائياً",
-      "أزرار جديدة في شريط المعاينة: إعادة التخطيط الافتراضي، وقفل التخطيط لمنع التحريك بالخطأ",
-      "رجعت قوائم النشاط والإشراف والقناة والمعلومات في لوحة Kick، والجلسة لوحة مستقلة بتصميم مضغوط",
-      "تحديث بيانات الجلسة بشكل مستمر حتى أثناء فتح قوائم أخرى"
+      "إعادة ترتيب قائمة Kick لتصبح أوضح: الاسم والقناة في الأعلى، والإحصائيات وأزرار التحكم (تشخيص، إعدادات، تكبير) مجمّعة في جهة واحدة",
+      "أربع خانات واضحة أسفل القائمة (النشاط، الإشراف، القناة، المعلومات) بأيقونة واسم ظاهر دائماً",
+      "زر رجوع للشات يظهر عند فتح أي قسم، والضغط على الخانة المفتوحة مرة ثانية يرجعك للشات",
+      "نظام الأليرتات: أليرت المتابعة الجديدة يظهر على المعاينة وعلى البث نفسه، مع زر جرس في قائمة Kick لتفعيله أو إيقافه وتغيير المدة والمكان والنص وتجربته"
     ],
     "en": [
-      "All dock boxes (Scenes, Sources, Mixer, Session, Chat) can be moved by dragging the title bar and resized by dragging the edge, saved automatically",
-      "New buttons in the preview bar: reset the layout to default, and lock the layout to prevent accidental moves",
-      "Activity, Moderation, Channel and Info menus are back in the Kick panel; Session is its own compact dock",
-      "Session data keeps refreshing even while other menus are open"
+      "Kick panel reorganized for clarity: name and channel on top, with stats and control buttons (diagnostics, settings, expand) grouped on one side",
+      "Four clear cells at the bottom (Activity, Moderation, Channel, Info), each with an always-visible icon and label",
+      "A back-to-chat button appears when a section is open, and tapping the open cell again returns to chat",
+      "Alerts system: a new-follower alert shows on the preview and on the stream itself, with a bell button in the Kick panel to turn it on/off and change duration, position and text, plus a test button"
     ]
   }
 }

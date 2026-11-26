@@ -157,7 +157,7 @@ input:focus,select:focus,textarea:focus{border-color:${ac}!important;box-shadow:
     Object.keys(PAGES).forEach(k => { const w = wrapFor(k); if (w) { w.querySelector('.kd-slug').textContent = D.slug ? '@' + D.slug : ''; w.querySelector('.kd-need').hidden = !!D.slug; } });
   }
 
-  document.querySelectorAll('#kTabs [data-kt]').forEach(b => b.addEventListener('click', () => { D.tab = b.dataset.kt; sync(); try { if (window.KX && KX.tab) KX.tab(D.tab); } catch (e) {} }));
+  document.querySelectorAll('#dkKick [data-kt]').forEach(b => b.addEventListener('click', () => { D.tab = b.dataset.kt; sync(); try { if (window.KX && KX.tab) KX.tab(D.tab); } catch (e) {} }));
   window.addEventListener('focus', () => sync());
   setInterval(sync, 4000);
   Object.keys(PAGES).forEach(wrapFor);

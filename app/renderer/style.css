@@ -1666,3 +1666,35 @@ body.k-bigmode #dkKick{width:min(440px,94vw)}
 /* v1.7: قفل التخطيط */
 body.dock-locked .dresz{display:none}
 body.dock-locked .dock-head{cursor:default}
+
+
+/* ================= v1.8: إعادة ترتيب قائمة Kick =================
+   فوق: الاسم + القناة (جهة البداية) | الإحصائيات + أزرار التحكم (جهة النهاية/اليسار بالعربي)
+   وسط: المحتوى (الشات أو القسم المفتوح)
+   تحت: 4 خانات واضحة (النشاط · الإشراف · القناة · المعلومات) */
+#dkKick .dock-head.kh{gap:8px;padding:0 8px 0 12px}
+#dkKick .kh .p-title{flex:none}
+#dkKick .kh .k-chan{flex:0 1 auto;min-width:0}
+#dkKick .kh .sp{flex:1;min-width:6px}
+#dkKick .kh .k-stats{display:flex;gap:10px;padding-inline:10px;border-inline:1px solid var(--line2);flex:none}
+#dkKick .kh .k-stats[hidden]{display:none}
+#dkKick .kh-tools{display:flex;align-items:center;gap:2px;flex:none}
+#dkKick .kh-tools .icon-btn{width:28px;height:28px}
+#dkKick .kh-back{display:none;align-items:center;gap:5px;height:24px;padding:0 10px;border:0;border-radius:999px;background:var(--sel);color:var(--ac-t);font-size:11.5px;font-weight:800;font-family:inherit;cursor:pointer;white-space:nowrap;flex:none}
+#dkKick .kh-back:hover{filter:brightness(1.12)}
+#dkKick .kh-back svg{width:13px;height:13px}
+#dkKick:not([data-ktab="chat"]) .kh-back{display:inline-flex}
+
+/* شريط الخانات الأربع تحت */
+#dkKick .k-tabs.k-nav{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px;flex:none;margin:0;padding:7px 8px;overflow:visible;background:var(--head);border-top:1px solid var(--line2)}
+#dkKick .k-nav button{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;min-width:0;padding:6px 4px;border:1px solid var(--line);border-radius:9px;background:var(--panel2,transparent);color:var(--mut);font-size:11px;font-weight:800;line-height:1.15;cursor:pointer;font-family:inherit;transition:background .15s,color .15s,border-color .15s}
+#dkKick .k-nav button:hover{background:var(--hov);color:var(--txt)}
+#dkKick .k-nav button.on{background:var(--sel);color:var(--ac-t);border-color:var(--ac)}
+#dkKick .k-nav button svg{width:17px;height:17px}
+#dkKick .k-nav button span,#dkKick .k-nav button.on span{display:block;max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+
+/* تذييل الشات: حالة المزامنة فقط (الأزرار انتقلت للأعلى) */
+#dkKick .k-cfoot{min-height:20px}
+
+body.k-bigmode #dkKick .k-tabs.k-nav{padding:9px 10px}
+body.k-bigmode #dkKick .k-nav button{padding:8px 4px;font-size:12px}

@@ -191,6 +191,7 @@
     act.unshift(it); fresh.add(it.ts + '|' + it.type + '|' + it.user);
     if (act.length > LIM) act.length = LIM;
     save(); paintAct();
+    if (it.type === 'follow') { try { window.SEAlert && SEAlert.push('follow', it.user); } catch (e) {} }   // أليرت المتابعة الجديدة
   }
   function actText(a) {
     switch (a.type) {

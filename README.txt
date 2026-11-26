@@ -49,6 +49,12 @@ Build_StreamExtra.cmd still builds a portable "StreamExtra" folder for testing. 
 
 Your settings and Kick link are stored in %AppData%\StreamExtra (+ a backup in %LocalAppData%\StreamExtra-Backup).
 
+v1.8
+----
+- Kick panel reorganized: header = name + channel (start) / stats + control buttons (diagnostics, settings, expand) grouped together.
+- 4 clear cells at the bottom: Activity, Moderation, Channel, Info (icon + label). A "Chat" button appears in the header when a section is open; tapping the open cell again also returns to chat.
+- Alerts system (step 1): a new-follower alert is drawn on the preview AND on the stream. A bell button in the Kick panel header opens Alert settings (on/off, duration, position, label text, test button). Saved in se_kalert; ready for more alert types later.
+
 v1.7
 ----
 - Layout lock button (prevents accidental moves/resizes) next to the reset button; both remembered.

@@ -141,22 +141,22 @@ document.documentElement.dataset.theme=t;}catch(e){document.documentElement.data
 
     </section>
 
-    <section class="dock" id="dkKick">
-      <div class="dock-head">
+    <section class="dock" id="dkKick" data-ktab="chat">
+      <div class="dock-head kh">
         <span class="p-title"><i data-ic="chat"></i><span data-i="kChat"></span><span class="k-dot" id="kDot"></span></span>
         <span class="k-chan" id="kChan" dir="ltr" hidden></span>
-        <nav class="k-tabs" id="kTabs">
-          <button class="on" data-kt="chat" type="button" data-tt="kTabChat"><i data-ic="chat"></i><span data-i="kTabChat"></span></button>
-          <button data-kt="activity" type="button" data-tt="kTabActivity"><i data-ic="heart"></i><span data-i="kTabActivity"></span></button>
-          <button data-kt="mod" type="button" data-tt="kTabMod"><i data-ic="shield"></i><span data-i="kTabMod"></span></button>
-          <button data-kt="channel" type="button" data-tt="kTabChannel"><i data-ic="sliders"></i><span data-i="kTabChannel"></span></button>
-          <button data-kt="info" type="button" data-tt="kTabInfo"><i data-ic="info"></i><span data-i="kTabInfo"></span></button>
-        </nav>
+        <button class="kh-back" id="kBack" data-kt="chat" type="button" data-tt="kTabChat"><i data-ic="chat"></i><span data-i="kTabChat"></span></button>
+        <span class="sp"></span>
         <span class="k-stats">
           <span class="k-st" id="kViews" data-tt="kViewers"><i data-ic="eye"></i><b>–</b></span>
           <span class="k-st" id="kFollows" data-tt="kFollowers"><i data-ic="users"></i><b>–</b></span>
         </span>
-        <button class="icon-btn" id="kBig" type="button" data-tt="kExpand"><i data-ic="maximize"></i></button>
+        <span class="kh-tools">
+          <button class="icon-btn" id="kDiag" type="button" data-tt="kDiagT"><i data-ic="info"></i></button>
+          <button class="icon-btn" id="kAlert" type="button" data-tt="kAlertT"><i data-ic="bell"></i></button>
+          <button class="icon-btn" id="kGear" type="button" data-tt="kickTab"><i data-ic="settings"></i></button>
+          <button class="icon-btn" id="kBig" type="button" data-tt="kExpand"><i data-ic="maximize"></i></button>
+        </span>
       </div>
 
       <div class="k-pane on" id="kpChat">
@@ -186,8 +186,6 @@ document.documentElement.dataset.theme=t;}catch(e){document.documentElement.data
           <div class="k-cfoot">
             <div class="k-sync" id="kSync" hidden></div>
             <span class="sp"></span>
-            <button class="icon-btn" id="kGear" type="button" data-tt="kickTab"><i data-ic="settings"></i></button>
-            <button class="icon-btn" id="kDiag" type="button" data-tt="kDiagT"><i data-ic="info"></i></button>
           </div>
         </div>
       </div>
@@ -338,6 +336,13 @@ document.documentElement.dataset.theme=t;}catch(e){document.documentElement.data
           <button class="sbtn" id="kWebLogin" type="button" hidden><i data-ic="link"></i><span data-i="kWebLogin"></span></button>
         </form>
       </div>
+      <!-- ===== شريط الأقسام (4 خانات) ===== -->
+      <nav class="k-tabs k-nav" id="kTabs">
+        <button data-kt="activity" type="button" data-tt="kTabActivity"><i data-ic="heart"></i><span data-i="kTabActivity"></span></button>
+        <button data-kt="mod" type="button" data-tt="kTabMod"><i data-ic="shield"></i><span data-i="kTabMod"></span></button>
+        <button data-kt="channel" type="button" data-tt="kTabChannel"><i data-ic="sliders"></i><span data-i="kTabChannel"></span></button>
+        <button data-kt="info" type="button" data-tt="kTabInfo"><i data-ic="info"></i><span data-i="kTabInfo"></span></button>
+      </nav>
     </section>
 
   </section>
@@ -612,6 +617,7 @@ document.documentElement.dataset.theme=t;}catch(e){document.documentElement.data
 
 <script src="app.js"></script>
 <script src="kpanel.js"></script>
+<script src="alerts.js"></script>
 <script src="kick.js"></script>
 <script src="kcmd.js"></script>
 <script src="kdash.js"></script>
