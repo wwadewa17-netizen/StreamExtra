@@ -1,0 +1,617 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Stream Extra</title>
+<meta name="color-scheme" content="dark light">
+<script>
+/* apply the saved theme before first paint (no white/black flash) */
+(function(){try{
+var q=new URLSearchParams(location.search);
+if(!localStorage.getItem('se_prefs_init')&&(q.get('initTheme')||q.get('initLang'))){
+ if(q.get('initTheme'))localStorage.setItem('se_theme',q.get('initTheme'));
+ if(q.get('initLang'))localStorage.setItem('se_lang',q.get('initLang'));
+ localStorage.setItem('se_prefs_init','1');
+}}catch(e){}
+try{var p=localStorage.getItem('se_theme');
+var t=p==='light'?'light':'dark';
+document.documentElement.dataset.theme=t;}catch(e){document.documentElement.dataset.theme='dark';}})();
+</script>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header class="top">
+  <div class="brand-wrap">
+    <img src="../assets/logo.png" alt="Stream Extra">
+    <div class="brand">Stream <b>Extra</b></div>
+  </div>
+  <span class="chip" id="kickChip"><i></i><span id="kickChipT"></span></span>
+  <span class="chip k-hchip" id="kHdrViews" hidden data-tt="kViewers"><i data-ic="eye"></i><b>–</b></span>
+  <span class="chip k-hchip" id="kHdrFol" hidden data-tt="kFollowers"><i data-ic="users"></i><b>–</b></span>
+  <div class="sp"></div>
+  <div class="badge"><i></i>LIVE</div>
+</header>
+
+<main class="studio">
+  <!-- ===== Preview (center) + properties drawer ===== -->
+  <section class="stage-wrap">
+    <div class="stage-main">
+      <div class="stage-bar">
+        <span class="p-title"><i data-ic="monitor"></i><span data-i="preview"></span></span>
+        <span class="pv-scene" id="pvScene"></span>
+        <span class="stage-res">1280×720</span>
+        <div class="sp"></div>
+        <button class="icon-btn" id="guidesBtn" data-tt="guides"><i data-ic="grid"></i></button>
+        <button class="sbtn" id="openProps"><i data-ic="sliders"></i><span data-i="props"></span></button>
+      </div>
+      <div class="stage" id="stage">
+        <div class="preview" id="pv">
+          <canvas id="cv" width="1280" height="720"></canvas>
+          <div id="guides"></div>
+          <div id="sel" hidden>
+            <b data-h="nw"></b><b data-h="n"></b><b data-h="ne"></b>
+            <b data-h="w"></b><b data-h="e"></b>
+            <b data-h="sw"></b><b data-h="s"></b><b data-h="se"></b>
+          </div>
+        </div>
+      </div>
+    </div>
+    <aside class="drawer" id="drawer">
+      <div class="drawer-in">
+        <div class="d-head"><span class="d-title" id="drawerTitle"></span><button class="icon-btn" id="closeDrawer"><i data-ic="x"></i></button></div>
+        <div class="d-body" id="tabProps"></div>
+      </div>
+    </aside>
+    <aside class="ctrl-panel" id="ctrlPanel">
+      <div class="cp-head"><span class="p-title"><i data-ic="radio"></i><span data-i="controls"></span></span><span class="cp-live"><i></i>LIVE</span></div>
+      <div class="cp-body">
+        <div class="cp-timer"><b id="cpTimer">00:00:00</b><small id="cpStatus"></small></div>
+        <button id="go"></button>
+        <button class="cbtn" id="openSettings"><i data-ic="settings"></i><span data-i="settings"></span></button>
+      </div>
+    </aside>
+  </section>
+
+  <div class="split" id="split" role="separator" aria-orientation="horizontal"></div>
+
+  <!-- ===== Docks (OBS-style) ===== -->
+  <section class="docks">
+    <section class="dock" id="dkScenes">
+      <div class="dock-head"><span class="p-title"><i data-ic="film"></i><span data-i="scenes"></span></span><label class="tr-quick" data-tt="transition"><i data-ic="shuffle"></i><select id="trQuick"></select></label></div>
+      <div class="list" id="sceneList"></div>
+      <div class="dock-foot">
+        <button class="icon-btn" id="addScene" data-tt="addScene"><i data-ic="plus"></i></button>
+        <button class="icon-btn" id="scDel" data-tt="delScene"><i data-ic="minus"></i></button>
+        <span class="sp"></span>
+        <button class="icon-btn" id="scUp" data-tt="moveUp"><i data-ic="up"></i></button>
+        <button class="icon-btn" id="scDown" data-tt="moveDown"><i data-ic="down"></i></button>
+      </div>
+    </section>
+
+    <section class="dock" id="dkSources">
+      <div class="dock-head"><span class="p-title"><i data-ic="layers"></i><span data-i="sources"></span></span></div>
+      <div class="list" id="srcList"></div>
+      <div class="dock-foot">
+        <button class="icon-btn" id="addSrc" data-tt="addSource"><i data-ic="plus"></i></button>
+        <button class="icon-btn" id="srcDel" data-tt="delSource"><i data-ic="minus"></i></button>
+        <button class="icon-btn" id="srcProps" data-tt="props"><i data-ic="settings"></i></button>
+        <span class="sp"></span>
+        <button class="icon-btn" id="srcUp" data-tt="forward"><i data-ic="up"></i></button>
+        <button class="icon-btn" id="srcDown" data-tt="back"><i data-ic="down"></i></button>
+      </div>
+    </section>
+
+    <section class="dock" id="dkMixer">
+      <div class="dock-head"><span class="p-title"><i data-ic="volume"></i><span data-i="mixer"></span></span><span class="scn-chip" id="mxScene" data-tt="perScene"></span></div>
+      <div class="list mixer" id="mixList"></div>
+      <div class="mx master" id="mixMaster"></div>
+    </section>
+
+    <section class="dock" id="dkKick">
+      <div class="dock-head">
+        <span class="p-title"><i data-ic="chat"></i><span data-i="kChat"></span><span class="k-dot" id="kDot"></span></span>
+        <span class="k-chan" id="kChan" dir="ltr" hidden></span>
+        <nav class="k-tabs" id="kTabs">
+          <button class="on" data-kt="chat" type="button" data-tt="kTabChat"><i data-ic="chat"></i><span data-i="kTabChat"></span></button>
+          <button data-kt="session" type="button" data-tt="kTabSession"><i data-ic="activity"></i><span data-i="kTabSession"></span></button>
+          <button data-kt="activity" type="button" data-tt="kTabActivity"><i data-ic="heart"></i><span data-i="kTabActivity"></span></button>
+          <button data-kt="mod" type="button" data-tt="kTabMod"><i data-ic="shield"></i><span data-i="kTabMod"></span></button>
+          <button data-kt="channel" type="button" data-tt="kTabChannel"><i data-ic="sliders"></i><span data-i="kTabChannel"></span></button>
+          <button data-kt="info" type="button" data-tt="kTabInfo"><i data-ic="info"></i><span data-i="kTabInfo"></span></button>
+        </nav>
+        <span class="k-stats">
+          <span class="k-st" id="kViews" data-tt="kViewers"><i data-ic="eye"></i><b>–</b></span>
+          <span class="k-st" id="kFollows" data-tt="kFollowers"><i data-ic="users"></i><b>–</b></span>
+        </span>
+        <button class="icon-btn" id="kBig" type="button" data-tt="kExpand"><i data-ic="maximize"></i></button>
+      </div>
+
+      <div class="k-pane on" id="kpChat">
+        <div class="kch-live kch-live-chat" id="kcLive"></div>
+        <div class="k-chatwrap">
+          <div class="k-embed" id="kEmbed" hidden></div>
+          <div class="k-chat" id="kChat"></div>
+          <button class="k-newbtn" id="kNewBtn" type="button" hidden></button>
+        </div>
+        <div class="k-compose">
+          <div class="k-picker" id="kPicker" hidden></div>
+          <div class="k-emorow" id="kEmoRow"></div>
+          <div class="k-replytag" id="kReplyTag" hidden><i data-ic="reply"></i><span id="kReplyT"></span><button type="button" id="kReplyX"><i data-ic="x"></i></button></div>
+          <div class="k-login" id="kLogin" hidden>
+            <span class="k-login-ic"><i data-ic="lock"></i></span>
+            <span class="k-login-tx"><b data-i="kLoginT"></b><small data-i="kLoginS"></small></span>
+            <button class="k-login-btn" id="kLoginBtn" type="button"><i data-ic="login"></i><span data-i="kLoginBtn"></span></button>
+          </div>
+          <form class="k-send" id="kSendForm" autocomplete="off">
+            <div class="k-inwrap">
+              <input type="text" id="kMsg" maxlength="500" spellcheck="false">
+              <span class="k-count" id="kCount" dir="ltr"></span>
+              <button class="k-emobtn" id="kEmoBtn" type="button"><i data-ic="smile"></i></button>
+            </div>
+            <button class="k-sendbtn" id="kSendBtn" type="submit"><i data-ic="send"></i><span data-i="kSendLbl"></span></button>
+          </form>
+          <div class="k-cfoot">
+            <div class="k-sync" id="kSync" hidden></div>
+            <span class="sp"></span>
+            <button class="icon-btn" id="kGear" type="button" data-tt="kickTab"><i data-ic="settings"></i></button>
+            <button class="icon-btn" id="kDiag" type="button" data-tt="kDiagT"><i data-ic="info"></i></button>
+          </div>
+        </div>
+      </div>
+
+      <!-- ===== معلومات الجلسة ===== -->
+      <div class="k-pane" id="kpSession">
+        <div class="kx-scroll ks">
+          <div class="kx-bar">
+            <div class="kx-bt"><b data-i="kxSession"></b><small class="ks-barline"><b class="kx-pill" id="kxStatus">–</b><span class="kx-test" id="ksTestTag" hidden></span><span class="ks-clock"><i data-ic="clock"></i><span class="ks-time" id="kxTime" dir="ltr">–</span></span></small></div>
+            <button class="kx-demo" id="ksDemo" type="button"><i data-ic="play"></i><span id="ksDemoT"></span></button>
+          </div>
+          <div class="ks-grid">
+            <div class="kx-cell wide" data-c="view"><div class="kx-ch"><i data-ic="eye"></i><small data-i="kxViewers"></small></div><b id="kxViewers">–</b><em id="ksViewersD"></em></div>
+            <div class="kx-cell" data-c="fol"><div class="kx-ch"><i data-ic="users"></i><small data-i="kxFollowers"></small></div><b id="kxFollowers">–</b><em id="ksFolD"></em></div>
+            <div class="kx-cell" data-c="sub"><div class="kx-ch"><i data-ic="star"></i><small data-i="kxSubs"></small></div><b id="kxSubs">–</b><em id="ksSubsD"></em></div>
+            <div class="kx-cell" data-c="peak"><div class="kx-ch"><i data-ic="activity"></i><small data-i="ksPeak"></small></div><b id="ksPeak">–</b></div>
+            <div class="kx-cell" data-c="avg"><div class="kx-ch"><i data-ic="sliders"></i><small data-i="ksAvg"></small></div><b id="ksAvg">–</b></div>
+            <div class="kx-cell" data-c="mpm"><div class="kx-ch"><i data-ic="zap"></i><small data-i="ksMpm"></small></div><b id="ksMpm">–</b></div>
+            <div class="kx-cell" data-c="chat"><div class="kx-ch"><i data-ic="chat"></i><small data-i="ksChatters"></small></div><b id="ksChatters">–</b></div>
+            <div class="kx-cell" data-c="msg"><div class="kx-ch"><i data-ic="chat"></i><small data-i="ksMsgs"></small></div><b id="ksMsgs">–</b></div>
+          </div>
+          <div class="ks-card">
+            <div class="ks-ch"><b data-i="ksChart"></b><small id="ksChartNote"></small></div>
+            <svg class="ks-svg" id="ksChart" viewBox="0 0 300 84" preserveAspectRatio="none"></svg>
+          </div>
+          <div class="ks-card ks-rows" id="ksRows"></div>
+        </div>
+      </div>
+
+      <!-- ===== موجز النشاط ===== -->
+      <div class="k-pane" id="kpActivity">
+        <div class="kx-scroll">
+          <div class="kx-bar">
+            <div class="kx-bt"><b data-i="kTabActivity"></b><small class="kx-listen"><i class="kx-led"></i><span data-i="kxListen"></span></small></div>
+            <button class="kx-demo" id="kxDemo" type="button"><i data-ic="play"></i><span id="kxDemoT"></span></button>
+            <button class="kx-demo kx-clear" id="kxActClear" type="button"><i data-ic="trash"></i><span data-i="kxClear"></span></button>
+          </div>
+          <div class="kx-note" id="kxActNote" hidden><span></span></div>
+          <div class="kx-sum" id="kxActSum"></div>
+          <div class="kx-filters" id="kxActF"></div>
+          <div class="kx-list" id="kxAct"></div>
+        </div>
+      </div>
+
+      <!-- ===== إجراءات المشرف ===== -->
+      <div class="k-pane" id="kpMod">
+        <div class="kx-scroll">
+          <div class="kx-bar">
+            <div class="kx-bt"><b data-i="kTabMod"></b><small class="kx-listen"><i class="kx-led"></i><span data-i="kxListen"></span></small></div>
+            <button class="kx-demo" id="kxModDemo" type="button"><i data-ic="play"></i><span id="kxModDemoT"></span></button>
+            <button class="kx-demo kx-clear" id="kxModClear" type="button"><i data-ic="trash"></i><span data-i="kxClear"></span></button>
+          </div>
+          <div class="k-need" id="kxModNeed" hidden>
+            <span data-i="kxModNeed"></span>
+            <button class="sbtn" id="kxModReauth" type="button"><i data-ic="link"></i><span data-i="kReauth"></span></button>
+          </div>
+          <div class="kx-note" id="kxModNote" hidden><span></span></div>
+          <div class="kx-sum" id="kxModSum"></div>
+          <div class="kx-filters" id="kxModF"></div>
+          <div class="kx-list" id="kxModList"></div>
+        </div>
+      </div>
+
+      <!-- ===== إجراءات القناة ===== -->
+      <div class="k-pane" id="kpChannel">
+        <div class="kx-scroll kch">
+          <div class="kch-soon">
+            <span class="kch-soon-ic"><i data-ic="sliders"></i></span>
+            <b data-i="kchSoonT"></b>
+            <small data-i="kchSoonS"></small>
+          </div>
+          <div class="k-need" id="kcNeed" hidden><span id="kcNeedT"></span><button class="sbtn" id="kcNeedBtn" type="button"><i data-ic="link"></i><span id="kcNeedBtnT"></span></button></div>
+
+          <div class="kx-bar">
+            <div class="kx-bt"><b data-i="kchTitle"></b><small class="kx-listen"><i class="kx-led"></i><span data-i="kchSub"></span></small></div>
+          </div>
+          <div class="kch-sum" id="kcSum"></div>
+
+          <div class="kx-sec" data-i="kchPresets"></div>
+          <div class="kch-presets" id="kcPresets">
+            <button type="button" data-p="normal"><i data-ic="check"></i><b data-i="kchPNormal"></b><small data-i="kchPNormalD"></small></button>
+            <button type="button" data-p="shield"><i data-ic="shield"></i><b data-i="kchPShield"></b><small data-i="kchPShieldD"></small></button>
+            <button type="button" data-p="lock"><i data-ic="lock"></i><b data-i="kchPLock"></b><small data-i="kchPLockD"></small></button>
+            <button type="button" data-p="clear" class="danger"><i data-ic="trash"></i><b data-i="kchPClear"></b><small data-i="kchPClearD"></small></button>
+          </div>
+
+          <div class="kx-sec" data-i="kcAccess"></div>
+          <div class="kch-card">
+            <div class="kc-item" id="kcRestr">
+              <button class="kc-row" type="button"><span class="kc-ic" data-c="a"><i data-ic="shield"></i></span><span class="kc-t" data-i="kcRestr"></span><span class="kc-v" id="kcRestrV"></span><i data-ic="chevron"></i></button>
+              <div class="kc-body" hidden>
+                <label class="k-toggle"><input type="checkbox" id="kcAccOn"><span class="k-sw"></span><b data-i="kcAccAge"></b></label>
+                <select id="kcAccSel"></select>
+                <label class="k-toggle"><input type="checkbox" id="kcBotOn"><span class="k-sw"></span><b data-i="kcBot"></b></label>
+              </div>
+            </div>
+            <div class="kc-item" id="kcFol">
+              <button class="kc-row" type="button"><span class="kc-ic" data-c="b"><i data-ic="userplus"></i></span><span class="kc-t" data-i="kcFol"></span><span class="kc-v" id="kcFolV"></span><i data-ic="chevron"></i></button>
+              <div class="kc-body" hidden>
+                <label class="k-toggle"><input type="checkbox" id="kcFolOn"><span class="k-sw"></span><b data-i="kcEnable"></b></label>
+                <select id="kcFolSel"></select>
+              </div>
+            </div>
+            <label class="kc-row kc-tg"><span class="kc-ic" data-c="c"><i data-ic="star"></i></span><span class="kc-t" data-i="kcSubs"></span><span class="k-toggle"><input type="checkbox" id="kcSubsOn"><span class="k-sw"></span></span></label>
+          </div>
+
+          <div class="kx-sec" data-i="kcOpts"></div>
+          <div class="kch-card">
+            <label class="kc-row kc-tg"><span class="kc-ic" data-c="d"><i data-ic="smile"></i></span><span class="kc-t" data-i="kcEmotes"></span><span class="k-toggle"><input type="checkbox" id="kcEmoOn"><span class="k-sw"></span></span></label>
+            <div class="kc-item" id="kcSlow">
+              <button class="kc-row" type="button"><span class="kc-ic" data-c="e"><i data-ic="timer"></i></span><span class="kc-t" data-i="kcSlow"></span><span class="kc-v" id="kcSlowV"></span><i data-ic="chevron"></i></button>
+              <div class="kc-body" hidden>
+                <label class="k-toggle"><input type="checkbox" id="kcSlowOn"><span class="k-sw"></span><b data-i="kcEnable"></b></label>
+                <select id="kcSlowSel"></select>
+              </div>
+            </div>
+            <div class="kc-item" id="kcWords">
+              <button class="kc-row" type="button"><span class="kc-ic" data-c="f"><i data-ic="ban"></i></span><span class="kc-t" data-i="kcWords"></span><span class="kc-v" id="kcWordsV"></span><i data-ic="chevron"></i></button>
+              <div class="kc-body" hidden>
+                <div class="kc-add"><input type="text" id="kcWordIn" maxlength="60" spellcheck="false"><button class="sbtn" id="kcWordAdd" type="button"><i data-ic="plus"></i></button></div>
+                <div class="kc-words" id="kcWordList"></div>
+              </div>
+            </div>
+            <button class="kc-row kc-link" id="kcPopout" type="button"><span class="kc-ic" data-c="g"><i data-ic="shield"></i></span><span class="kc-t" data-i="kcPopout"></span><i data-ic="ext"></i></button>
+          </div>
+
+          <div class="kx-sec" data-i="kcChan"></div>
+          <div class="kch-card">
+            <label class="kc-row kc-tg"><span class="kc-ic" data-c="h"><i data-ic="eye"></i></span><span class="kc-t" data-i="kcView"></span><span class="k-toggle"><input type="checkbox" id="kcViewOn" checked><span class="k-sw"></span></span></label>
+            <button class="kc-row" id="kcGoalBtn" type="button"><span class="kc-ic" data-c="k"><i data-ic="target"></i></span><span class="kc-t" data-i="kcGoal"></span><span class="kc-v" id="kcGoalV"></span><i data-ic="chevron"></i></button>
+            <button class="kc-row kc-link" id="kcManage" type="button"><span class="kc-ic" data-c="g"><i data-ic="sliders"></i></span><span class="kc-t" data-i="kcManage"></span><i data-ic="ext"></i></button>
+          </div>
+          <div class="k-snote" id="kcNote" hidden></div>
+          <button class="sbtn" id="kcDash" type="button" hidden><i data-ic="globe"></i><span data-i="kWebDash"></span></button>
+        </div>
+      </div>
+
+      <div class="k-pane" id="kpInfo">
+        <form class="k-info k-edit si-form" id="kInfForm" autocomplete="off">
+          <div class="k-need" id="kInfNeed" hidden>
+            <span data-i="kInfNeed"></span>
+            <button class="sbtn" id="kInfReauth" type="button"><i data-ic="link"></i><span data-i="kReauth"></span></button>
+          </div>
+          <div class="si-card">
+            <div class="si-field">
+              <label class="si-lbl"><i data-ic="edit"></i><span data-i="kInfTitle"></span></label>
+              <input type="text" id="kInfTitleIn" maxlength="140" spellcheck="false">
+            </div>
+            <div class="si-field">
+              <label class="si-lbl"><i data-ic="grid"></i><span data-i="kInfCat"></span></label>
+              <div class="k-menu" id="kCatMenu">
+                <button class="k-menubtn" id="kCatBtn" type="button"><span class="ki-thumb" id="kCatThumb"></span><span id="kCatName">–</span><i data-ic="chevron"></i></button>
+                <div class="k-menulist" id="kCatList" hidden>
+                  <input type="text" id="kCatSearch" spellcheck="false">
+                  <div class="k-menuitems" id="kCatItems"></div>
+                </div>
+              </div>
+            </div>
+            <div class="si-field">
+              <label class="si-lbl"><i data-ic="globe"></i><span data-i="kInfLang"></span></label>
+              <select id="kInfLangIn"></select>
+            </div>
+            <div class="si-field">
+              <label class="si-lbl"><i data-ic="text"></i><span data-i="kInfTags"></span></label>
+              <div class="kt-box" id="kTagsBox"><span class="kt-chips" id="kTagsChips"></span><input type="text" id="kInfTagsIn" maxlength="30" spellcheck="false"></div>
+            </div>
+            <label class="k-toggle si-mature"><input type="checkbox" id="kInfMatIn"><span class="k-sw"></span><span class="si-mt"><b data-i="kInfMature"></b></span></label>
+          </div>
+          <div class="k-btns">
+            <button class="save" id="kInfSave" type="submit"><i data-ic="check"></i><span data-i="kInfSave"></span></button>
+          </div>
+          <div class="k-snote" id="kInfNote" hidden></div>
+          <button class="sbtn" id="kWebLogin" type="button" hidden><i data-ic="link"></i><span data-i="kWebLogin"></span></button>
+        </form>
+      </div>
+    </section>
+
+  </section>
+</main>
+
+<footer class="statusbar">
+  <span class="sb-item"><i class="dot"></i><span id="status"></span></span>
+  <span class="sb-item sb-live">LIVE <b id="timer">00:00:00</b></span>
+  <div class="sp"></div>
+  <span class="sb-item ltr-i" id="fps">30 fps</span>
+  <span class="sb-item sb-delay" id="delay" data-tt="delayTip"><i data-ic="clock"></i><span data-i="delayL"></span><b id="delayV">—</b></span>
+  <span class="sb-item ltr-i">1280×720</span>
+</footer>
+
+<!-- ===== Generic dialog ===== -->
+<div class="overlay" id="dlg">
+  <div class="modal" id="dlgBox">
+    <div class="m-head"><h2 id="dlgT"></h2><button class="icon-btn" id="dlgX"><i data-ic="x"></i></button></div>
+    <div id="dlgB"></div>
+    <div class="m-actions" id="dlgA"></div>
+  </div>
+</div>
+
+<!-- ===== Settings modal (navigation on the RIGHT · a full page per section) ===== -->
+<div class="overlay" id="ov">
+  <div class="modal settings" id="stModal">
+    <section class="st-main">
+      <header class="st-head">
+        <span class="st-hic" id="stHic"></span>
+        <div class="st-ht"><h2 id="stTitle"></h2><small id="stSub"></small></div>
+        <button class="icon-btn" id="closeSettings" type="button"><i data-ic="x"></i></button>
+      </header>
+      <div class="st-scroll" id="stScroll">
+
+        <!-- ================= عام ================= -->
+        <div class="m-body on" id="mGeneral">
+          <section class="sp-card">
+            <header><span class="sp-ic"><i data-ic="globe"></i></span><span class="sp-t"><b data-i="language"></b><small data-i="pgLangS"></small></span></header>
+            <div class="lang-cards" id="langSeg">
+              <button data-lang="ar" type="button"><span class="lc-flag">ع</span><span class="lc-t"><b>العربية</b><small>Arabic · RTL</small></span></button>
+              <button data-lang="en" type="button"><span class="lc-flag">EN</span><span class="lc-t"><b>English</b><small>English · LTR</small></span></button>
+            </div>
+          </section>
+          <section class="sp-card">
+            <header><span class="sp-ic"><i data-ic="palette"></i></span><span class="sp-t"><b data-i="appearance"></b><small data-i="pgThemeS"></small></span></header>
+            <div class="theme-cards" id="themeSeg">
+              <button data-th="light" type="button"><span class="tc-prev tc-day"><i></i><i></i><i></i></span><span class="tc-l"><i data-ic="sun"></i><span data-i="themeLight"></span></span></button>
+              <button data-th="dark" type="button"><span class="tc-prev tc-night"><i></i><i></i><i></i></span><span class="tc-l"><i data-ic="moon"></i><span data-i="themeDark"></span></span></button>
+            </div>
+          </section>
+        </div>
+
+        <!-- ================= جودة الفيديو ================= -->
+        <div class="m-body" id="mVideo">
+          <section class="sp-card">
+            <header><span class="sp-ic"><i data-ic="zap"></i></span><span class="sp-t"><b data-i="sqT"></b><small data-i="sqS"></small></span></header>
+            <div class="sq" id="sq">
+              <div class="sq-presets" id="sqPresets"></div>
+              <div class="sq-row">
+                <div class="sq-f"><label data-i="sqRes"></label><div class="sq-seg" id="sqResSeg"></div><small class="sp-h" data-i="spResH"></small></div>
+                <div class="sq-f"><label data-i="fpsLbl"></label><div class="sq-seg sq-seg-fps" id="sqFpsSeg"></div><small class="sp-h" data-i="spFpsH"></small></div>
+              </div>
+              <div class="sq-sum" id="sqSum"></div>
+              <div class="sq-f"><label data-i="bitrate"></label><select id="bitrate"></select><small class="sp-h" data-i="spBrH"></small></div>
+              <select id="resSel" hidden></select><select id="fpsSel" hidden></select>
+              <div class="sq-note" id="sqNote" hidden></div>
+            </div>
+          </section>
+        </div>
+
+        <!-- ================= التشفير ================= -->
+        <div class="m-body" id="mEncoder">
+          <section class="sp-card">
+            <header><span class="sp-ic"><i data-ic="sliders"></i></span><span class="sp-t"><b data-i="spEncT"></b><small data-i="spEncS"></small></span></header>
+            <div class="sq-row sq-sel">
+              <div class="sq-f"><label data-i="encLbl"></label><select id="encSel"></select><small class="sp-h" data-i="spEncH"></small></div>
+              <div class="sq-f"><label data-i="spRc"></label><select id="rcSel"></select><small class="sp-h" data-i="spRcH"></small></div>
+              <div class="sq-f"><label data-i="spKf"></label><select id="kfSel"></select><small class="sp-h" data-i="spKfH"></small></div>
+              <div class="sq-f"><label data-i="spLl"></label><select id="llSel"></select><small class="sp-h" data-i="spLlH"></small></div>
+            </div>
+          </section>
+        </div>
+
+        <!-- ================= الصوت ================= -->
+        <div class="m-body" id="mAudio">
+          <section class="sp-card">
+            <header><span class="sp-ic"><i data-ic="music"></i></span><span class="sp-t"><b data-i="spAudT"></b><small data-i="spAudS"></small></span></header>
+            <div class="sq-row sq-sel">
+              <div class="sq-f"><label data-i="spAbr"></label><select id="abrSel"></select><small class="sp-h" data-i="spAbrH"></small></div>
+              <div class="sq-f"><label data-i="spAch"></label><select id="achSel"></select><small class="sp-h" data-i="spAchH"></small></div>
+            </div>
+          </section>
+          <section class="sp-card">
+            <header><span class="sp-ic"><i data-ic="headphones"></i></span><span class="sp-t"><b data-i="audioRouteT"></b><small data-i="audioRouteNote"></small></span></header>
+            <label class="k-toggle pg-tg"><input type="checkbox" id="routeApps"><span class="k-sw"></span><b data-i="audioRoute"></b></label>
+          </section>
+          <section class="sp-card">
+            <header><span class="sp-ic"><i data-ic="volume"></i></span><span class="sp-t"><b data-i="audioSceneT"></b><small data-i="audioSceneNote"></small></span></header>
+          </section>
+        </div>
+
+        <!-- ================= فحص الإنترنت ================= -->
+        <div class="m-body" id="mNetwork">
+          <section class="sp-card">
+            <header><span class="sp-ic"><i data-ic="activity"></i></span><span class="sp-t"><b data-i="ncT"></b><small data-i="ncNote"></small></span></header>
+            <div class="nc" id="nc">
+              <div class="nc-acts">
+                <button class="sbtn" id="ncRun" type="button"><i data-ic="zap"></i><span id="ncRunT"></span></button>
+                <button class="sbtn" id="ncStop" type="button" hidden><i data-ic="x"></i><span data-i="ncCancel"></span></button>
+              </div>
+              <div class="nc-bar" id="ncBar" hidden><i id="ncBarI"></i></div>
+              <div class="nc-step" id="ncStep" hidden></div>
+              <div class="nc-res" id="ncRes" hidden></div>
+            </div>
+          </section>
+        </div>
+
+        <!-- ================= مراجعة وقياس ================= -->
+        <div class="m-body" id="mReview">
+          <section class="sp-card sp-final">
+            <header><span class="sp-ic"><i data-ic="check"></i></span><span class="sp-t"><b data-i="spFinT"></b><small data-i="spFinS"></small></span></header>
+            <div class="sp-rows" id="spFinal"></div>
+            <div class="sp-acts">
+              <button class="sbtn" id="spReset" type="button"><i data-ic="x"></i><span data-i="spReset"></span></button>
+            </div>
+          </section>
+          <section class="sp-card" id="lvCard">
+            <header><span class="sp-ic"><i data-ic="activity"></i></span><span class="sp-t"><b data-i="lvT"></b><small data-i="lvS"></small></span><span class="sp-pill" id="lvPill"></span></header>
+            <div class="sp-rows" id="lvRows"></div>
+          </section>
+        </div>
+
+        <!-- ================= Kick ================= -->
+        <div class="m-body" id="mKick">
+          <div class="kk-card">
+            <div class="kk-h"><span class="kk-ic"><i data-ic="chat"></i></span><div class="kk-ht"><b data-i="kkChanT"></b><small data-i="kkChanS"></small></div></div>
+            <label class="kk-lbl" for="kChannelIn" data-i="kChannel"></label>
+            <input type="text" id="kChannelIn" spellcheck="false" dir="ltr" placeholder="username">
+            <div class="hint" data-i="kChannelHint"></div>
+          </div>
+
+          <div class="kk-card" id="kStreamCard">
+            <div class="kk-h"><span class="kk-ic"><i data-ic="radio"></i></span><div class="kk-ht"><b data-i="spConnT"></b><small data-i="spConnS"></small></div><span class="kk-pill" id="spConnPill"></span></div>
+            <div class="sp-f"><label class="kk-lbl" for="kUrl" data-i="streamUrl"></label>
+              <input type="text" id="kUrl" placeholder="rtmps://xxxx.global-contacts.live-video.net:443/app" spellcheck="false" dir="ltr">
+              <small class="sp-h" data-i="spUrlH"></small></div>
+            <div class="sp-f"><label class="kk-lbl" for="kKey" data-i="streamKey"></label>
+              <div class="row"><input type="password" id="kKey" placeholder="sk_us-west-2_xxxxxxxx" spellcheck="false" dir="ltr"><button class="btn" id="eye" type="button"><i data-ic="eye"></i></button></div>
+              <small class="sp-h" data-i="spKeyH"></small></div>
+            <div class="hint" data-i="keyHint"></div>
+          </div>
+
+          <div class="kk-card">
+            <div class="kk-h"><span class="kk-ic"><i data-ic="send"></i></span><div class="kk-ht"><b data-i="kkSendT"></b><small data-i="kkSendS"></small></div><span class="kk-pill" id="kkWebPill"></span></div>
+            <button class="save kk-login" id="kLoginKick" type="button"><i data-ic="login"></i><span id="kLoginKickT"></span></button>
+            <div class="hint" id="kLoginHint" data-i="kLoginHint"></div>
+            <details class="k-adv" id="kTokBox" style="margin-top:8px">
+              <summary><i data-ic="chevron"></i><span data-i="kTokT"></span></summary>
+              <div class="k-adv-in">
+                <div class="hint" data-i="kTokHelp"></div>
+                <input type="password" id="kTokIn" spellcheck="false" dir="ltr" placeholder="session_token">
+                <button class="sbtn" id="kTokBtn" type="button"><i data-ic="check"></i><span data-i="kTokBtn"></span></button>
+              </div>
+            </details>
+          </div>
+
+          <button class="save" id="kConnectBtn" type="button"><i data-ic="check"></i><span id="kConnectT"></span></button>
+
+          <details class="k-adv" id="kAdv">
+            <summary><i data-ic="chevron"></i><span data-i="kAdvT"></span></summary>
+            <div class="k-adv-in">
+              <div class="note" data-i="kAdvNote"></div>
+              <div class="k-conn" id="kConn"><i></i><span id="kConnT"></span></div>
+              <div class="k-steps" id="kSteps">
+                <b data-i="kStepsT"></b>
+                <ol>
+                  <li data-i="kStep1"></li>
+                  <li data-i="kStep2"></li>
+                  <li data-i="kStep3"></li>
+                </ol>
+                <button class="sbtn" id="kOpenDev" type="button"><i data-ic="globe"></i><span data-i="kOpenDev"></span></button>
+              </div>
+              <div class="panel-k">
+                <label data-i="kRedirect"></label>
+                <input type="text" id="kRedirect" spellcheck="false" dir="ltr">
+                <label data-i="kClientId"></label>
+                <input type="text" id="kClientId" spellcheck="false" dir="ltr">
+                <label data-i="kClientSecret"></label>
+                <div class="row">
+                  <input type="password" id="kClientSecret" spellcheck="false" dir="ltr">
+                  <button class="btn" id="kSecEye" type="button"><i data-ic="eye"></i></button>
+                </div>
+                <label data-i="kRoomLbl"></label>
+                <input type="text" id="kRoomIn" spellcheck="false" dir="ltr" inputmode="numeric" placeholder="12345678">
+                <div class="hint" data-i="kRoomHint"></div>
+                <button class="sbtn danger k-disc" id="kDiscBtn" type="button" hidden><i data-ic="unlink"></i><span data-i="kDisconnect"></span></button>
+                <div class="note k-saved" data-i="kSavedNote"></div>
+              </div>
+            </div>
+          </details>
+        </div>
+
+        <!-- ================= الاختصارات ================= -->
+        <div class="m-body" id="mHotkeys">
+          <section class="sp-card">
+            <header><span class="sp-ic"><i data-ic="keyboard"></i></span><span class="sp-t"><b data-i="hkTitle"></b><small data-i="hkHint"></small></span></header>
+            <label class="k-toggle pg-tg"><input type="checkbox" id="hkGlobal"><span class="k-sw"></span><b data-i="hkGlobal"></b></label>
+            <div class="hk-list" id="hkList"></div>
+            <button class="sbtn hk-add" id="hkAdd" type="button"><i data-ic="plus"></i><span data-i="hkAdd"></span></button>
+          </section>
+        </div>
+
+        <!-- ================= الانتقالات ================= -->
+        <div class="m-body" id="mTransitions">
+          <section class="sp-card">
+            <header><span class="sp-ic"><i data-ic="shuffle"></i></span><span class="sp-t"><b data-i="trType"></b><small data-i="trNote"></small></span></header>
+            <div class="tr-grid" id="trGrid"></div>
+          </section>
+          <section class="sp-card">
+            <header><span class="sp-ic"><i data-ic="clock"></i></span><span class="sp-t"><b data-i="trDur"></b></span></header>
+            <div class="rg tr-dur"><input type="range" id="trDur" min="150" max="2000" step="50"><output id="trDurO"></output></div>
+          </section>
+        </div>
+
+        <!-- ================= التحديثات ================= -->
+        <div class="m-body" id="mUpdates">
+          <section class="sp-card">
+            <header><span class="sp-ic"><i data-ic="refresh"></i></span><span class="sp-t"><b data-i="updTab"></b><small data-i="pg_updates"></small></span><span class="sp-pill" id="updPill"></span></header>
+            <div class="upd-hero" id="updHero"></div>
+            <div id="updRows"></div>
+            <div id="updNotes"></div>
+            <div class="upd-act">
+              <button class="sbtn" id="updCheckBtn" type="button"><i data-ic="refresh"></i><span id="updCheckT"></span></button>
+              <button class="sbtn on" id="updRunBtn" type="button" hidden><i data-ic="check"></i><span id="updRunT"></span></button>
+            </div>
+            <small class="sp-h" id="updNote"></small>
+          </section>
+        </div>
+
+      </div>
+      <footer class="st-foot" id="stFoot" hidden>
+        <span class="st-auto" id="stAuto"><i data-ic="check"></i><span id="stAutoT"></span></span>
+        <span class="sp"></span>
+        <button class="save" id="saveBtn" type="button"><i data-ic="check"></i><span data-i="save"></span></button>
+      </footer>
+    </section>
+
+    <aside class="st-side">
+      <div class="st-brand"><img src="../assets/logo.png" alt=""><div><b>Stream <em>Extra</em></b></div></div>
+      <nav class="st-nav" id="mTabs">
+        <div class="st-grp" data-i="grpGeneral"></div>
+        <button class="on" data-mtab="general" type="button"><i data-ic="palette"></i><span data-i="general"></span></button>
+        <div class="st-grp" data-i="grpStream"></div>
+        <button data-mtab="video" type="button"><i data-ic="monitor"></i><span data-i="stVideo"></span></button>
+        <button data-mtab="encoder" type="button"><i data-ic="sliders"></i><span data-i="stEncoder"></span></button>
+        <button data-mtab="audio" type="button"><i data-ic="music"></i><span data-i="audioTab"></span></button>
+        <button data-mtab="network" type="button"><i data-ic="activity"></i><span data-i="stNetwork"></span></button>
+        <button data-mtab="review" type="button"><i data-ic="check"></i><span data-i="stReview"></span></button>
+        <div class="st-grp" data-i="grpKick"></div>
+        <button data-mtab="kick" type="button"><i data-ic="link"></i><span data-i="kickTab"></span></button>
+        <div class="st-grp" data-i="grpControl"></div>
+        <button data-mtab="hotkeys" type="button"><i data-ic="keyboard"></i><span data-i="hkTitle"></span></button>
+        <button data-mtab="transitions" type="button"><i data-ic="shuffle"></i><span data-i="transition"></span></button>
+        <div class="st-grp" data-i="grpAbout"></div>
+        <button data-mtab="updates" type="button"><i data-ic="refresh"></i><span data-i="updTab"></span><em class="upd-dot" id="updDot" hidden></em></button>
+      </nav>
+    </aside>
+  </div>
+</div>
+
+<div id="toast"></div>
+
+<script src="app.js"></script>
+<script src="kpanel.js"></script>
+<script src="kick.js"></script>
+<script src="kcmd.js"></script>
+<script src="kdash.js"></script>
+<script src="netcheck.js"></script>
+<script src="streamq.js"></script>
+<script src="settings.js"></script>
+<script src="updater.js"></script>
+</body>
+</html>
