@@ -1,14 +1,14 @@
 'use strict';
 /* ============================================================
-   v1.5 — تخطيط الصناديق (المشاهد / العناصر / الخلاط / الجلسة / الشات):
+   v1.7 — تخطيط الصناديق (المشاهد / العناصر / الخلاط / الجلسة / الشات):
    - اسحب شريط عنوان أي صندوق لتغيير مكانه.
    - اسحب حافة الصندوق (الخط بين صندوقين) لتكبيره أو تصغيره.
    - زر الإعادة في شريط المعاينة (أو دبل-كليك على الحافة) يرجع التخطيط الافتراضي.
    الترتيب والأحجام تُحفظ تلقائياً.
    ============================================================ */
 (() => {
-  Object.assign(I18N.ar, { layoutResetT: 'إعادة ترتيب الصناديق وأحجامها للوضع الافتراضي' });
-  Object.assign(I18N.en, { layoutResetT: 'Reset box layout and sizes' });
+  Object.assign(I18N.ar, { layoutResetT: 'إعادة ترتيب الصناديق وأحجامها للوضع الافتراضي', layoutLockT: 'قفل / فتح تخطيط الصناديق' });
+  Object.assign(I18N.en, { layoutResetT: 'Reset box layout and sizes', layoutLockT: 'Lock / unlock box layout' });
 
   const row = document.querySelector('.docks'); if (!row) return;
   const ORDER_K = 'se_dock_order', W_K = 'se_dock_w';
@@ -45,7 +45,7 @@
     const h = document.createElement('div'); h.className = 'dresz'; d.appendChild(h);
     h.addEventListener('dblclick', reset);
     h.addEventListener('pointerdown', e => {
-      if (e.button !== 0) return;
+      if (e.button !== 0 || document.body.classList.contains('dock-locked')) return;
       const a = d, b = d.nextElementSibling; if (!b || !b.classList.contains('dock')) return;
       e.preventDefault(); h.setPointerCapture(e.pointerId); h.classList.add('drag'); document.body.classList.add('dock-sizing');
       const x0 = e.clientX, wa = a.getBoundingClientRect().width, wb = b.getBoundingClientRect().width, sum = wa + wb;
@@ -66,6 +66,7 @@
     if (e.button !== 0) return;
     const head = e.target.closest('.dock-head'); if (!head || !row.contains(head)) return;
     if (e.target.closest('button,select,input,textarea,label,a,.k-tabs,.k-stats,.scn-chip')) return;
+    if (document.body.classList.contains('dock-locked')) return;
     const d = head.closest('.dock'); if (!d || document.body.classList.contains('k-bigmode')) return;
     const x0 = e.clientX; let moving = false;
     const mv = ev => {
@@ -88,6 +89,10 @@
   });
 
   const rb = byId('layoutReset'); if (rb) { rb.onclick = reset; try { paintIcons(rb); } catch (e) {} }
+  const lb = byId('layoutLock');
+  const setLock = on => { document.body.classList.toggle('dock-locked', on); if (lb) lb.classList.toggle('on', on); };
+  if (lb) { try { paintIcons(lb); } catch (e) {} lb.onclick = () => { const on = !document.body.classList.contains('dock-locked'); setLock(on); LS.set('se_dock_lock', on ? '1' : '0'); }; }
+  setLock(LS.get('se_dock_lock', '0') === '1');
   load();
   try { applyI18n(); } catch (e) {}
 })();

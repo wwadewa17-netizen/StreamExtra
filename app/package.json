@@ -5,14 +5,20 @@
   "main": "main.js",
   "author": "Stream Extra",
   "license": "MIT",
-  "version": "1.6",
+  "version": "1.7",
   "releaseDate": "2026-11-26",
   "notes": {
     "ar": [
-      "صناديق الواجهة (المشاهد، العناصر، الخلاط، الجلسة، الشات) صارت قابلة للتحريك (اسحب شريط العنوان) والتكبير والتصغير (اسحب الحافة) وتُحفظ تلقائياً مع زر إعادة التخطيط؛ ورجعت قوائم النشاط والإشراف والقناة والمعلومات في لوحة Kick؛ والجلسة لوحة مستقلة بتصميم مضغوط"
+      "صناديق الواجهة (المشاهد، العناصر، الخلاط، الجلسة، الشات) قابلة للتحريك بسحب شريط العنوان وللتكبير والتصغير بسحب الحافة، وتُحفظ تلقائياً",
+      "أزرار جديدة في شريط المعاينة: إعادة التخطيط الافتراضي، وقفل التخطيط لمنع التحريك بالخطأ",
+      "رجعت قوائم النشاط والإشراف والقناة والمعلومات في لوحة Kick، والجلسة لوحة مستقلة بتصميم مضغوط",
+      "تحديث بيانات الجلسة بشكل مستمر حتى أثناء فتح قوائم أخرى"
     ],
     "en": [
-      "All dock boxes (Scenes, Sources, Mixer, Session, Chat) can now be moved (drag the title bar) and resized (drag the edge), saved automatically, with a reset-layout button; the Activity, Moderation, Channel and Info menus are back in the Kick panel; Session is its own compact dock"
+      "All dock boxes (Scenes, Sources, Mixer, Session, Chat) can be moved by dragging the title bar and resized by dragging the edge, saved automatically",
+      "New buttons in the preview bar: reset the layout to default, and lock the layout to prevent accidental moves",
+      "Activity, Moderation, Channel and Info menus are back in the Kick panel; Session is its own compact dock",
+      "Session data keeps refreshing even while other menus are open"
     ]
   }
 }

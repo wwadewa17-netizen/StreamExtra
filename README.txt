@@ -49,6 +49,15 @@ Build_StreamExtra.cmd still builds a portable "StreamExtra" folder for testing. 
 
 Your settings and Kick link are stored in %AppData%\StreamExtra (+ a backup in %LocalAppData%\StreamExtra-Backup).
 
+v1.7
+----
+- Layout lock button (prevents accidental moves/resizes) next to the reset button; both remembered.
+- Includes everything from 1.5/1.6 below (GitHub already had 1.5 and 1.6 without these changes, so users get 1.7).
+
+v1.6
+----
+- Same files as 1.5 (re-published); superseded by 1.7.
+
 v1.5
 ----
 - Dock boxes (Scenes, Sources, Mixer, Session, Chat) are movable (drag title bar) and resizable (drag edge); layout saved; reset button in the preview bar.

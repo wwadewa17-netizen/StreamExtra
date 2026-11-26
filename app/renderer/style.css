@@ -1662,3 +1662,7 @@ body.k-bigmode #dkKick{width:min(440px,94vw)}
 #kpSession .ks-svg{height:64px}
 #kpSession .ks-r{font-size:12px;padding:7px 0}
 @container (min-width:330px){ #kpSession .ks-grid{grid-template-columns:repeat(3,minmax(0,1fr))} #kpSession .ks-grid .kx-cell.wide{grid-column:1/-1} #kpSession .ks-grid .kx-cell b{font-size:17px} #kpSession .kx-cell{padding:7px 9px} #kpSession .ks-grid .kx-cell small{font-size:11px} }
+
+/* v1.7: قفل التخطيط */
+body.dock-locked .dresz{display:none}
+body.dock-locked .dock-head{cursor:default}
