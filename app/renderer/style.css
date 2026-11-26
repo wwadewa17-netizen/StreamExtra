@@ -111,7 +111,7 @@ body.guides #guides{display:block}
 .d-body{flex:1;overflow:auto;padding:12px 14px 18px}
 
 /* ---------- docks ---------- */
-.docks{height:var(--dock-h);flex:none;display:grid;grid-template-columns:1fr 1.25fr 1.5fr .9fr;gap:6px}
+.docks{height:var(--dock-h);flex:none;display:grid;grid-template-columns:.8fr 1fr 1.1fr 2.3fr;gap:6px}
 .dock{background:var(--panel);border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--sh);display:flex;flex-direction:column;min-height:0;min-width:0;overflow:hidden}
 .dock-head{display:flex;align-items:center;justify-content:space-between;height:30px;padding:0 10px;border-bottom:1px solid var(--line);background:var(--head);flex:none}
 .p-title{display:flex;align-items:center;gap:7px;font-size:12px;font-weight:700;color:var(--txt)}
@@ -1618,3 +1618,15 @@ html[data-theme=light] .sp-card{box-shadow:0 4px 16px rgba(20,20,30,.06)}
 
 /* v1.3: the logo has its own rounded corners and transparent edges */
 .brand-wrap img,.st-brand img{border-radius:0!important;box-shadow:none!important;background:none!important;object-fit:contain;filter:drop-shadow(0 3px 9px rgba(var(--ac-rgb),.45))}
+
+
+/* ================= v1.5: الشات + الجلسة جنب بعض دائماً (بدون تبويبات) ================= */
+#kTabs{display:none!important}
+#dkKick{display:grid!important;grid-template-columns:minmax(0,1fr) minmax(0,1fr);grid-template-rows:auto minmax(0,1fr)}
+#dkKick > .dock-head{grid-column:1/-1}
+#dkKick > #kpChat, #dkKick > #kpSession{display:flex!important;grid-row:2;min-width:0;min-height:0}
+#dkKick > #kpSession{border-inline-start:1px solid var(--line)}
+#dkKick > #kpActivity, #dkKick > #kpMod, #dkKick > #kpChannel, #dkKick > #kpInfo{display:none!important}
+#dkKick .k-stats{display:flex}
+#dkKick .dock-head .k-chan{margin-inline-start:6px}
+body.k-bigmode #dkKick{width:min(920px,96vw)}

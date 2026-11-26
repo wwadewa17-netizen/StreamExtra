@@ -49,6 +49,10 @@ Build_StreamExtra.cmd still builds a portable "StreamExtra" folder for testing. 
 
 Your settings and Kick link are stored in %AppData%\StreamExtra (+ a backup in %LocalAppData%\StreamExtra-Backup).
 
+v1.5
+----
+- Kick panel simplified: Chat and Session are always shown side by side (no tabs, no clicking). Other tabs hidden.
+
 v1.4
 ----
 - Fix: stream could not start ("IO error: End of file"). The stream URL is now corrected automatically (:443/app added, key split if pasted inside the URL) + clearer error message.

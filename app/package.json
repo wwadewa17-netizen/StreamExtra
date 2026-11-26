@@ -5,16 +5,14 @@
   "main": "main.js",
   "author": "Stream Extra",
   "license": "MIT",
-  "version": "1.4",
+  "version": "1.5",
   "releaseDate": "2026-11-26",
   "notes": {
     "ar": [
-      "إصلاح مشكلة عدم القدرة على بدء البث (انقطع الاتصال مع Kick / IO error: End of file): البرنامج يصحّح رابط البث تلقائياً (يضيف :443/app) ويفصل المفتاح لو انلصق مع الرابط، ورسالة خطأ أوضح",
-      "تسهيل تسجيل الدخول: زر واحد فقط «تسجيل الدخول»، وطريقة Google/Apple تظهر تلقائياً فقط لو فشل الدخول، وتطبيق المطوّر انتقل لخيارات متقدمة غير ضرورية"
+      "لوحة Kick صارت مبسّطة: الشات والجلسة ظاهرين دائماً بجانب بعض بدون الحاجة لتحريك الماوس أو الضغط على قائمة، وأُخفيت باقي التبويبات"
     ],
     "en": [
-      "Fixed the stream not starting (Kick connection lost / IO error: End of file): the app now auto-corrects the stream URL (adds :443/app), splits a key pasted into the URL, and shows a clearer error",
-      "Simpler sign-in: a single \"Sign in\" button; the Google/Apple fallback appears only if sign-in fails, and the developer app moved to optional advanced settings"
+      "Simplified Kick panel: Chat and Session are always shown side by side - no mouse movement or menu clicks needed; the other tabs are hidden"
     ]
   }
 }
