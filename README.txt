@@ -49,6 +49,15 @@ Build_StreamExtra.cmd still builds a portable "StreamExtra" folder for testing. 
 
 Your settings and Kick link are stored in %AppData%\StreamExtra (+ a backup in %LocalAppData%\StreamExtra-Backup).
 
+v2.0
+----
+- Kick pages (inside the chat) redesigned: ONE tab bar at the top, all buttons side by side:
+  Chat | Activity | Moderation | Channel | Info.  (the old bottom bar and the "back to chat" button are gone)
+- Channel page is live again (the "coming soon" cover was removed) and grouped in clear categories:
+  Quick presets -> Chat access -> Chat options -> Channel options.
+- Activity / Moderation pages: tidy toolbar, one-row scrollable filters, clearer stat cards.
+- Alerts window redesigned: the left side lists the alert TYPES (Follow alert for now). Click one and ALL its settings are on one page: live preview (drag image / name with the mouse) + General, Image (add / change / remove, size, X/Y), Account name (show, size, color, X/Y) and Card look (border color, background color + opacity).
+
 v1.9
 ----
 - Whole UI re-arranged: big preview + bottom row (Scenes, Sources, Mixer, Session) on one side, and a fixed side column (control panel + full-height Kick chat) on the other. Drag the divider to resize the side column (double-click = default).

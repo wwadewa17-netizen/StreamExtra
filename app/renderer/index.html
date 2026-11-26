@@ -154,7 +154,6 @@ document.documentElement.dataset.theme=t;}catch(e){document.documentElement.data
       <div class="dock-head kh">
         <span class="p-title"><i data-ic="chat"></i><span data-i="kChat"></span><span class="k-dot" id="kDot"></span></span>
         <span class="k-chan" id="kChan" dir="ltr" hidden></span>
-        <button class="kh-back" id="kBack" data-kt="chat" type="button" data-tt="kTabChat"><i data-ic="chat"></i><span data-i="kTabChat"></span></button>
         <span class="sp"></span>
         <span class="k-stats">
           <span class="k-st" id="kViews" data-tt="kViewers"><i data-ic="eye"></i><b>–</b></span>
@@ -166,6 +165,16 @@ document.documentElement.dataset.theme=t;}catch(e){document.documentElement.data
           <button class="icon-btn" id="kBig" type="button" data-tt="kExpand"><i data-ic="maximize"></i></button>
         </span>
       </div>
+
+
+      <!-- ===== شريط الأقسام (صف واحد، أزرار متجاورة) ===== -->
+      <nav class="k-tabs k-nav" id="kTabs">
+        <button data-kt="chat" type="button" class="on" data-tt="kTabChat"><i data-ic="chat"></i><span data-i="kTabChat"></span></button>
+        <button data-kt="activity" type="button" data-tt="kTabActivity"><i data-ic="heart"></i><span data-i="kTabActivity"></span></button>
+        <button data-kt="mod" type="button" data-tt="kTabMod"><i data-ic="shield"></i><span data-i="kTabMod"></span></button>
+        <button data-kt="channel" type="button" data-tt="kTabChannel"><i data-ic="sliders"></i><span data-i="kTabChannel"></span></button>
+        <button data-kt="info" type="button" data-tt="kTabInfo"><i data-ic="info"></i><span data-i="kTabInfoS"></span></button>
+      </nav>
 
       <div class="k-pane on" id="kpChat">
         <div class="kch-live kch-live-chat" id="kcLive"></div>
@@ -235,11 +244,6 @@ document.documentElement.dataset.theme=t;}catch(e){document.documentElement.data
       <!-- ===== إجراءات القناة ===== -->
       <div class="k-pane" id="kpChannel">
         <div class="kx-scroll kch">
-          <div class="kch-soon">
-            <span class="kch-soon-ic"><i data-ic="sliders"></i></span>
-            <b data-i="kchSoonT"></b>
-            <small data-i="kchSoonS"></small>
-          </div>
           <div class="k-need" id="kcNeed" hidden><span id="kcNeedT"></span><button class="sbtn" id="kcNeedBtn" type="button"><i data-ic="link"></i><span id="kcNeedBtnT"></span></button></div>
 
           <div class="kx-bar">
@@ -344,13 +348,6 @@ document.documentElement.dataset.theme=t;}catch(e){document.documentElement.data
           <button class="sbtn" id="kWebLogin" type="button" hidden><i data-ic="link"></i><span data-i="kWebLogin"></span></button>
         </form>
       </div>
-      <!-- ===== شريط الأقسام (4 خانات) ===== -->
-      <nav class="k-tabs k-nav" id="kTabs">
-        <button data-kt="activity" type="button" data-tt="kTabActivity"><i data-ic="heart"></i><span data-i="kTabActivity"></span></button>
-        <button data-kt="mod" type="button" data-tt="kTabMod"><i data-ic="shield"></i><span data-i="kTabMod"></span></button>
-        <button data-kt="channel" type="button" data-tt="kTabChannel"><i data-ic="sliders"></i><span data-i="kTabChannel"></span></button>
-        <button data-kt="info" type="button" data-tt="kTabInfo"><i data-ic="info"></i><span data-i="kTabInfo"></span></button>
-      </nav>
     </section>
   </aside>
 </main>

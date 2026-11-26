@@ -73,7 +73,7 @@
     kNotSent: 'Kick ما أرسلت الرسالة (ممكن الشات للمتابعين فقط أو أنت مكتوم).', kMention: 'منشن', kReply: 'ردّ', kDeleted: '(محذوفة)',
     kEmotesT: 'إيموجيات القناة', kEmojisT: 'إيموجي', kNoEmotes: 'ما قدرت أجيب إيموجيات القناة الآن.',
     /* stream info */
-    kTabChat: 'الدردشة', kTabInfo: 'معلومات البث',
+    kTabChat: 'الدردشة', kTabInfo: 'معلومات البث', kTabInfoS: 'المعلومات',
     kBrCf: 'Kick طلبت التحقق (Cloudflare). افتح الإعدادات ← ربط Kick، وسجّل دخول موقع Kick مرة وحدة، ثم أعد تشغيل البرنامج.', kBrFail: 'تعذر فتح صفحة شات Kick. تأكد من الإنترنت واسم القناة.',
     kInfTags: 'الوسوم (Tags)', kInfTagsPh: 'اكتب وسماً واضغط Enter', kInfNoTitle: 'بدون عنوان', kInfViewers: '{n} مشاهد',
     kInfTitle: 'اسم البث', kInfCat: 'التصنيف (Category)', kInfLang: 'اللغة', kInfMature: 'محتوى للبالغين (+18)', kInfSave: 'حفظ في Kick',
@@ -120,7 +120,7 @@
     kAuthLost: 'The Kick login expired. Open Settings → Kick link and reconnect.',
     kNotSent: 'Kick did not deliver the message (followers-only chat, or you are timed out).', kMention: 'Mention', kReply: 'Reply', kDeleted: '(deleted)',
     kEmotesT: 'Channel emotes', kEmojisT: 'Emoji', kNoEmotes: 'Could not load the channel emotes right now.',
-    kTabChat: 'Chat', kTabInfo: 'Stream info',
+    kTabChat: 'Chat', kTabInfo: 'Stream info', kTabInfoS: 'Info',
     kBrCf: 'Kick asked for verification (Cloudflare). Open Settings → Kick link, log in to the Kick website once, then restart the app.', kBrFail: 'Could not open the Kick chat page. Check the internet and the channel name.',
     kInfTags: 'Tags', kInfTagsPh: 'Type a tag and press Enter', kInfNoTitle: 'No title', kInfViewers: '{n} viewers',
     kInfTitle: 'Stream title', kInfCat: 'Category', kInfLang: 'Language', kInfMature: 'Mature content (18+)', kInfSave: 'Save to Kick',
@@ -243,8 +243,6 @@
     if(window.KX){ KX.cfgChanged(); }
   }
   document.querySelectorAll('#dkKick [data-kt]').forEach(b => b.onclick = () => showTab(b.dataset.kt));
-  // الضغط على الخانة المفتوحة مرة ثانية يرجع للشات
-  $('kTabs').addEventListener('click', e => { const b = e.target.closest('[data-kt]'); if(b && b.classList.contains('on')){ e.stopImmediatePropagation(); $('kBack').click(); } }, true);
   $('kBig').onclick = () => document.body.classList.toggle('k-bigmode');
   document.addEventListener('keydown', e => { if(e.key === 'Escape' && document.body.classList.contains('k-bigmode') && !K.pickerOpen) document.body.classList.remove('k-bigmode'); });
   $('kGear').onclick = () => openSettings('kick');

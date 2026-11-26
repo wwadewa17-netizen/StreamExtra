@@ -5,18 +5,20 @@
   "main": "main.js",
   "author": "Stream Extra",
   "license": "MIT",
-  "version": "1.9",
+  "version": "2.0",
   "releaseDate": "2026-11-26",
   "notes": {
     "ar": [
-      "إعادة ترتيب الواجهة بالكامل: المعاينة أكبر، وعمود جانبي ثابت فيه لوحة التحكم وشات Kick بكامل الطول",
-      "صف سفلي منظّم: المشاهد، العناصر، الخلاط، الجلسة — والخط الفاصل بين المعاينة والعمود الجانبي قابل للسحب",
-      "زر الأليرتات صار تحت زر الإعدادات في لوحة التحكم بدل ترويسة Kick"
+      "تصميم جديد لصفحات Kick داخل الدردشة: شريط أقسام واحد في الأعلى بأزرار متجاورة (الدردشة · النشاط · المشرف · القناة · المعلومات)",
+      "صفحة القناة صارت شغالة بالكامل ومرتبة بفئات واضحة: إعدادات سريعة، الوصول للدردشة، خيارات الدردشة، خيارات القناة",
+      "تحسين صفحتي النشاط والمشرف: شريط أدوات مرتب، فلاتر في صف واحد قابل للتمرير، وبطاقات إحصاء أوضح",
+      "نافذة الأليرتات: قائمة أنواع الأليرتات على الشمال (المتابعة حالياً)، وكل إعدادات الأليرت في صفحة واحدة: معاينة بالسحب، إضافة صورة، اسم الحساب (حجم/لون/مكان)، وشكل البطاقة"
     ],
     "en": [
-      "Whole interface re-arranged: bigger preview, plus a fixed side column with the control panel and a full-height Kick chat",
-      "Tidy bottom row: Scenes, Sources, Mixer, Session — and the divider between the preview and the side column can be dragged",
-      "The Alerts button now sits under the Settings button in the control panel instead of the Kick header"
+      "New design for the Kick pages inside the chat: one tab bar at the top with side-by-side buttons (Chat · Activity · Moderation · Channel · Info)",
+      "The Channel page is fully working again and neatly grouped: quick presets, chat access, chat options, channel options",
+      "Cleaner Activity and Moderation pages: tidy toolbar, single-row scrollable filters and clearer stat cards",
+      "Alerts window: alert types list on the left (Follow for now) and all settings on one page: draggable preview, add image, account name (size/color/position) and card look"
     ]
   }
 }
