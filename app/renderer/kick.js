@@ -173,28 +173,30 @@
 
   /* ---------- v1.3.0: نصوص تسجيل الدخول بحساب Kick (تغلب القديمة) ---------- */
   Object.assign(I18N.ar, {
-    kkSendT: 'تسجيل الدخول بحساب Kick', kkSendS: 'سجّل دخول حسابك على موقع Kick (بدون تطبيق مطوّر) لتشتغل الكتابة والأوامر',
+    kkSendT: 'تسجيل الدخول', kkSendS: 'خطوة وحدة: اضغط الزر وسجّل دخولك بحساب Kick. بعدها كل شي (الشات والأوامر والإرسال) يشتغل.',
     kLoginKick: 'تسجيل الدخول بحساب Kick', kLogoutKick: 'تسجيل الخروج',
     kLoginHint: 'تنفتح نافذة Kick داخل البرنامج: سجّل دخولك بحسابك مرة وحدة وتنغلق لحالها، ويبقى الدخول محفوظاً.',
-    kWebOpening: 'جاري فتح نافذة تسجيل الدخول...', kWebOk: 'تم تسجيل الدخول {n}', kWebFail: 'ما تم تسجيل الدخول. جرّب مرة ثانية أو استخدم الطريقة البديلة (لصق session_token).', kWebOut: 'تم تسجيل الخروج',
-    kTokT: 'طريقة بديلة: لصق session_token (إذا Google منع الدخول داخل البرنامج)', kTokHelp: 'في متصفحك المسجّل دخول: kick.com ← F12 ← Application ← Cookies ← kick.com ← انسخ قيمة session_token والصقها هنا.', kTokBtn: 'حفظ', kTokBad: 'القيمة غير صالحة.',
-    kNeedLoginSend: 'سجّل دخول حسابك على Kick أولاً (الإعدادات ← ربط Kick ← تسجيل الدخول).',
+    kWebOpening: 'جاري فتح نافذة تسجيل الدخول...', kWebOk: 'تم تسجيل الدخول {n}', kWebFail: 'ما تم تسجيل الدخول. جرّب مرة ثانية، أو افتح «حسابي مربوط بـ Google» تحت الزر.', kWebOut: 'تم تسجيل الخروج',
+    kTokT: 'حسابي مربوط بـ Google أو Apple ولا يدخل؟', kTokHelp: 'Google وApple ما بيسمحوا بالدخول من داخل أي برنامج. افتح kick.com في متصفحك العادي وسجّل دخول، ثم F12 ← Application ← Cookies ← kick.com ← انسخ قيمة session_token والصقها هنا (مرة وحدة فقط).', kTokBtn: 'حفظ', kTokBad: 'القيمة غير صالحة.',
+    kNeedLoginSend: 'سجّل دخولك أولاً (الإعدادات ← Kick ← تسجيل الدخول).',
     kSyncReadOnly: 'قراءة فقط · للإرسال سجّل دخولك من ⚙', kkLogged: 'تم تسجيل الدخول ✔', kkNotLogged: 'غير مسجّل',
     kNewStream: '— بدأ بث جديد: تم تصفير الشات —', kNewStreamApp: '— بدأت بث جديد: تم تصفير الشات —', kRestored: '— سجل الشات المحفوظ من البث السابق —',
     kLoginT: 'سجّل دخول حسابك لتتمكن من الكتابة', kLoginBtn: 'تسجيل الدخول',
-    kAdvT: 'ربط حساب المطوّر (اختياري)', kAdvNote: 'اختياري. الأوامر والإرسال تشتغل بتسجيل دخول حسابك فوق. ربط المطوّر يضيف الإحصائيات الرسمية والإشراف عبر API.'
+    kAdvT: 'خيارات متقدمة (مش ضرورية)', kAdvNote: 'ما تحتاجها: تسجيل الدخول فوق يكفي لكل شي. هذا فقط لمن يريد ربط تطبيق مطوّر Kick الرسمي (إحصائيات وإشراف عبر API).',
+    kSaveChat: 'حفظ'
   });
   Object.assign(I18N.en, {
-    kkSendT: 'Sign in with your Kick account', kkSendS: 'Sign in to your account on the Kick website (no developer app) so chat and commands work',
+    kkSendT: 'Sign in', kkSendS: 'One step: press the button and sign in with your Kick account. Chat, commands and sending then all work.',
     kLoginKick: 'Sign in with Kick account', kLogoutKick: 'Sign out',
     kLoginHint: 'A Kick window opens inside the app: sign in to your account once and it closes by itself. The login stays saved.',
-    kWebOpening: 'Opening the sign-in window...', kWebOk: 'Signed in {n}', kWebFail: 'Sign-in did not complete. Try again or use the alternative (paste session_token).', kWebOut: 'Signed out',
-    kTokT: 'Alternative: paste session_token (if Google blocks sign-in inside the app)', kTokHelp: 'In your normal browser while logged in: kick.com → F12 → Application → Cookies → kick.com → copy the session_token value and paste it here.', kTokBtn: 'Save', kTokBad: 'Invalid value.',
+    kWebOpening: 'Opening the sign-in window...', kWebOk: 'Signed in {n}', kWebFail: 'Sign-in did not complete. Try again, or open "Account linked to Google" under the button.', kWebOut: 'Signed out',
+    kTokT: 'Account linked to Google or Apple and cannot sign in?', kTokHelp: 'Google and Apple do not allow sign-in inside apps. Open kick.com in your normal browser and sign in, then F12 → Application → Cookies → kick.com → copy the session_token value and paste it here (one time only).', kTokBtn: 'Save', kTokBad: 'Invalid value.',
     kNeedLoginSend: 'Sign in to your Kick account first (Settings → Kick link → Sign in).',
     kSyncReadOnly: 'Read only · sign in from ⚙ to send', kkLogged: 'Signed in ✔', kkNotLogged: 'Not signed in',
     kNewStream: '— New stream started: chat was reset —', kNewStreamApp: '— You started a new stream: chat was reset —', kRestored: '— Saved chat log from the previous stream —',
     kLoginT: 'Sign in to your account to chat', kLoginBtn: 'Sign in',
-    kAdvT: 'Link developer account (optional)', kAdvNote: 'Optional. Commands and sending work with the account sign-in above. Developer link adds official stats and API moderation.'
+    kAdvT: 'Advanced options (not needed)', kAdvNote: 'You do not need this: the sign-in above is enough for everything. Only for linking Kick\'s official developer app (official stats and API moderation).',
+    kSaveChat: 'Save'
   });
 
   /* ---------- state ---------- */
@@ -1044,6 +1046,7 @@ body{color:${txt}!important}
   ['kClientId', 'kClientSecret'].forEach(id => $(id).addEventListener('input', () => { try{ setConn(); }catch(e){} }));
   $('kSecEye').onclick = () => { const k = $('kClientSecret'); k.type = k.type === 'password' ? 'text' : 'password'; };
   $('kOpenDev').onclick = () => api.kickOpenDev();
+  $('kChannelIn').addEventListener('change', () => { if(!K.busy) $('kConnectBtn').click(); });   // v1.4: حفظ تلقائي لاسم القناة
   $('kConnectBtn').onclick = async () => {
     if(K.busy) return;
     const was = K.cfg || {};
@@ -1083,7 +1086,7 @@ body{color:${txt}!important}
       toast(t('kWebOpening'), 6000);
       const r = await api.kickWebLogin();
       if(r && r.ok) await afterWebLogin();
-      else if(r && r.code !== 'busy') toast(t('kWebFail'), 6000);
+      else if(r && r.code !== 'busy'){ toast(t('kWebFail'), 6000); try{ $('kTokBox').open = true; }catch(e){} }
     } finally { K.busy = false; $('kLoginKick').disabled = false; try{ setConn(); }catch(e){} }
   };
   $('kTokBtn').onclick = async () => {

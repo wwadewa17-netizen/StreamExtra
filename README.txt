@@ -49,6 +49,11 @@ Build_StreamExtra.cmd still builds a portable "StreamExtra" folder for testing. 
 
 Your settings and Kick link are stored in %AppData%\StreamExtra (+ a backup in %LocalAppData%\StreamExtra-Backup).
 
+v1.4
+----
+- Fix: stream could not start ("IO error: End of file"). The stream URL is now corrected automatically (:443/app added, key split if pasted inside the URL) + clearer error message.
+- Simpler sign-in: one "Sign in" button; Google/Apple fallback shows only when needed; developer app moved to optional Advanced.
+
 v1.3
 ----
 - New logo everywhere (app header, settings, window icon, desktop shortcut, installer); black edges removed, transparent rounded corners.

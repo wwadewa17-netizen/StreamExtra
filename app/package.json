@@ -5,16 +5,16 @@
   "main": "main.js",
   "author": "Stream Extra",
   "license": "MIT",
-  "version": "1.3",
+  "version": "1.4",
   "releaseDate": "2026-11-26",
   "notes": {
     "ar": [
-      "شعار جديد احترافي في كل مكان: داخل البرنامج، وأيقونة النافذة، واختصار سطح المكتب، وشاشة التثبيت",
-      "إزالة الحواف السوداء حول الشعار وجعل زواياه شفافة"
+      "إصلاح مشكلة عدم القدرة على بدء البث (انقطع الاتصال مع Kick / IO error: End of file): البرنامج يصحّح رابط البث تلقائياً (يضيف :443/app) ويفصل المفتاح لو انلصق مع الرابط، ورسالة خطأ أوضح",
+      "تسهيل تسجيل الدخول: زر واحد فقط «تسجيل الدخول»، وطريقة Google/Apple تظهر تلقائياً فقط لو فشل الدخول، وتطبيق المطوّر انتقل لخيارات متقدمة غير ضرورية"
     ],
     "en": [
-      "New professional logo everywhere: inside the app, window icon, desktop shortcut and the installer",
-      "Removed the black edges around the logo and made its corners transparent"
+      "Fixed the stream not starting (Kick connection lost / IO error: End of file): the app now auto-corrects the stream URL (adds :443/app), splits a key pasted into the URL, and shows a clearer error",
+      "Simpler sign-in: a single \"Sign in\" button; the Google/Apple fallback appears only if sign-in fails, and the developer app moved to optional advanced settings"
     ]
   }
 }

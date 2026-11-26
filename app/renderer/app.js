@@ -1463,7 +1463,7 @@ window.addEventListener('keydown', e => {
 /* ================= Settings & language ================= */
 let settings = { kickUrl:'', kickKey:'', mic:false, bitrate:3500, res:720, fps:30, enc:'veryfast', rc:'cbr', kf:2, ll:1, abr:128, ach:2 };
 function toast(msg, ms = 3500){ const el = $('toast'); el.textContent = msg; el.style.display = 'block'; clearTimeout(el._t); el._t = setTimeout(() => el.style.display = 'none', ms); }
-function fillForm(){ $('kUrl').value = settings.kickUrl; $('kKey').value = settings.kickKey; $('bitrate').value = String(settings.bitrate); }
+function fillForm(){ $('kUrl').value = settings.kickUrl; $('kKey').value = settings.kickKey; $('bitrate').value = String(settings.bitrate); try{ fixIngestFields(); settings.kickUrl = $('kUrl').value.trim(); settings.kickKey = $('kKey').value.trim(); }catch(e){} }
 function buildBitrate(){ if(window.SQ) return SQ.buildBitrate(); const v = $('bitrate').value || String(settings.bitrate); $('bitrate').innerHTML = [[1500, 'brL'], [2500, 'brN'], [3500, 'brG'], [4500, 'brH'], [6000, 'brV']].map(([n, k]) => `<option value="${n}">${n} kbps - ${t(k)}</option>`).join(''); $('bitrate').value = v; }
 function applyLook(){
   const d = document.documentElement; d.lang = lang; d.dir = lang === 'ar' ? 'rtl' : 'ltr';
@@ -1540,7 +1540,32 @@ $('openSettings').onclick = () => openSettings();
 $('closeSettings').onclick = closeSettingsModal;
 $('ov').onmousedown = e => { if(e.target === $('ov')) closeSettingsModal(); };
 $('eye').onclick = () => { const k = $('kKey'); k.type = k.type === 'password' ? 'text' : 'password'; };
-const collectSettings = () => ({ kickUrl:$('kUrl').value.trim(), kickKey:$('kKey').value.trim(), mic:false, bitrate:parseInt($('bitrate').value, 10), res:parseInt($('resSel').value, 10) || 720, fps:parseInt($('fpsSel').value, 10) === 60 ? 60 : 30, enc:$('encSel').value || 'veryfast', rc:$('rcSel').value === 'vbr' ? 'vbr' : 'cbr', kf:parseInt($('kfSel').value, 10) || 2, ll:$('llSel').value === '0' ? 0 : 1, abr:parseInt($('abrSel').value, 10) || 128, ach:$('achSel').value === '1' ? 1 : 2 });
+
+/* v1.4: تصحيح رابط/مفتاح Kick تلقائياً (نفس منطق main.js) */
+function normIngest(rawUrl, rawKey){
+  const clean = x => String(x || '').replace(/[\s\u200b-\u200f\u202a-\u202e\ufeff]+/g, '');
+  let url = clean(rawUrl), key = clean(rawKey).replace(/^\/+/, '');
+  if(!url) return { url:'', key };
+  if(!/^rtmps?:\/\//i.test(url)) url = 'rtmps://' + url.replace(/^\/+/, '');
+  const m = /^(rtmps?):\/\/([^\/:?#]+)(?::(\d+))?(\/[^?#]*)?/i.exec(url);
+  if(!m) return { url:url.replace(/\/+$/, ''), key };
+  const proto = m[1].toLowerCase(), host = m[2], isIvs = /live-video\.net$/i.test(host);
+  let port = m[3] || '', segs = (m[4] || '').split('/').filter(Boolean);
+  if(isIvs){
+    if(!port && proto === 'rtmps') port = '443';
+    if(segs[0] && segs[0].toLowerCase() !== 'app'){ if(!key) key = segs.join('/'); segs = ['app']; }
+    else if(segs[0] && segs.length > 1){ if(!key) key = segs.slice(1).join('/'); segs = ['app']; }
+    else segs = ['app'];
+  }
+  return { url: proto + '://' + host + (port ? ':' + port : '') + (segs.length ? '/' + segs.join('/') : ''), key };
+}
+function fixIngestFields(){
+  const n = normIngest($('kUrl').value, $('kKey').value);
+  if(n.url !== $('kUrl').value.trim()) $('kUrl').value = n.url;
+  if(n.key && n.key !== $('kKey').value.trim()) $('kKey').value = n.key;
+}
+const collectSettings = () => (fixIngestFields(), { kickUrl:$('kUrl').value.trim(), kickKey:$('kKey').value.trim(), mic:false, bitrate:parseInt($('bitrate').value, 10), res:parseInt($('resSel').value, 10) || 720, fps:parseInt($('fpsSel').value, 10) === 60 ? 60 : 30, enc:$('encSel').value || 'veryfast', rc:$('rcSel').value === 'vbr' ? 'vbr' : 'cbr', kf:parseInt($('kfSel').value, 10) || 2, ll:$('llSel').value === '0' ? 0 : 1, abr:parseInt($('abrSel').value, 10) || 128, ach:$('achSel').value === '1' ? 1 : 2 });
+$('kUrl').addEventListener('change', fixIngestFields);
 $('saveBtn').onclick = async () => {
   settings = collectSettings();
   const r = await api.saveSettings(settings);

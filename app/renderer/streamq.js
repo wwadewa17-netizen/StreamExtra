@@ -21,7 +21,7 @@
 
   Object.assign(I18N.ar, {
     spIntroT: 'إعدادات البث', spIntroS: 'كل قسم مشروح تحته. إذا ما كنت متأكد اختر بطاقة جاهزة من «جودة البث» وسيضبط البرنامج الباقي، ثم اضغط حفظ.',
-    spConnT: 'الاتصال بالمنصة', spConnS: 'رابط ومفتاح البث من لوحة تحكم Kick (Creator Dashboard ← Stream)', spUrlH: 'يبدأ بـ rtmps:// وينتهي بـ /app. انسخه كما هو من Kick.', spKeyH: 'سري: لا تعطيه لأحد ولا تعرضه في البث. إذا تسرّب جدّده من Kick.',
+    spConnT: 'الاتصال بالمنصة', spConnS: 'رابط ومفتاح البث من لوحة تحكم Kick (Creator Dashboard ← Stream)', spUrlH: 'انسخه من Kick. لو نسيت منه /app أو :443 البرنامج يصلحها لحاله.', spKeyH: 'سري: لا تعطيه لأحد ولا تعرضه في البث. إذا تسرّب جدّده من Kick.',
     spConnOk: 'جاهز للبث', spConnNo: 'غير مكتمل',
     spResH: 'الدقة الأعلى = وضوح أكبر لكن تحتاج معالج قوي وإنترنت أسرع.', spFpsH: '30 مناسب لأغلب البثوث. 60 أنعم للألعاب السريعة لكنه يضاعف الحمل.', spBrH: 'كمية البيانات المرسلة في الثانية. لازم تبقى أقل من سرعة رفع إنترنتك بحوالي 30%.',
     spEncT: 'التشفير (Encoder)', spEncS: 'كيف يضغط البرنامج الفيديو قبل إرساله. التفاصيل التقنية بشرح مبسّط.',
@@ -50,7 +50,7 @@
   });
   Object.assign(I18N.en, {
     spIntroT: 'Stream settings', spIntroS: 'Every section is explained below it. If unsure, pick a ready preset in "Stream quality" and the app adjusts the rest, then press Save.',
-    spConnT: 'Platform connection', spConnS: 'Stream URL and key from Kick (Creator Dashboard → Stream)', spUrlH: 'Starts with rtmps:// and ends with /app. Copy it exactly from Kick.', spKeyH: 'Secret: never share it or show it on stream. If leaked, regenerate it on Kick.',
+    spConnT: 'Platform connection', spConnS: 'Stream URL and key from Kick (Creator Dashboard → Stream)', spUrlH: 'Copy it from Kick. If /app or :443 is missing, the app fixes it automatically.', spKeyH: 'Secret: never share it or show it on stream. If leaked, regenerate it on Kick.',
     spConnOk: 'Ready to stream', spConnNo: 'Incomplete',
     spResH: 'Higher resolution = sharper picture but needs a stronger CPU and faster internet.', spFpsH: '30 suits most streams. 60 is smoother for fast games but doubles the load.', spBrH: 'Data sent per second. Keep it about 30% below your upload speed.',
     spEncT: 'Encoder', spEncS: 'How the app compresses the video before sending it, in plain words.',

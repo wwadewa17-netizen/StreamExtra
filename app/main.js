@@ -103,10 +103,34 @@ function startDelay(url) {
   }, 1000);
 }
 
+
+/* ---------- إصلاح رابط البث تلقائياً (v1.4) ----------
+   سبب مشكلة "IO error: End of file": رابط Kick لازم يكون rtmps://xxxx.global-contribute.live-video.net:443/app
+   ولما ينحط الرابط بدون /app (أو المفتاح لازق فيه) السيرفر يسكّر الاتصال فوراً.
+   هون نصلح الرابط والمفتاح لحالهم بدون ما المستخدم يعمل شي. */
+function normalizeIngest(rawUrl, rawKey) {
+  const clean = (x) => String(x || '').replace(/[\s\u200b-\u200f\u202a-\u202e\ufeff]+/g, '');
+  let url = clean(rawUrl), key = clean(rawKey).replace(/^\/+/, '');
+  if (!url) return { url: '', key };
+  if (!/^rtmps?:\/\//i.test(url)) url = 'rtmps://' + url.replace(/^\/+/, '');
+  const m = /^(rtmps?):\/\/([^\/:?#]+)(?::(\d+))?(\/[^?#]*)?/i.exec(url);
+  if (!m) return { url: url.replace(/\/+$/, ''), key };
+  const proto = m[1].toLowerCase(), host = m[2], isIvs = /live-video\.net$/i.test(host);
+  let port = m[3] || '';
+  let segs = (m[4] || '').split('/').filter(Boolean);
+  if (isIvs) {
+    if (!port && proto === 'rtmps') port = '443';
+    if (segs[0] && segs[0].toLowerCase() !== 'app') { if (!key) key = segs.join('/'); segs = ['app']; }          // المفتاح لازق مكان /app
+    else if (segs[0] && segs.length > 1) { if (!key) key = segs.slice(1).join('/'); segs = ['app']; }         // المفتاح لازق بعد /app
+    else segs = ['app'];
+  }
+  return { url: proto + '://' + host + (port ? ':' + port : '') + (segs.length ? '/' + segs.join('/') : ''), key };
+}
+
 function startFfmpeg(s) {
   if (ff) return { ok: false, error: 'البث شغال أصلاً' };
-  const url = (s.kickUrl || '').trim().replace(/\/+$/, '');
-  const key = (s.kickKey || '').trim();
+  const norm = normalizeIngest(s.kickUrl, s.kickKey);
+  const url = norm.url, key = norm.key;
   if (!url || !key) return { ok: false, error: 'لازم تدخل رابط البث ومفتاح البث من الإعدادات' };
   const target = url + '/' + key;
   const SQ_DIM = { 720: [1280, 720], 1080: [1920, 1080], 1440: [2560, 1440], 2160: [3840, 2160] };
@@ -189,7 +213,12 @@ function startFfmpeg(s) {
     if (wasLive) {
       send('stream:status', {
         state: 'stopped',
-        message: code === 0 || code === null ? '' : 'انقطع الاتصال مع Kick. تأكد من الرابط والمفتاح.\n' + lastLines.filter(l => !/^Conversion failed/i.test(l)).slice(-4).join('\n')
+        message: code === 0 || code === null ? '' : (() => {
+          const errs = lastLines.filter(l => /error|fail|refused|reset|timed? ?out|denied|invalid|unable|could not|end of file|forbidden|unauthori/i.test(l) && !/^Conversion failed/i.test(l));
+          const shown = (errs.length ? errs : lastLines.filter(l => !/^Conversion failed/i.test(l))).slice(-2).join('\n');
+          const eof = /end of file|input\/output|connection reset|broken pipe/i.test(shown);
+          return 'انقطع الاتصال مع Kick.' + (eof ? '\nKick سكّر الاتصال: غالباً مفتاح البث غلط/قديم أو في بث ثاني شغال بنفس المفتاح. جدّد المفتاح من Kick (Creator Dashboard ← Stream) والصقه من جديد.' : '\nتأكد من الرابط والمفتاح.') + '\n' + shown;
+        })()
       });
     }
   });
