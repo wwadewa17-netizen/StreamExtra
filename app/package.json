@@ -5,14 +5,16 @@
   "main": "main.js",
   "author": "Stream Extra",
   "license": "MIT",
-  "version": "1.2",
+  "version": "1.3",
   "releaseDate": "2026-11-26",
   "notes": {
     "ar": [
-      "الإصدار الأول"
+      "شعار جديد احترافي في كل مكان: داخل البرنامج، وأيقونة النافذة، واختصار سطح المكتب، وشاشة التثبيت",
+      "إزالة الحواف السوداء حول الشعار وجعل زواياه شفافة"
     ],
     "en": [
-      "First release"
+      "New professional logo everywhere: inside the app, window icon, desktop shortcut and the installer",
+      "Removed the black edges around the logo and made its corners transparent"
     ]
   }
 }

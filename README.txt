@@ -49,6 +49,10 @@ Build_StreamExtra.cmd still builds a portable "StreamExtra" folder for testing. 
 
 Your settings and Kick link are stored in %AppData%\StreamExtra (+ a backup in %LocalAppData%\StreamExtra-Backup).
 
+v1.3
+----
+- New logo everywhere (app header, settings, window icon, desktop shortcut, installer); black edges removed, transparent rounded corners.
+
 v1.1
 ----
-First release (clean start). Undo/Redo, one-page Kick link, real 4K, empty default scene, reliable update system.
+First release.

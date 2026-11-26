@@ -1615,3 +1615,6 @@ html[data-theme=light] .sp-card{box-shadow:0 4px 16px rgba(20,20,30,.06)}
 .sp-pill.bad{color:var(--ac-t,var(--ac))}
 .upd-act{display:flex;gap:8px;flex-wrap:wrap;margin-top:14px}
 .upd-dot{width:8px;height:8px;border-radius:50%;background:#ffb020;margin-inline-start:auto;flex:none}
+
+/* v1.3: the logo has its own rounded corners and transparent edges */
+.brand-wrap img,.st-brand img{border-radius:0!important;box-shadow:none!important;background:none!important;object-fit:contain;filter:drop-shadow(0 3px 9px rgba(var(--ac-rgb),.45))}
