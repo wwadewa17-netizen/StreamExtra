@@ -78,7 +78,7 @@ const I18N = {
     test:'تجربة', testStop:'إيقاف التجربة', testListening:'جاري الاستماع...', testOk:'✓ تم رصد صوت، المصدر يعمل', testNone:'لا يوجد صوت حتى الآن، شغّل شيئاً وراقب المؤشر',
     liveOpts:'إعدادات الصوت المباشر', liveFail:'تعذر التقاط الصوت', micDevice:'نوع المايك (الجهاز)', defaultMic:'الجهاز الافتراضي', micEcho:'إلغاء الصدى', micNoise:'تقليل الضوضاء', micAgc:'تحكم تلقائي بالمستوى',
     micNote:'التجربة تشغّل المايك على سماعاتك. استخدم سماعات الرأس لتفادي الصدى.',
-    deskNote:'يلتقط كل صوت الجهاز ويصل للمشاهدين. أثناء تشغيله يتوقف سماع الخلاط على السماعات تلقائياً لمنع الصدى (البث لا يتأثر).',
+    deskNote:'يلتقط كل صوت الجهاز ويوصله للمشاهدين. شريط «البث» يتحكم بمستواه عند المشاهدين، وشريط «أنا» يتحكم بمستوى ويندوز عندك (الالتقاط يكون قبل مستوى ويندوز، فتخفض ما تسمعه فقط ويبقى البث عالياً). ملاحظة: الصوت المدمج أو الفيديو الذي تسمعه من التطبيق قد يلتقطه صوت سطح المكتب أيضاً؛ لو سمعه المشاهدون مرتين اضغط زر السماعة في «الصوت الرئيسي» لإيقاف سماعه عندك.', deskLocalFull:'صوتي أنا (مستوى ويندوز)', deskLocalNote:'يغيّر مستوى صوت ويندوز عندك فقط. المشاهدون يسمعون المستوى حسب شريط «البث».', deskTestNote:'زر التجربة يشغّل مقطعاً صوتياً تجريبياً: المؤشر يوضح كم سيكون عالياً عند المشاهدين (حسب شريط «البث» والصوت الرئيسي) وتسمعه أنت بمستوى ويندوز. لا يصل للبث الحقيقي، وغير متاح أثناء البث.', deskTesting:'♪ مقطع تجريبي شغّال، المؤشر = مستواه عند المشاهدين', deskTestLive:'التجربة غير متاحة أثناء البث، أوقف البث أولاً حتى لا يسمعها المشاهدون.', micTestNote:'أثناء التجربة تسمع صوتك بنفس مستوى البث، والمؤشر يوضح كم سيكون عالياً عند المشاهدين. لا يصل شيء للبث إذا كان المايك مخفياً. الأفضل سماعات رأس.', attachSound:'إضافة صوت لهذا العنصر', attachSoundNote:'اختر ملف صوت: يُربط بالعنصر ويظهر في الخلاط. اضغط ▶ بجانبه ليظهر العنصر ويشتغل الصوت، وتتحكم بمستواه عندك («أنا») وعند المشاهدين («البث»).',
     siteNote:'يفتح الموقع في نافذة خاصة وصوتها يصل للبث. سجّل الدخول وشغّل المحتوى من تلك النافذة.',
     siteUrl:'رابط الموقع', addSiteTitle:'إضافة صوت موقع', siteHint:'مثال: https://www.youtube.com أو أي موقع فيه صوت', openSite:'فتح النافذة / إعادة الاتصال', siteClosed:'تم إغلاق نافذة الموقع',
     addImage:'إضافة صورة', addVideo:'إضافة فيديو', addAudio:'إضافة صوت', fromDevice:'من الجهاز', fromLink:'من رابط', chooseFile:'اختر ملف', dropHere:'أو اسحب الملف وأفلته هنا', add:'إضافة',
@@ -109,7 +109,7 @@ const I18N = {
     streamBar:'البث', localBar:'أنا', streamBarFull:'صوت البث (ما يسمعه المشاهدون)', localBarFull:'صوتي أنا (سماعاتي فقط)', audioSettings:'إعدادات الصوت',
     streamNote:'هذا المستوى هو الذي يصل للمشاهدين.', localNote:'يتحكم بما تسمعه أنت فقط، والبث يبقى كما هو.', micLocalNote:'لسماع صوتك في سماعتك. الأفضل سماعات رأس لتفادي الصدى.',
     tryLocal:'تجربة عندي فقط', tryStop:'إيقاف التجربة', tryNote:'تسمعها أنت فقط ولا تصل للبث.', tryBusy:'المصدر شغال حالياً في البث، أوقفه أولاً لتجربته.',
-    monOffNote:'سماعاتك مكتومة (زر السماعة في الصوت الرئيسي) أو صوت سطح المكتب شغال، فلن تسمع شيئاً.', resetVol:'إعادة الضبط',
+    monOffNote:'سماعاتك مكتومة (زر السماعة في الصوت الرئيسي) فلن تسمع شيئاً.', resetVol:'إعادة الضبط',
     ctrlQuick:'تحكم سريع', ctrlScene:'تبديل المشهد', prevScene:'المشهد السابق', nextScene:'المشهد التالي', micLive:'المايك يعمل', micMuted:'المايك مكتوم', micAdd:'إضافة مايك',
     transition:'الانتقال', tr_none:'بدون', tr_fade:'تلاشي', tr_slide:'انزلاق', tr_push:'دفع', tr_zoom:'تكبير', tr_wipe:'مسح', tr_dip:'عبر الأسود',
     trType:'نوع الانتقال بين المشاهد', trDur:'مدة الانتقال', trNote:'يظهر الانتقال في المعاينة وفي البث عند التبديل بين المشاهد (بالضغط أو بالاختصارات). والصوت أيضاً يتبدّل بنعومة إلى مستويات المشهد الجديد.',
@@ -147,7 +147,7 @@ const I18N = {
     test:'Test', testStop:'Stop test', testListening:'Listening...', testOk:'✓ Sound detected, the source works', testNone:'No sound yet, play something and watch the meter',
     liveOpts:'Live audio settings', liveFail:'Could not capture the audio', micDevice:'Microphone (device)', defaultMic:'Default device', micEcho:'Echo cancellation', micNoise:'Noise suppression', micAgc:'Automatic gain control',
     micNote:'Testing plays the mic on your speakers. Use headphones to avoid echo.',
-    deskNote:'Captures all PC audio and sends it to viewers. While it is on, the mixer stops playing on your speakers to avoid echo (the stream is not affected).',
+    deskNote:'Captures all PC audio and sends it to viewers. The “Stream” bar sets its level for viewers; the “Me” bar sets your Windows volume (capture happens before Windows volume, so you lower only what you hear and the stream stays loud). Note: embedded sounds or videos you hear from the app can also be picked up by desktop audio; if viewers hear them twice, press the speaker button in “Master” to stop hearing them yourself.', deskLocalFull:'My volume (Windows volume)', deskLocalNote:'Changes your Windows volume only. Viewers hear the level set by the “Stream” bar.', deskTestNote:'Test plays a sample sound: the meter shows how loud it will be for viewers (from the “Stream” bar and Master) and you hear it at your Windows volume. It never reaches the real stream, and it is unavailable while live.', deskTesting:'♪ Sample clip playing, meter = its level for viewers', deskTestLive:'Test is unavailable while live, stop the stream first so viewers do not hear it.', micTestNote:'While testing you hear yourself at the stream level, and the meter shows how loud you will be for viewers. Nothing reaches the stream if the mic is hidden. Headphones recommended.', attachSound:'Add sound to this item', attachSoundNote:'Pick an audio file: it is linked to this item and appears in the mixer. Press ▶ next to it to show the item with the sound, and set its level for you (“Me”) and for viewers (“Stream”).',
     siteNote:'Opens the site in its own window and sends that window\'s sound to the stream. Sign in and play from that window.',
     siteUrl:'Site link', addSiteTitle:'Add site audio', siteHint:'Example: https://www.youtube.com or any site with sound', openSite:'Open window / reconnect', siteClosed:'The site window was closed',
     addImage:'Add image', addVideo:'Add video', addAudio:'Add audio', fromDevice:'From device', fromLink:'From link', chooseFile:'Choose a file', dropHere:'or drag & drop it here', add:'Add',
@@ -178,7 +178,7 @@ const I18N = {
     streamBar:'Stream', localBar:'Me', streamBarFull:'Stream volume (what viewers hear)', localBarFull:'My volume (my headphones only)', audioSettings:'Audio settings',
     streamNote:'This level is what reaches your viewers.', localNote:'Controls only what you hear. The stream stays unchanged.', micLocalNote:'Hear your own voice in your headphones. Use headphones to avoid echo.',
     tryLocal:'Try it (only me)', tryStop:'Stop trying', tryNote:'Only you hear it, it does not reach the stream.', tryBusy:'This source is playing on the stream right now, stop it first to try it.',
-    monOffNote:'Your speakers are muted (speaker button in Master) or desktop audio is on, so you will hear nothing.', resetVol:'Reset',
+    monOffNote:'Your speakers are muted (speaker button in Master), so you will hear nothing.', resetVol:'Reset',
     ctrlQuick:'Quick controls', ctrlScene:'Switch scene', prevScene:'Previous scene', nextScene:'Next scene', micLive:'Mic is on', micMuted:'Mic is muted', micAdd:'Add microphone',
     transition:'Transition', tr_none:'None', tr_fade:'Fade', tr_slide:'Slide', tr_push:'Push', tr_zoom:'Zoom', tr_wipe:'Wipe', tr_dip:'Dip to black',
     trType:'Scene transition type', trDur:'Transition duration', trNote:'The transition plays in the preview and on the stream when you switch scenes (by click or hotkey). Audio also fades smoothly to the new scene\'s levels.',
@@ -412,7 +412,6 @@ function drawSceneBody(count){
     }catch(e){}
     ctx.restore();
   }
-  try{ if(window.SEAlert) SEAlert.draw(ctx, w, h); }catch(e){}   // أليرتات البث (متابع جديد...) فوق كل المشهد
 }
 function blit(src, sw, sh, it, fit){
   if(fit === 'stretch'){ ctx.drawImage(src, it.x, it.y, it.w, it.h); return; }
@@ -499,12 +498,17 @@ function wantPlay(it, sc, real){
   if(it.type === 'video') return true;
   const p = parentOf(it, sc); return p ? p.visible : !!playing[it.id];
 }
-const lvolOf = it => it.lvol == null ? (it.type === 'mic' ? 0 : 100) : it.lvol;
+/* مستوى ويندوز (لشريط «أنا» في صوت سطح المكتب): صوت سطح المكتب يلتقط قبل مستوى ويندوز، فخفضه يخفض ما تسمعه أنت فقط */
+let sysVol = null, sysOk = false, sysLast = 0;
+const lvolOf = it => it.type === 'deskaudio' ? (sysVol == null ? 100 : sysVol) : (it.lvol == null ? (it.type === 'mic' ? 0 : 100) : it.lvol);
+const streamFactor = it => (it.muted ? 0 : clamp((it.vol == null ? 100 : it.vol) / 100, 0, 2)) * masterVol / 100;   // كم يصل للبث فعلاً
+const testGain = it => clamp((it.vol == null ? 100 : it.vol) / 100, 0, 2) * masterVol / 100;                       // مستوى التجربة = مستوى البث
 const localGain = it => it.lmuted ? 0 : clamp(lvolOf(it) / 100, 0, 1);
 function applyVol(it){
   const sv = clamp((it.vol == null ? 100 : it.vol) / 100, 0, 2), off = it.muted || trial[it.id];
   const m = mediaR[it.id]; if(m){ rampG(m.g.gain, off ? 0 : Math.min(sv, 1)); rampG(m.lg.gain, localGain(it)); }
-  const l = liveR[it.id]; if(l){ rampG(l.g.gain, off || (testing[it.id] && !it.visible) ? 0 : sv); if(l.lg) rampG(l.lg.gain, testing[it.id] ? 0 : localGain(it)); }
+  const l = liveR[it.id]; if(l){ rampG(l.g.gain, off || (testing[it.id] && !it.visible) ? 0 : sv); if(l.lg) rampG(l.lg.gain, testing[it.id] ? 0 : localGain(it)); if(l.mg && testing[it.id] && it.type === 'mic') rampG(l.mg.gain, testGain(it)); }
+  if(deskClip && deskClip.id === it.id) rampG(deskClip.cs.gain, streamFactor(it));
 }
 function ensureMedia(it){
   if(media[it.id]) return media[it.id];
@@ -558,7 +562,7 @@ function dropMedia(it){
 async function gcAssets(){
   try{
     const used = histUsedAssets(); S.scenes.forEach(s => s.items.forEach(i => i.assetId && used.add(i.assetId)));
-    for(const k of await idbKeys()){ if(!used.has(k) && !String(k).startsWith('alert_')){ await idbDel(k); if(imgs[k]){ URL.revokeObjectURL(imgs[k].src); delete imgs[k]; } } }
+    for(const k of await idbKeys()){ if(!used.has(k)){ await idbDel(k); if(imgs[k]){ URL.revokeObjectURL(imgs[k].src); delete imgs[k]; } } }
   }catch(e){}
 }
 
@@ -611,7 +615,7 @@ function teardownLive(id){
   const r = liveR[id]; if(!r) return; delete liveR[id];
   try{ r.g.disconnect(); r.an.disconnect(); r.mg.disconnect(); r.tan.disconnect(); if(r.lg){ r.lg.disconnect(); r.lan.disconnect(); } }catch(e){}
 }
-const monGate = () => monitorOn && !Object.values(liveR).some(r => r.key === 'desk');
+const monGate = () => monitorOn;   // v2.5: صوت سطح المكتب ما عاد يكتم سماعك للصوت المدمج/الفيديو (زر السماعة في «الصوت الرئيسي» هو المتحكم)
 function applyMon(){ if(!mixer) return; mixer.mon.gain.value = monGate() ? 1 : 0; }
 async function loadMics(){
   try{ const d = await navigator.mediaDevices.enumerateDevices(); micDevices = d.filter(x => x.kind === 'audioinput' && x.deviceId !== 'default' && x.deviceId !== 'communications'); }catch(e){}
@@ -625,7 +629,7 @@ async function syncLive(){
 }
 async function syncLiveOnce(){
   const sc = cur(), want = new Map();
-  sc.items.forEach(it => { if(LIVE.has(it.type) && (it.visible || testing[it.id])) want.set(it.id, it); });
+  sc.items.forEach(it => { if(LIVE.has(it.type) && (it.visible || (testing[it.id] && it.type !== 'deskaudio'))) want.set(it.id, it); });
   Object.keys(testing).forEach(id => { if(!sc.items.some(x => x.id === id)){ delete testing[id]; delete testHit[id]; } });
   for(const id of Object.keys(liveR)){ const it = want.get(id); if(!it || liveR[id].key !== liveKey(it)) teardownLive(id); }
   for(const [id, it] of want){
@@ -663,11 +667,12 @@ function applyTestRoute(id){
   const r = liveR[id]; if(!r || !mixer) return;
   const it = cur().items.find(x => x.id === id), on = !!(it && it.type === 'mic' && testing[id]);
   if(on === !!r.tOn) return; r.tOn = on;
-  try{ r.mg.gain.cancelScheduledValues(0); r.mg.gain.value = on ? 1 : 0; }catch(e){}
+  try{ r.mg.gain.cancelScheduledValues(0); r.mg.gain.value = on && it ? testGain(it) : 0; }catch(e){}
   try{ if(on) r.mg.connect(mixer.ctx.destination); else r.mg.disconnect(mixer.ctx.destination); }catch(e){}
 }
 function endTest(id){
   clearTimeout(testTimers[id]); delete testTimers[id]; delete testing[id]; delete testHit[id];
+  if(deskClip && deskClip.id === id) stopDeskClip();
   applyTestRoute(id);
   const it = cur().items.find(x => x.id === id); if(it) applyVol(it);
 }
@@ -675,7 +680,42 @@ function stopAllTests(){
   const ids = Object.keys(testing); if(!ids.length) return;
   ids.forEach(endTest); syncLive(); renderMixer(); renderProps();
 }
+/* ---- تجربة صوت سطح المكتب: مقطع تجريبي يُشغَّل ويُعرض مستواه كما سيصل للبث (حسب شريط «البث») ----
+   لا يصل للبث الحقيقي أبداً (مسار منفصل) وتسمعه عندك بمستوى ويندوز. ممنوعة أثناء البث حتى لا يلتقطها صوت سطح المكتب. */
+let deskClip = null, clipBuf = null;
+function makeClipBuffer(ctx){
+  const sr = ctx.sampleRate, n = Math.floor(sr * 3.2), buf = ctx.createBuffer(1, n, sr), d = buf.getChannelData(0), TP = Math.PI * 2;
+  [[0, 523.25], [0.4, 659.25], [0.8, 783.99], [1.2, 1046.5], [1.6, 783.99], [2.0, 659.25], [2.4, 523.25]].forEach(([t0, f]) => {
+    const i0 = Math.floor(t0 * sr), len = Math.floor(0.55 * sr);
+    for(let i = 0; i < len && i0 + i < n; i++){ const tt = i / sr, env = Math.exp(-tt * 5.5) * Math.min(1, tt * 200); d[i0 + i] += env * (Math.sin(TP * f * tt) * 0.6 + Math.sin(TP * f * 2 * tt) * 0.18); }
+  });
+  for(let k = 0; k < 4; k++){ const i0 = Math.floor(k * 0.8 * sr), len = Math.floor(0.25 * sr); for(let i = 0; i < len && i0 + i < n; i++){ const tt = i / sr; d[i0 + i] += Math.exp(-tt * 14) * Math.sin(TP * (110 - 60 * tt) * tt) * 0.5; } }
+  let pk = 0; for(let i = 0; i < n; i++) pk = Math.max(pk, Math.abs(d[i])); if(pk > 0) for(let i = 0; i < n; i++) d[i] *= 0.8 / pk;
+  return buf;
+}
+function startDeskClip(it){
+  const m = getMixer(); if(m.ctx.state === 'suspended') m.ctx.resume();
+  if(!clipBuf || clipBuf.ctx !== m.ctx) clipBuf = { ctx:m.ctx, buf:makeClipBuffer(m.ctx) };
+  const src = m.ctx.createBufferSource(), pre = m.ctx.createGain(), cs = m.ctx.createGain(), an = m.ctx.createAnalyser(); an.fftSize = 512;
+  src.buffer = clipBuf.buf; src.loop = true; pre.gain.value = 0.7; cs.gain.value = 0;
+  src.connect(pre); pre.connect(m.ctx.destination);   // تسمعه عندك (بمستوى ويندوز)
+  pre.connect(cs); cs.connect(an);                    // مؤشر البث: المقطع × مستوى «البث» × الصوت الرئيسي (مسار قياس فقط)
+  src.start(); deskClip = { id:it.id, src, pre, cs, an }; applyVol(it);
+}
+function stopDeskClip(){
+  const c = deskClip; deskClip = null; if(!c) return;
+  try{ c.src.stop(); }catch(e){} try{ c.src.disconnect(); c.pre.disconnect(); c.cs.disconnect(); }catch(e){}
+}
 function toggleTest(it){
+  if(it.type === 'deskaudio'){
+    if(testing[it.id]){ endTest(it.id); }
+    else {
+      if(live || busy){ toast(t('deskTestLive'), 4500); return; }
+      stopAllTests(); testing[it.id] = true; startDeskClip(it);
+      testTimers[it.id] = setTimeout(() => { if(testing[it.id]){ endTest(it.id); renderMixer(); renderProps(); refreshGear(); toast(t('testAutoStop'), 3500); } }, 60000);
+    }
+    renderMixer(); renderProps(); return;
+  }
   if(testing[it.id]){ endTest(it.id); }
   else {
     stopAllTests();   // تجربة واحدة بنفس الوقت (تجنّب الصدى بين مايكين)
@@ -684,7 +724,7 @@ function toggleTest(it){
   }
   syncLive(); renderMixer(); renderProps();
 }
-const testText = id => { if(!testing[id]) return ''; const it = cur().items.find(x => x.id === id); return t(testHit[id] ? (it && it.type === 'mic' ? 'testOkMic' : 'testOk') : (it && it.type === 'mic' ? 'testListenMic' : 'testListening')); };
+const testText = id => { if(!testing[id]) return ''; if(deskClip && deskClip.id === id) return t('deskTesting'); const it = cur().items.find(x => x.id === id); return t(testHit[id] ? (it && it.type === 'mic' ? 'testOkMic' : 'testOk') : (it && it.type === 'mic' ? 'testListenMic' : 'testListening')); };
 function pruneSites(){
   const urls = []; S.scenes.forEach(sc => sc.items.forEach(i => { if(i.type === 'siteaudio' && i.url) urls.push(i.url); }));
   try{ api.siteClean(urls); }catch(e){}
@@ -694,6 +734,33 @@ if(window.api && api.onSiteClosed) api.onSiteClosed(url => {
   S.scenes.forEach(sc => sc.items.forEach(i => { if(i.type === 'siteaudio' && i.url === url){ dropLiveCap('site:' + url); teardownLive(i.id); liveFail.add(i.id); } }));
   toast(t('siteClosed')); renderMixerSoon(); renderProps();
 });
+
+/* ---- مستوى ويندوز (شريط «أنا» في صوت سطح المكتب) ---- */
+const sysIsWin = /Windows/i.test(navigator.userAgent);
+let sysT = 0, sysPend = 0;
+function pushSysVol(){
+  sysT = 0; const x = sysPend;
+  Promise.resolve(window.api && api.sysVolSet ? api.sysVolSet(x) : null).then(r => { if(r && r.ok) sysLast = Date.now(); if(sysPend !== x && !sysT) sysT = setTimeout(pushSysVol, 30); }).catch(() => {});
+}
+function setSysVol(v){ sysVol = v; sysPend = v; sysLast = Date.now(); if(sysIsWin && !sysT) sysT = setTimeout(pushSysVol, 50); }
+function paintSysVol(){
+  document.querySelectorAll('[data-lv]').forEach(o => {
+    if(document.activeElement === o) return;
+    const it = cur().items.find(x => x.id === o.dataset.lv);
+    if(it && it.type === 'deskaudio'){ o.value = sysVol; const b = o.closest('.mbar'), out = b && b.querySelector('output'); if(out) out.textContent = sysVol; }
+  });
+}
+async function refreshSysVol(){
+  if(!sysIsWin || !window.api || !api.sysVolGet || sysT || Date.now() - sysLast < 1500) return;
+  let r; try{ r = await api.sysVolGet(); }catch(e){ return; }
+  if(!r || !r.ok) return;
+  const first = !sysOk; sysOk = true;
+  if(first){ sysVol = r.vol; renderMixer(); renderProps(); refreshGear(); }
+  else if(r.vol !== sysVol){ sysVol = r.vol; paintSysVol(); }
+}
+const hasDeskItem = () => S.scenes.some(sc => sc.items.some(i => i.type === 'desk' + 'audio'));
+setInterval(() => { if(hasDeskItem()) refreshSysVol(); }, 2500);
+window.addEventListener('focus', () => { if(hasDeskItem()) refreshSysVol(); });
 
 /* ================= Scene actions ================= */
 function clearHide(id){ if(hideTimers[id]){ clearTimeout(hideTimers[id]); delete hideTimers[id]; } }
@@ -853,8 +920,9 @@ function renderProps(){
     h += `<div class="grid2" style="margin-top:8px">${selOpt('deviceId', 'camDevice', it.deviceId || '', opts, true).replace('<label class="f">', '<label class="f full">')}${selOpt('fit', 'fit', it.fit, [['cover', 'cover'], ['contain', 'contain'], ['stretch', 'stretch']])}${selOpt('shape', 'camShape', it.shape || 'rect', [['rect', 'shapeRect'], ['round', 'shapeRound'], ['circle', 'shapeCircle']])}</div>${chk('mirror', 'mirror', it.mirror)}${chk('keep', 'keepRatio', it.keep !== false)}<div class="btn-row" style="margin-top:10px"><button class="sbtn" data-act="changeSrc">${ic('camera')}${t('camCheckBtn')}</button></div><div class="note">${t('camNote')}</div>`;
   }
   if(it.type === 'screen' || it.type === 'window') h += `<div class="btn-row" style="margin-top:10px"><button class="sbtn" data-act="changeSrc">${ic(ICON_OF[it.type])}${t('changeSource')}</button></div>`;
+  if(!noVisual(it)) h += `<div class="btn-row" style="margin-top:10px"><button class="sbtn" data-act="attachSound">${ic('music')}${t('attachSound')}</button></div><div class="note">${t('attachSoundNote')}</div>`;
   if(it.type === 'video' || it.type === 'audio'){
-    h += `<div class="sub">${t('soundOpts')}</div><div class="grid2">${rng('vol', 'volume', it.vol, 0, 100)}</div>${chk('loop', 'loop', it.loop)}`;
+    h += `<div class="sub">${t('soundOpts')}</div><div class="grid2">${rng('vol', 'volume', it.vol, 0, 100)}</div>${propLocal(it)}${chk('loop', 'loop', it.loop)}`;
     if(it.type === 'video') h += chk('hideEnd', 'hideEnd', it.hideEnd);
   }
   if(it.type === 'audio'){
@@ -873,8 +941,8 @@ function renderProps(){
     } else {
       h += `<label class="f full"><span>${t('siteUrl')}</span><input type="url" class="ltr" data-k="url" value="${esc(it.url)}" placeholder="https://..." spellcheck="false"></label><div class="btn-row" style="margin-top:8px"><button class="sbtn" data-act="openSite">${ic('globe')}${t('openSite')}</button></div><div class="note">${t('siteNote')}</div>`;
     }
-    h += `<div class="grid2" style="margin-top:10px">${rng('vol', 'volume', it.vol, 0, 200)}</div>
-      <div class="testbox"><button class="sbtn ${testing[it.id] ? 'on' : ''}" data-act="test">${ic(testing[it.id] ? 'stop' : 'play')}${t(testing[it.id] ? 'testStop' : 'test')}</button><div class="meter big"><i data-m="${it.id}"></i></div></div><div class="tst" data-tst="${it.id}">${esc(testText(it.id))}</div>`;
+    h += `<div class="grid2" style="margin-top:10px">${rng('vol', 'volume', it.vol, 0, 200)}</div>${propLocal(it)}
+      <div class="testbox"><button class="sbtn ${testing[it.id] ? 'on' : ''}" data-act="test">${ic(testing[it.id] ? 'stop' : 'play')}${t(testing[it.id] ? 'testStop' : 'test')}</button><div class="meter big"><i data-m="${it.id}"></i></div></div><div class="tst" data-tst="${it.id}">${esc(testText(it.id))}</div>${it.type === 'siteaudio' ? '' : `<small class="testnote">${t(it.type === 'deskaudio' ? 'deskTestNote' : 'micTestNote')}</small>`}`;
   }
   if(!noVisual(it)){
     h += `<div class="sub">${t('layout')}</div><div class="grid2">${num('x', 'posX', it.x)}${num('y', 'posY', it.y)}${num('w', 'w', it.w)}${num('h', 'h', it.h)}${rng('opacity', 'opacity', it.opacity, 0, 100)}</div>
@@ -889,11 +957,13 @@ function syncGeom(){ const it = selItem(); if(!it) return; ['x', 'y', 'w', 'h'].
 
 /* ---- mixer: كل مصدر له شريطان: البث (للمشاهدين) + أنا (سماعاتي فقط) ---- */
 let _rm; const renderMixerSoon = () => { clearTimeout(_rm); _rm = setTimeout(renderMixer, 40); };
-function mxBar(kind, id, v, max, muted, act){
+function mxBar(kind, id, v, max, muted, act, tip){
   const s = kind === 's';
-  return `<div class="mbar ${s ? '' : 'loc'}"><span class="mb-l" title="${esc(t(s ? 'streamBarFull' : 'localBarFull'))}">${ic(s ? 'radio' : 'headphones', 13)}<span>${t(s ? 'streamBar' : 'localBar')}</span></span><div class="mb-c"><div class="meter"><i ${s ? 'data-m' : 'data-ml'}="${id}"></i></div><input type="range" ${s ? 'data-mv' : 'data-lv'}="${id}" min="0" max="${max}" value="${Math.round(v)}"></div><output>${Math.round(v)}</output>${act ? `<button class="icon-btn ${muted ? 'on' : ''}" data-a="${act}" title="${t(muted ? 'unmute' : 'mute')}">${ic(muted ? 'volumeoff' : 'volume', 14)}</button>` : '<i class="sp-b"></i>'}</div>`;
+  return `<div class="mbar ${s ? '' : 'loc'}"><span class="mb-l" title="${esc(tip || t(s ? 'streamBarFull' : 'localBarFull'))}">${ic(s ? 'radio' : 'headphones', 13)}<span>${t(s ? 'streamBar' : 'localBar')}</span></span><div class="mb-c"><div class="meter"><i ${s ? 'data-m' : 'data-ml'}="${id}"></i></div><input type="range" ${s ? 'data-mv' : 'data-lv'}="${id}" min="0" max="${max}" value="${Math.round(v)}"></div><output>${Math.round(v)}</output>${act ? `<button class="icon-btn ${muted ? 'on' : ''}" data-a="${act}" title="${t(muted ? 'unmute' : 'mute')}">${ic(muted ? 'volumeoff' : 'volume', 14)}</button>` : '<i class="sp-b"></i>'}</div>`;
 }
-const hasLocal = it => it.type === 'audio' || it.type === 'video' || it.type === 'mic' || (it.type === 'siteaudio' && routeApps);
+function propLocal(it){ return hasLocal(it) ? `<div class="g-sec loc" style="margin-top:8px"><small>${t(it.type === 'deskaudio' ? 'deskLocalFull' : 'localBarFull')}</small>${mxBar('l', it.id, lvolOf(it), 100, it.lmuted, null, it.type === 'deskaudio' ? t('deskLocalFull') : '')}</div>` : ''; }
+const hasLocal = it => it.type === 'audio' || it.type === 'video' || it.type === 'mic' || (it.type === 'siteaudio' && routeApps) || (it.type === 'deskaudio' && sysOk);
+const localAct = it => it.type === 'deskaudio' ? null : 'lmute';
 function renderMixer(){
   const sc = cur(), list = sc.items.filter(i => i.type === 'audio' || i.type === 'video' || LIVE.has(i.type));
   let h = list.map(it => {
@@ -901,7 +971,7 @@ function renderMixer(){
     const btn = lv ? `<button class="tbtn ${testing[it.id] ? 'on' : ''}" data-a="test" title="${t(testing[it.id] ? 'testStop' : 'test')}">${ic(testing[it.id] ? 'stop' : 'play', 11)}<span>${t(testing[it.id] ? 'testStop' : 'test')}</span></button>` : standalone ? `<button class="icon-btn" data-a="play" title="${t(on ? 'pause' : 'play')}">${ic(on ? 'pause' : 'play', 14)}</button>`
       : `<button class="icon-btn trig" data-a="trig" title="${t((p || it).visible ? 'hideAndStop' : 'showWithSound')}">${ic((p || it).visible ? 'stop' : 'play', 14)}</button>`;
     return `<div class="mx ${on ? 'playing' : ''} ${it.visible ? '' : 'off'}" data-id="${it.id}"><div class="mx-top"><span class="ico">${ic(ICON_OF[it.type], 15)}</span><span class="nm">${esc(it.name)}</span>${p ? `<span class="lnk" title="${esc(p.name)}">${ic('link', 13)}</span>` : ''}${btn}${it.type === 'siteaudio' ? `<button class="icon-btn" data-a="show" title="${t('appsShow')}">${ic('window', 14)}</button>` : ''}<button class="icon-btn gear" data-a="gear" title="${t('audioSettings')}">${ic('sliders', 15)}</button></div>
-      ${mxBar('s', it.id, it.vol, lv ? 200 : 100, it.muted, 'mute')}${hasLocal(it) ? mxBar('l', it.id, lvolOf(it), 100, it.lmuted, 'lmute') : ''}</div>`;
+      ${mxBar('s', it.id, it.vol, lv ? 200 : 100, it.muted, 'mute')}${hasLocal(it) ? mxBar('l', it.id, lvolOf(it), 100, it.lmuted, localAct(it), it.type === 'deskaudio' ? t('deskLocalFull') : '') : ''}</div>`;
   }).join('');
   if(!list.length) h = `<div class="empty">${esc(t('noAudio'))}</div>`;
   $('mixMaster').innerHTML = `<div class="mx-top"><span class="ico">${ic('volume', 15)}</span><span class="nm">${t('master')}</span></div>${mxBar('s', 'master', masterVol, 100, false, null)}${mxBar('l', 'master', lmaster, 100, !monitorOn, 'mon')}`;
@@ -915,6 +985,7 @@ setInterval(() => {
   document.querySelectorAll('[data-m],[data-ml]').forEach(el => {
     const loc = el.dataset.ml !== undefined, id = loc ? el.dataset.ml : el.dataset.m; let an = null, v = 0;
     if(id === 'master') an = mixer && (loc ? mixer.lan : mixer.an);
+    else if(!loc && deskClip && deskClip.id === id) an = deskClip.an;
     else if(loc) an = (mediaR[id] && mediaR[id].lan) || (liveR[id] && liveR[id].lan);
     else an = (testing[id] && liveR[id] && liveR[id].tan) || (mediaR[id] && mediaR[id].an) || (liveR[id] && liveR[id].an);
     if(an && !(loc && id !== 'master' && !gate)){ an.getFloatTimeDomainData(_mbuf); let q = 0; for(let i = 0; i < _mbuf.length; i++) q += _mbuf[i] * _mbuf[i]; const rms = Math.sqrt(q / _mbuf.length); v = rms > 0 ? clamp((20 * Math.log10(rms) + 60) / 60, 0, 1) : 0; }
@@ -925,7 +996,9 @@ setInterval(() => {
 
 /* ---- volume helpers + audio settings dialog (gear) ---- */
 function setVol(it, kind, v){
-  v = Math.round(v); if(kind === 's') it.vol = v; else it.lvol = v; applyVol(it);
+  v = Math.round(v);
+  if(kind === 'l' && it.type === 'deskaudio') setSysVol(v); else if(kind === 's') it.vol = v; else it.lvol = v;
+  applyVol(it);
   document.querySelectorAll(`[${kind === 's' ? 'data-mv' : 'data-lv'}="${it.id}"]`).forEach(o => { if(+o.value !== v) o.value = v; const b = o.closest('.mbar'), out = b && b.querySelector('output'); if(out) out.textContent = v; });
   if(kind === 's' && sel === it.id){ const o = $('tabProps').querySelector('[data-k="vol"]'); if(o && document.activeElement !== o){ o.value = v; if(o.nextElementSibling) o.nextElementSibling.textContent = v; } }
   persist();
@@ -936,7 +1009,7 @@ function onVolInput(e){
   if(k === 'master'){
     const mm = getMixer();
     const sc = cur();
-    if(sk){ masterVol = v; sc.mv = v; rampG(mm.master.gain, v / 100); rampG(mm.live.gain, v / 100); }
+    if(sk){ masterVol = v; sc.mv = v; rampG(mm.master.gain, v / 100); rampG(mm.live.gain, v / 100); sc.items.forEach(x => { if(LIVE.has(x.type) && (testing[x.id] || (deskClip && deskClip.id === x.id))) applyVol(x); }); }
     else { lmaster = v; sc.lmv = v; rampG(mm.lm.gain, v / 100); }
     persist(); return;
   }
@@ -950,9 +1023,12 @@ let gearId = null;
 function gearBody(it){
   const lv = LIVE.has(it.type), media = it.type === 'audio' || it.type === 'video', max = lv ? 200 : 100;
   let h = `<div class="g-sec"><b>${t('streamBarFull')}</b><small>${t('streamNote')}</small>${mxBar('s', it.id, it.vol, max, it.muted, 'mute')}</div>`;
-  if(hasLocal(it)) h += `<div class="g-sec loc"><b>${t('localBarFull')}</b><small>${t(it.type === 'mic' ? 'micLocalNote' : 'localNote')}</small>${mxBar('l', it.id, lvolOf(it), 100, it.lmuted, 'lmute')}${monGate() ? '' : `<small class="warn">${t('monOffNote')}</small>`}</div>`;
+  if(hasLocal(it)){
+    const dk = it.type === 'deskaudio';
+    h += `<div class="g-sec loc"><b>${t(dk ? 'deskLocalFull' : 'localBarFull')}</b><small>${t(dk ? 'deskLocalNote' : it.type === 'mic' ? 'micLocalNote' : 'localNote')}</small>${mxBar('l', it.id, lvolOf(it), 100, it.lmuted, localAct(it), dk ? t('deskLocalFull') : '')}${dk || monGate() ? '' : `<small class="warn">${t('monOffNote')}</small>`}</div>`;
+  }
   if(media){ const busy = wantPlay(it, cur(), true); h += `<div class="g-try"><button class="sbtn ${trial[it.id] ? 'on' : ''}" data-a="trial" ${busy ? 'disabled' : ''}>${ic(trial[it.id] ? 'stop' : 'play')}<span>${t(trial[it.id] ? 'tryStop' : 'tryLocal')}</span></button><small>${t(busy ? 'tryBusy' : 'tryNote')}</small></div>`; }
-  if(lv) h += `<div class="testbox"><button class="sbtn ${testing[it.id] ? 'on' : ''}" data-a="test">${ic(testing[it.id] ? 'stop' : 'play')}${t(testing[it.id] ? 'testStop' : 'test')}</button><div class="meter big"><i data-m="${it.id}"></i></div></div><div class="tst" data-tst="${it.id}">${esc(testText(it.id))}</div>`;
+  if(lv) h += `<div class="testbox"><button class="sbtn ${testing[it.id] ? 'on' : ''}" data-a="test">${ic(testing[it.id] ? 'stop' : 'play')}${t(testing[it.id] ? 'testStop' : 'test')}</button><div class="meter big"><i data-m="${it.id}"></i></div></div><div class="tst" data-tst="${it.id}">${esc(testText(it.id))}</div>${it.type === 'siteaudio' ? '' : `<small class="testnote">${t(it.type === 'deskaudio' ? 'deskTestNote' : 'micTestNote')}</small>`}`;
   h += `<div class="btn-row"><button class="sbtn" data-a="reset">${ic('center')}${t('resetVol')}</button>${it.type === 'siteaudio' ? `<button class="sbtn" data-a="show">${ic('window')}${t('appsShow')}</button>` : ''}</div>`;
   return h;
 }
@@ -969,7 +1045,7 @@ $('dlgB').addEventListener('click', e => {
   if(a === 'mute') it.muted = !it.muted; else if(a === 'lmute') it.lmuted = !it.lmuted;
   else if(a === 'trial') toggleTrial(it); else if(a === 'test') toggleTest(it);
   else if(a === 'show'){ showApp(it); return; }
-  else if(a === 'reset'){ it.vol = 100; it.lvol = it.type === 'mic' ? 0 : 100; it.muted = false; it.lmuted = false; }
+  else if(a === 'reset'){ it.vol = 100; if(it.type !== 'deskaudio') it.lvol = it.type === 'mic' ? 0 : 100; it.muted = false; it.lmuted = false; }
   else return;
   applyVol(it); renderMixer(); fillGear(it); persist();
 });
@@ -1188,6 +1264,16 @@ async function addFiles(kind, files){
   for(const f of list) await addFromBlob(kind, f, f.name);
   return true;
 }
+/* إضافة صوت مدمج على عنصر (صورة/فيديو/نص...): يُربط به، وزر ▶ في الخلاط يُظهر العنصر ويشغّل الصوت (تسمعه وتتحكم بمستواه) */
+function attachSound(parent){
+  const fi = document.createElement('input'); fi.type = 'file'; fi.accept = 'audio/*';
+  fi.onchange = async () => {
+    const f = fi.files && fi.files[0]; if(!f) return;
+    const a = await addFromBlob('audio', f, f.name); if(!a) return;
+    linkTo(a, parent.id);
+  };
+  fi.click();
+}
 function fetchError(r){
   const m = { badUrl:t('eBadUrl'), noYtdlp:t('eNoYt'), type:t('eType'), big:t('eBig') };
   if(r.code === 'http') return t('eHttp') + r.detail + ')';
@@ -1345,6 +1431,7 @@ $('srcList').addEventListener('dragend', dragEnd);
 
 $('tabProps').addEventListener('input', e => {
   const el = e.target, sc = cur();
+  if(el.dataset.lv){ onVolInput(e); return; }
   if(el.dataset.s){ const k = el.dataset.s; if(k === 'name') sc.name = el.value; else sc.bg[k === 'bg0' ? 0 : 1] = el.value; renderScenes(); persist(); return; }
   const k = el.dataset.k, it = selItem(); if(!k || !it) return;
   let v = el.type === 'checkbox' ? el.checked : (el.type === 'number' || el.type === 'range') ? (parseFloat(el.value) || 0) : el.value;
@@ -1370,6 +1457,7 @@ $('tabProps').addEventListener('click', e => {
   else if(act === 'fitScr'){ fitItem(it); syncGeom(); updateSel(); persist(); }
   else if(act === 'centerIt'){ it.x = Math.round((CW - it.w) / 2); it.y = Math.round((CH - it.h) / 2); syncGeom(); updateSel(); persist(); }
   else if(act === 'changeSrc'){ if(it.type === 'cam') cameraDialog(it.id); else captureDialog(it.type, it.id); }
+  else if(act === 'attachSound') attachSound(it);
   else if(act === 'test') toggleTest(it);
   else if(act === 'openSite'){ const u = normUrl(it.url); if(!u){ toast(t('eBadUrl')); return; } it.url = u; liveFail.delete(it.id); if(!it.visible) it.visible = true; dropLiveCap('site:' + u); teardownLive(it.id); renderSources(); renderProps(); syncLive(); persist(); }
 });
@@ -1614,7 +1702,7 @@ async function startStream(){
   if(!settings.kickUrl || !settings.kickKey){
     toast(t('setKickFirst')); openSettings('streaming'); return;
   }
-  busy = true; $('go').disabled = true; setStatus('connecting');
+  stopAllTests(); busy = true; $('go').disabled = true; setStatus('connecting');
   const r = await api.startStream(settings);
   if(!r.ok){ setStatus('ready'); toast('❌ ' + tm(r.error)); busy = false; $('go').disabled = false; return; }
   try{
@@ -1771,3 +1859,4 @@ S.scenes.forEach(sc => sc.items.forEach(i => { if(i.type === 'image') loadImg(i.
 enterScene(cur()); setStatus('ready');
 api.loadSettings().then(s => { settings = s; renderChip(); });
 applyHotkeys();
+refreshSysVol();

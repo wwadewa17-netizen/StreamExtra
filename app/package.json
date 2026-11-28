@@ -5,20 +5,24 @@
   "main": "main.js",
   "author": "Stream Extra",
   "license": "MIT",
-  "version": "2.4",
-  "releaseDate": "2026-11-26",
+  "version": "2.5",
+  "releaseDate": "2026-11-28",
   "notes": {
     "ar": [
-      "حذف خانة «القناة» من إعدادات Kick بالكامل — القناة تُؤخذ تلقائياً من حسابك بعد تسجيل الدخول",
-      "صفحة النشاط: اسم المتابع الجديد يظهر الآن بشكل صحيح — لو وصل الحدث بدون اسم يُجلب الاسم تلقائياً خلال ثواني ويُربط بنفس الصف (بدون تكرار)، ويظهر الأليرت باسمه الحقيقي",
-      "صفوف النشاط صارت أسهل: أزرار سريعة عند تمرير الماوس — فتح الحساب على Kick · نسخ الاسم · إعادة تشغيل الأليرت",
-      "مؤشر «جاري جلب الاسم…» أثناء البحث عن اسم المتابع"
+      "حذف نظام الأليرتات بالكامل (نافذة الأليرتات، زر الجرس، ورسم الأليرت على البث) — صفحة النشاط وأسماء المتابعين تبقى كما هي",
+      "صوت سطح المكتب: زر «تجربة» يشغّل مقطعاً صوتياً تجريبياً ويعرض مستواه كما سيصل للبث (عالي/واطي) حسب شريط «البث»، ولا يصل للبث الحقيقي",
+      "صوت سطح المكتب: شريط «أنا» جديد يتحكم بمستوى ويندوز عندك فقط، بينما يبقى مستواه في البث حسب شريط «البث»",
+      "صوت المايك: التجربة صارت تُسمعك صوتك بنفس مستوى البث ويعرض المؤشر مستواه عند المشاهدين، وشريطا «البث» و«أنا» ظاهران في صفحة الخصائص أيضاً",
+      "الصوت المدمج: إصلاح عدم سماع الصوت عند وجود صوت سطح المكتب — صرت تسمع الصوت المضاف وتتحكم بمستواه عندك «أنا» وعند المشاهدين «البث»",
+      "زر جديد «إضافة صوت لهذا العنصر» في خصائص الصورة/الفيديو/النص: يضيف الصوت ويربطه بالعنصر مباشرة، وزر ▶ في الخلاط يُظهر العنصر مع الصوت"
     ],
     "en": [
-      "The “Channel” box was removed from the Kick settings — the channel now comes automatically from the logged-in account",
-      "Activity page: new followers now show with their real name — if the event arrives without a name, it is fetched within seconds and merged into the same row (no duplicates), and the alert shows the real name",
-      "Easier activity rows: quick buttons on hover — open profile on Kick · copy name · replay alert",
-      "“Fetching name…” indicator while the follower name is being looked up"
+      "Removed the alerts system completely (alerts window, bell button, and alert drawing on the stream) — the Activity page and follower names are unchanged",
+      "Desktop audio: a new “Test” button plays a sample clip and shows how loud it will be on the stream (high/low) from the “Stream” bar; it never reaches the real stream",
+      "Desktop audio: new “Me” bar that changes only your Windows volume, while the stream level stays set by the “Stream” bar",
+      "Microphone: Test now lets you hear yourself at the stream level and the meter shows its level for viewers; the “Stream” and “Me” bars are also in the Properties page",
+      "Built-in audio: fixed not hearing the sound when desktop audio is on — you now hear the added sound and set its level for you (“Me”) and for viewers (“Stream”)",
+      "New “Add sound to this item” button in image/video/text properties: adds the sound and links it to the item directly; the ▶ button in the mixer shows the item with the sound"
     ]
   }
 }

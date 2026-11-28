@@ -1728,8 +1728,6 @@ body.dock-locked .side-resz::after{display:none}
 .ctrl-panel .cbtn{justify-content:flex-start;padding:7px 10px;gap:10px;font-size:13px}
 .ctrl-panel .cbtn i{width:30px;height:30px;border-radius:8px}
 .ctrl-panel .cbtn i svg{width:17px;height:17px}
-.ctrl-panel .cbtn.al-off{opacity:.78}
-.ctrl-panel .cbtn.al-off i{color:var(--mut)}
 
 /* شات Kick: يعبّي باقي العمود */
 .work-side #dkKick{flex:1 1 0;min-height:0;min-width:0;width:auto}
@@ -1819,69 +1817,7 @@ body.k-bigmode #dkKick .k-nav button{flex-direction:row;justify-content:center;g
 @keyframes kxOpen{from{opacity:0;transform:translateY(-4px)}to{opacity:1;transform:none}}
 #dkKick .k-need{margin:0}
 
-/* ===== نافذة الأليرتات (v2.1): الأنواع (يسار) + معاينة مباشرة + تبويبات (قوالب · نصوص · وسائط · شكل · عام) ===== */
-.modal.al-box{width:min(1180px,97vw);max-height:95vh;overflow:hidden;display:flex;flex-direction:column}
-.modal.al-box #dlgB{min-height:0}
-.al-wrap{display:flex;gap:16px;align-items:stretch}
-.al-side{display:flex;flex-direction:column;gap:8px;width:156px;flex:none}
-.al-sideT{font-size:11px;font-weight:800;color:var(--mut);letter-spacing:.4px;padding:2px 4px}
-.al-tab{display:flex;align-items:center;gap:9px;padding:12px 13px;border-radius:13px;border:1px solid var(--line);background:var(--well);color:var(--txt);font-size:12.5px;font-weight:800;cursor:pointer;text-align:start;transition:.12s}
-.al-tab i,.al-seg i{display:inline-flex;width:18px;height:18px;flex:none}
-.al-tab i svg,.al-seg i svg{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
-.al-tab.on{background:linear-gradient(180deg,var(--ac-g1),var(--ac-g2));border-color:var(--ac-b);color:#fff;box-shadow:0 4px 16px rgba(var(--ac-rgb),.3)}
-.al-main{flex:1;min-width:0;display:grid;grid-template-columns:minmax(0,1.08fr) minmax(0,1fr);gap:16px;align-items:start}
-.al-left{position:sticky;top:0;display:flex;flex-direction:column;gap:10px}
-.al-stage{padding:10px;border-radius:16px;border:1px solid var(--line);background:var(--well);display:flex;flex-direction:column;gap:8px}
-.al-prevT{font-size:11.5px;color:var(--mut);font-weight:700;padding:0 2px}
-.al-prev{width:100%;aspect-ratio:16/9;border-radius:11px;border:1px solid var(--line2);background:#14161b;touch-action:none;display:block}
-.al-tools{display:flex;gap:10px;align-items:flex-end;padding:10px;border:1px solid var(--line);border-radius:16px;background:var(--well)}
-.al-tn{flex:1;min-width:0}
-.al-tn span{display:block;font-size:11.5px;color:var(--mut);font-weight:700;margin-bottom:4px}
-.al-tn input{width:100%}
-.al-play{display:inline-flex;align-items:center;gap:8px;white-space:nowrap;padding:9px 16px}
-.al-play i{display:inline-flex;width:15px;height:15px}
-.al-play i svg{width:15px;height:15px;fill:currentColor;stroke:currentColor}
-.al-right{display:flex;flex-direction:column;gap:10px;min-width:0}
-.al-segs{display:flex;gap:4px;padding:4px;border-radius:15px;background:var(--well);border:1px solid var(--line)}
-.al-seg{flex:1;min-width:0;display:flex;flex-direction:column;align-items:center;gap:4px;padding:8px 2px 7px;border-radius:11px;border:0;background:transparent;color:var(--mut);font-size:11.5px;font-weight:800;cursor:pointer;transition:.12s}
-.al-seg span{white-space:nowrap}
-.al-seg:hover{background:var(--hov2);color:var(--txt)}
-.al-seg.on{background:linear-gradient(180deg,var(--ac-g1),var(--ac-g2));color:#fff;box-shadow:0 3px 12px rgba(var(--ac-rgb),.32)}
-.al-ctl{display:flex;flex-direction:column;gap:10px;max-height:min(590px,calc(95vh - 250px));overflow:auto;padding-inline-end:4px}
-.al-sec{display:flex;flex-direction:column;gap:10px;padding:13px;border-radius:14px;border:1px solid var(--line);background:var(--well);transition:border-color .12s,box-shadow .12s}
-.al-sec.sel{border-color:#ffd400;box-shadow:0 0 0 1px #ffd40055}
-.al-secT{font-size:12.5px;font-weight:800;color:var(--txt);display:flex;align-items:center;gap:8px}
-.al-secT::before{content:"";width:3px;height:14px;border-radius:2px;background:var(--ac)}
-.al-hint{font-size:11.5px;line-height:1.65;color:var(--mut)}
-.al-row{display:flex;gap:8px;flex-wrap:wrap}
-.al-row .dbtn{padding:7px 14px;font-size:12.5px}
-.al-row .dbtn[disabled]{opacity:.45;pointer-events:none}
-.al-rg{display:grid;grid-template-columns:1fr 64px;gap:4px 8px;align-items:center}
-.al-rg>span{grid-column:1/-1;font-size:11.5px}
-.al-num{width:64px;padding:4px 6px;text-align:center}
-.al-sec .k-toggle{margin-top:0}
-.al-cl input[type=color]{width:100%;height:34px;padding:2px;border-radius:9px;cursor:pointer}
-.al-file{display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:11px;border:1px dashed var(--line2);color:var(--mut);font-size:12px;font-weight:700}
-.al-file i{display:inline-flex;width:18px;height:18px;flex:none}
-.al-file i svg{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
-.al-file.has{border-style:solid;border-color:var(--line3);color:var(--txt);background:var(--panel2)}
-.al-fn{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;direction:ltr;text-align:start}
-.al-tpls{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-.al-tpl{position:relative;display:flex;flex-direction:column;gap:6px;padding:6px 6px 9px;border-radius:13px;border:2px solid var(--line);background:var(--panel2);cursor:pointer;text-align:center;color:var(--txt);transition:border-color .12s,transform .12s,box-shadow .12s}
-.al-tpl canvas{width:100%;height:auto;aspect-ratio:360/170;border-radius:9px;display:block}
-.al-tpl:hover{border-color:var(--line3);transform:translateY(-1px)}
-.al-tpl.on{border-color:var(--ac);box-shadow:0 0 0 1px var(--ac),0 6px 18px rgba(var(--ac-rgb),.28)}
-.al-tpl.on::after{content:"✓";position:absolute;top:11px;inset-inline-end:11px;width:21px;height:21px;border-radius:50%;background:var(--ac);color:#fff;font-size:12px;font-weight:900;display:grid;place-items:center;box-shadow:0 2px 8px rgba(0,0,0,.4)}
-.al-tpn{font-size:12px;font-weight:800}
-.al-tpl em{font-style:normal;font-size:10.5px;font-weight:700;color:var(--ac-t)}
-@media (max-width:1000px){.al-main{grid-template-columns:1fr}.al-left{position:static}.al-wrap{flex-direction:column}.al-side{width:auto;flex-direction:row;flex-wrap:wrap}.al-sideT{display:none}.al-ctl{max-height:none}}
 
-/* v2.2 — لغة القالب */
-.al-langs{display:flex;gap:8px}
-.al-lang{flex:1;padding:10px 8px;border-radius:12px;border:2px solid var(--line);background:var(--panel2);color:var(--txt);font-size:14px;font-weight:800;cursor:pointer;transition:.12s}
-.al-lang:hover{border-color:var(--line3)}
-.al-lang.on{border-color:var(--ac);background:rgba(var(--ac-rgb),.16);box-shadow:0 0 0 1px var(--ac)}
-.al-ctl select option{font-size:15px}
 
 
 /* ================= v2.3: ترتيب جديد للواجهة =================
@@ -1919,43 +1855,7 @@ body.k-bigmode #dkKick .k-nav button{flex-direction:row;justify-content:center;g
 @media (max-width:1366px){ :root{--kick-w:330px;--side-w:270px} }
 @media (max-width:1180px){ :root{--kick-w:300px;--side-w:250px} }
 
-/* ================= v2.3: نافذة الأليرتات — تبويب «بناء الأليرت» ================= */
-.al-start{gap:8px}
-.al-start .dbtn{display:inline-flex;align-items:center;gap:7px;padding:9px 14px}
-.al-start .dbtn i,.al-el .dbtn i{display:inline-flex;width:15px;height:15px}
-.al-start .dbtn svg,.al-el .dbtn svg{width:15px;height:15px;fill:none;stroke:currentColor;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round}
-.al-els{display:flex;flex-direction:column;gap:8px}
-.al-el{display:flex;align-items:center;gap:11px;padding:9px 10px;border-radius:12px;border:1px solid var(--line);background:var(--panel2,var(--inp));transition:border-color .12s,background .12s;cursor:default}
-.al-el.has{cursor:pointer}
-.al-el.has:hover{border-color:var(--line3)}
-.al-el.sel{border-color:#ffd400;box-shadow:0 0 0 1px #ffd40055}
-.al-elI{width:38px;height:38px;border-radius:10px;display:grid;place-items:center;flex:none;background:var(--hov);color:var(--mut)}
-.al-el.has .al-elI{background:color-mix(in srgb,var(--ac) 16%,transparent);color:var(--ac-t)}
-.al-elI svg{width:19px;height:19px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
-.al-elT{flex:1;min-width:0;display:flex;flex-direction:column;gap:2px}
-.al-elT b{font-size:13px;font-weight:800}
-.al-elT small{font-size:11px;color:var(--mut);font-weight:600}
-.al-el.has .al-elT small{color:var(--ok)}
-.al-elB{display:flex;gap:6px;flex-wrap:wrap;justify-content:flex-end}
-.al-elB .dbtn{display:inline-flex;align-items:center;gap:6px;padding:6px 11px;font-size:12px;white-space:nowrap}
-.al-pick{text-align:center;padding:14px;border:1px dashed var(--line2);border-radius:12px}
 
-/* قائمة الخطوط: كل خط بشكله، واسمه بالعربي */
-.al-fonts{display:grid;grid-template-columns:repeat(auto-fill,minmax(128px,1fr));gap:7px;max-height:216px;overflow:auto;padding:2px}
-.al-font{display:flex;flex-direction:column;gap:3px;align-items:center;justify-content:center;text-align:center;padding:8px 6px;border-radius:11px;border:1.5px solid var(--line);background:var(--panel2,var(--inp));color:var(--txt);cursor:pointer;min-height:58px;transition:border-color .12s,background .12s}
-.al-font b{font-size:16px;font-weight:700;line-height:1.25}
-.al-font small{font-size:11.5px;color:var(--mut);line-height:1.2}
-.al-font:hover{border-color:var(--line3)}
-.al-font.on{border-color:var(--ac);background:var(--sel);box-shadow:0 0 0 1px var(--ac)}
-.al-font.on b{color:var(--ac-t)}
-.al-langrow{display:flex;align-items:center;gap:10px;justify-content:space-between}
-.al-langrow > span{font-size:12px;font-weight:800;color:var(--mut);white-space:nowrap}
-.al-langrow .al-langs{flex:1;max-width:240px}
-.al-langrow .al-lang{padding:7px 10px;font-size:12.5px}
-.al-tools .al-zoom{display:inline-flex;align-items:center;gap:6px;white-space:nowrap}
-.al-tools .al-zoom i{display:inline-flex;width:15px;height:15px}
-.al-tools .al-zoom svg{width:15px;height:15px;fill:none;stroke:currentColor;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round}
-.al-tools .al-zoom.on{border-color:var(--ac);color:var(--ac-t)}
 
 /* ================= v2.5: صفحة النشاط — صفوف المتابعين ================= */
 .kx-item[data-t=follow] .kx-tx b{font-size:13.5px;letter-spacing:.1px}
@@ -1968,3 +1868,6 @@ body.k-bigmode #dkKick .k-nav button{flex-direction:row;justify-content:center;g
 .kx-ab{display:grid;place-items:center;width:26px;height:26px;border-radius:8px;border:1px solid var(--line2);background:var(--panel2);color:var(--mut);cursor:pointer;padding:0;transition:background .12s,color .12s,border-color .12s}
 .kx-ab:hover{background:color-mix(in srgb,var(--tc,var(--ac)) 22%,var(--panel2));color:var(--txt);border-color:var(--tc,var(--ac))}
 .kx-ab svg{width:13px;height:13px}
+
+/* v2.5: ملاحظات التجربة في الصوت */
+.testnote{display:block;margin-top:6px;font-size:11.5px;line-height:1.65;color:var(--mut)}

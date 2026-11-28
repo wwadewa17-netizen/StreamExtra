@@ -16,6 +16,8 @@ contextBridge.exposeInMainWorld('api', {
   siteShow: (req) => ipcRenderer.invoke('site:show', req),
   siteClose: (req) => ipcRenderer.invoke('site:close', req),
   siteMute: (req) => ipcRenderer.invoke('site:mute', req),
+  sysVolGet: () => ipcRenderer.invoke('sysvol:get'),
+  sysVolSet: (v) => ipcRenderer.invoke('sysvol:set', { v }),
   appsList: () => ipcRenderer.invoke('apps:list'),
   onApps: (cb) => ipcRenderer.on('apps:update', (_e, list) => cb(list)),
   onSiteClosed: (cb) => ipcRenderer.on('site:closed', (_e, url) => cb(url)),

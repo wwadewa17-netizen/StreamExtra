@@ -31,7 +31,7 @@
     kxActEmpty: 'لا يوجد نشاط بعد. المتابعون الجدد والاشتراكات والهدايا تظهر هنا فور حدوثها.',
     kxModEmpty: 'لا توجد إجراءات بعد. الحذف والحظر والتايم أوت يظهرون هنا.',
     kxModNeed: 'إجراءات المشرف (حذف / تايم أوت / حظر) تحتاج صلاحية إضافية. اضغط "إعادة الربط" ووافق مرة وحدة.',
-    kxFollow: 'تابع القناة', kxFollowN: 'متابع جديد', kxFetching: 'جاري جلب الاسم…', kxOpenProf: 'فتح حسابه على Kick', kxCopyName: 'نسخ الاسم', kxReplay: 'إعادة تشغيل الأليرت', kxCopied: 'تم نسخ الاسم', kxSub: 'اشترك في القناة', kxResub: 'جدّد اشتراكه ({n} أشهر)', kxGift: 'أهدى {n} اشتراك',
+    kxFollow: 'تابع القناة', kxFollowN: 'متابع جديد', kxFetching: 'جاري جلب الاسم…', kxOpenProf: 'فتح حسابه على Kick', kxCopyName: 'نسخ الاسم', kxCopied: 'تم نسخ الاسم', kxSub: 'اشترك في القناة', kxResub: 'جدّد اشتراكه ({n} أشهر)', kxGift: 'أهدى {n} اشتراك',
     kxReward: 'استبدل: {r}', kxKicks: 'أرسل {n} KICKs', kxFirst: 'دردش للتو لأول مرة', kxStart: 'بدأ البث', kxEnd: 'انتهى البث',
     kxDel: 'حذف رسالة', kxDelOf: 'حذف رسالة من {u}', kxBan: 'حظر {u}', kxTimeout: 'تايم أوت {u} · {m}', kxUnban: 'فك حظر {u}',
     kxNow: 'الآن', kxAgo: 'قبل {v}', kxS: 'ثانية', kxM: 'دقيقة', kxH: 'ساعة', kxD: 'يوم',
@@ -81,7 +81,7 @@
     kxActEmpty: 'No activity yet. New followers, subs and gifts show up here as they happen.',
     kxModEmpty: 'No actions yet. Deletes, bans and timeouts show up here.',
     kxModNeed: 'Moderator actions (delete / timeout / ban) need one extra permission. Press "Reconnect" and approve once.',
-    kxFollow: 'followed the channel', kxFollowN: 'New follower', kxFetching: 'Fetching name…', kxOpenProf: 'Open profile on Kick', kxCopyName: 'Copy name', kxReplay: 'Replay alert', kxCopied: 'Name copied', kxSub: 'subscribed', kxResub: 'resubscribed ({n} months)', kxGift: 'gifted {n} subs',
+    kxFollow: 'followed the channel', kxFollowN: 'New follower', kxFetching: 'Fetching name…', kxOpenProf: 'Open profile on Kick', kxCopyName: 'Copy name', kxCopied: 'Name copied', kxSub: 'subscribed', kxResub: 'resubscribed ({n} months)', kxGift: 'gifted {n} subs',
     kxReward: 'redeemed: {r}', kxKicks: 'sent {n} KICKs', kxFirst: 'chatted for the first time', kxStart: 'Stream started', kxEnd: 'Stream ended',
     kxDel: 'Deleted a message', kxDelOf: 'Deleted a message from {u}', kxBan: 'Banned {u}', kxTimeout: 'Timed out {u} · {m}', kxUnban: 'Unbanned {u}',
     kxNow: 'now', kxAgo: '{v} ago', kxS: 'sec', kxM: 'min', kxH: 'h', kxD: 'd',
@@ -184,37 +184,9 @@
     const tg = String(o.target || '').toLowerCase();
     return mod.some(a => (o.k && a.k === o.k) || (a.type === o.type && String(a.target || '').toLowerCase() === tg && Math.abs((a.ts || 0) - o.ts) < 90000));
   }
-  /* ---- v2.3: أليرت المتابعة مستقل عن قائمة النشاط ----
-     قبل: لو وصل المتابع أولاً من صفحة لوحة Kick (الاستطلاع) ثم من الـWebSocket، الثاني يُعتبر مكرراً فما يطلع الأليرت أبداً.
-     الآن: لكل متابع أليرت واحد فقط (نذكر الأسماء 20 دقيقة) بغض النظر عن مصدر الحدث أو وجوده بالقائمة. */
-  const FA = { t: 0, ta: 0, map: {} }; try { FA.map = JSON.parse(LS.get('se_kfa', '{}')) || {}; } catch (e) { FA.map = {}; }
-  const APP_T0 = Date.now();
-  function followAlert(user, key, demo) {
-    if (!window.SEAlert) return;
-    const now = Date.now(), u = String(user || '').trim().toLowerCase();
-    if (!demo) {
-      if (u) {
-        if (FA.map[u] && now - FA.map[u] < 1200000) return;
-        FA.map[u] = now; for (const k of Object.keys(FA.map)) if (now - FA.map[k] > 1200000) delete FA.map[k];
-        try { LS.set('se_kfa', JSON.stringify(FA.map)); } catch (e) {}
-      } else { if (now - FA.ta < 4000) return; FA.ta = now; }
-      if (key && !once('fa:' + key)) return;
-    }
-    FA.t = now;
-    try { SEAlert.push('follow', user); } catch (e) {}
-  }
-  /* ---- v2.5: أسماء المتابعين ----
-     Kick غالباً ترسل حدث المتابعة بدون اسم. نحتفظ بالمتابع (بدون اسم) ثم نجلب الاسم من لوحة Kick بعد ثواني،
-     وأول ما يوصل الاسم نربطه بنفس الصف (بدل صفّين) ونُشغّل الأليرت باسمه. */
-  const PEND = [];
-  const pendClear = p => { clearTimeout(p.t); const i = PEND.indexOf(p); if (i >= 0) PEND.splice(i, 1); };
-  function holdAlert(key) {                                  // أليرت بانتظار الاسم (حد أقصى 8 ثواني ثم يظهر بدون اسم)
-    if (!window.SEAlert) return;
-    if (!linkedNow()) { followAlert('', key, false); return; }
-    if (key && !once('fa:' + key)) return;
-    const p = { t: 0 }; p.t = setTimeout(() => { pendClear(p); followAlert('', '', false); }, 8000); PEND.push(p);
-  }
-  function askNames() {
+  /* آخر وقت وصل فيه متابع جديد (للاحتياط لو زاد العدد بدون أي حدث) */
+  const FA = { t: 0 };
+    function askNames() {
     [1200, 4000, 8000, 16000, 30000].forEach(ms => setTimeout(() => {
       if (act.some(a => a.type === 'follow' && !a.user && !a.demo && Date.now() - a.ts < 150000)) probe('activity');
     }, ms));
@@ -226,15 +198,14 @@
     act.forEach(a => { if (a.type === 'follow' && !a.user && !a.demo) { const d = Math.abs((a.ts || 0) - (ts || Date.now())); if (d < 300000 && (!best || d < best.d)) best = { a, d }; } });
     if (!best) return false;
     best.a.user = user; fresh.add(best.a.ts + '|follow|' + user);
-    const p = PEND[0]; if (p) { pendClear(p); followAlert(user, '', false); }
     save(); paintAct(); return true;
   }
   function addAct(o) {
-    if (o.type === 'follow') { if (o.user || o.demo) followAlert(o.user, o.key, !!o.demo); else holdAlert(o.key); }
+    if (o.type === 'follow' && !o.demo) FA.t = Date.now();
     if (o.key && !once('a:' + o.key)) return;
     if (o.type === 'follow' && !o.user && !o.demo) {         // حدث بلا اسم وصل بعد ما وصل اسم نفس المتابع من لوحة Kick → لا نكرّره
       const now = Date.now(), tw = act.find(a => a.type === 'follow' && a.user && !a.c && !a.demo && now - a.ts < 30000);
-      if (tw) { tw.c = 1; const p = PEND[0]; if (p) pendClear(p); return; }
+      if (tw) { tw.c = 1; return; }
     }
     const it = { type: o.type, user: o.user || '', n: o.n, r: o.r, ts: o.ts || Date.now(), k: o.k || '', x: o.x || '' }; if (o.demo) it.demo = 1;
     if (dupAct(it)) return;
@@ -273,10 +244,10 @@
     items.forEach(a => { const d = dayLabel(a.ts); if (d !== last) { last = d; out += `<div class="kx-day">${esc(d)}</div>`; } out += rowFn(a); });
     return out;
   }
-  function actBtns(a) {                                      // أزرار سريعة لكل صف له اسم: فتح الحساب · نسخ الاسم · (للمتابعة) إعادة الأليرت
+  function actBtns(a) {                                      // أزرار سريعة لكل صف له اسم: فتح الحساب · نسخ الاسم · 
     if (!a.user) return '';
     const u = esc(a.user), b = (k, i, l) => `<button type="button" class="kx-ab" data-a="${k}" data-u="${u}" title="${esc(t(l))}" aria-label="${esc(t(l))}">${ic(i, 13)}</button>`;
-    return `<span class="kx-acts">${b('open', 'ext', 'kxOpenProf')}${b('copy', 'copy', 'kxCopyName')}${a.type === 'follow' ? b('replay', 'bell', 'kxReplay') : ''}</span>`;
+    return `<span class="kx-acts">${b('open', 'ext', 'kxOpenProf')}${b('copy', 'copy', 'kxCopyName')}</span>`;
   }
   function actRow(a) {
     const pend = a.type === 'follow' && !a.user && !a.demo && linkedNow() && Date.now() - a.ts < 90000;
@@ -347,7 +318,6 @@
     const b = e.target.closest('[data-a]'); if (!b) return; const u = b.dataset.u || '';
     if (b.dataset.a === 'open') { try { api.kickOpenUser(u); } catch (x) {} }
     else if (b.dataset.a === 'copy') { try { navigator.clipboard.writeText(u).then(() => toast('✔ ' + t('kxCopied'))); } catch (x) {} }
-    else if (b.dataset.a === 'replay') { try { SEAlert.push('follow', u, true); } catch (x) {} }
   });
   $('kxActF').addEventListener('click', e => { const b = e.target.closest('[data-f]'); if (!b) return; F.act = b.dataset.f; paintAct(); });
   $('kxModF').addEventListener('click', e => { const b = e.target.closest('[data-f]'); if (!b) return; F.mod = b.dataset.f; paintMod(); });
@@ -451,7 +421,6 @@
     arrs.forEach(arr => arr.slice(0, LIM).forEach((it, i) => {
       const r = normItem(it, i); if (!r) return;
       if (r.kind === 'act') {
-        if (r.v.type === 'follow' && !r.approx && r.v.user && r.v.ts >= APP_T0 - 30000 && Date.now() - r.v.ts < 180000) followAlert(r.v.user, '', false);
         if (r.v.type === 'follow' && r.v.user && enrichFollow(r.v.user, r.v.ts)) return;   // v2.5: ربط الاسم بمتابع وصل بلا اسم
         if (!dupAct(r.v)) { act.push(r.v); ca = true; }
       }

@@ -49,6 +49,20 @@ Build_StreamExtra.cmd still builds a portable "StreamExtra" folder for testing. 
 
 Your settings and Kick link are stored in %AppData%\StreamExtra (+ a backup in %LocalAppData%\StreamExtra-Backup).
 
+v2.5
+----
+- Version 2.5.
+- The ALERTS system was removed completely (alerts window, bell button, alert drawing on the stream, app/renderer/alerts.js and logodata.js).
+  The Activity page, follower names and quick buttons (Open profile / Copy name) stay; only the "Replay alert" button is gone.
+- Desktop audio: "Test" button plays a built-in sample clip and the meter shows how loud it will be on the STREAM (from the Stream bar + Master).
+  It is a separate path: it never reaches the real stream, and it is blocked while you are live.
+- Desktop audio: new "Me" bar = your Windows volume (set through a small PowerShell helper, Windows only). Windows loopback capture is taken
+  BEFORE the Windows volume, so lowering it lowers only what you hear; the stream keeps the level of the Stream bar. If the Me bar is not shown, the helper could not start.
+- Microphone: Test plays your voice at the stream level (meter = level for viewers); Stream + Me bars are also in the Properties page.
+- Built-in audio: desktop audio no longer silences your own listening (before, the mixer stopped playing on your speakers whenever desktop audio was on).
+  Note: if viewers hear an added sound twice, desktop audio is re-capturing your speakers -> press the speaker button in Master.
+- New button "Add sound to this item" (image / video / text ... properties): picks a sound file, links it to the item. Press the play button in the mixer to show the item with the sound.
+
 v2.4 (additions)
 ----
 - Kick settings: the "Channel" box was REMOVED. The channel is taken automatically from the Kick account you log in with.

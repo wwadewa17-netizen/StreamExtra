@@ -376,6 +376,96 @@ ipcMain.handle('site:mute', (_e, req) => {
   try { w.webContents.setAudioMuted(!!(req && req.muted)); } catch (e) { return { ok: false }; }
   return { ok: true };
 });
+
+/* ---- v2.5: مستوى صوت ويندوز (لزر «أنا» في صوت سطح المكتب) ----
+   التقاط صوت سطح المكتب (loopback) يأخذ الصوت قبل مستوى سماعات ويندوز، فخفض مستوى ويندوز يخفض ما تسمعه أنت فقط
+   ويبقى البث عالياً. نستعمل عملية PowerShell واحدة تبقى مفتوحة (IAudioEndpointVolume) حتى يكون التحريك سلساً. */
+const SYSVOL_PS = `$ErrorActionPreference = 'Stop'
+Add-Type -TypeDefinition @'
+using System;
+using System.Runtime.InteropServices;
+[Guid("5CDF2C82-841E-4546-9722-0CF74078229A"), InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
+interface IAudioEndpointVolume {
+  int RegisterControlChangeNotify(IntPtr p);
+  int UnregisterControlChangeNotify(IntPtr p);
+  int GetChannelCount(out uint c);
+  int SetMasterVolumeLevel(float l, ref Guid g);
+  int SetMasterVolumeLevelScalar(float l, ref Guid g);
+  int GetMasterVolumeLevel(out float l);
+  int GetMasterVolumeLevelScalar(out float l);
+  int SetChannelVolumeLevel(uint n, float l, ref Guid g);
+  int SetChannelVolumeLevelScalar(uint n, float l, ref Guid g);
+  int GetChannelVolumeLevel(uint n, out float l);
+  int GetChannelVolumeLevelScalar(uint n, out float l);
+  int SetMute([MarshalAs(UnmanagedType.Bool)] bool m, ref Guid g);
+  int GetMute([MarshalAs(UnmanagedType.Bool)] out bool m);
+}
+[Guid("D666063F-1587-4E43-81F1-B948E807363F"), InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
+interface IMMDevice { int Activate(ref Guid id, uint ctx, IntPtr p, [MarshalAs(UnmanagedType.IUnknown)] out object o); }
+[Guid("A95664D2-9614-4F35-A746-DE8DB63617E6"), InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
+interface IMMDeviceEnumerator { int EnumAudioEndpoints(int f, int s, out IntPtr d); int GetDefaultAudioEndpoint(int f, int r, out IMMDevice d); }
+[ComImport, Guid("BCDE0395-E52F-49B9-9E41-9C1E3E4C0D4D")] class MMDeviceEnumeratorCom { }
+public static class SysVol {
+  static IAudioEndpointVolume Ep() {
+    var en = (IMMDeviceEnumerator)new MMDeviceEnumeratorCom();
+    IMMDevice dev; en.GetDefaultAudioEndpoint(0, 1, out dev);
+    Guid iid = typeof(IAudioEndpointVolume).GUID; object o; dev.Activate(ref iid, 23, IntPtr.Zero, out o);
+    return (IAudioEndpointVolume)o;
+  }
+  public static int Get() { float v; Ep().GetMasterVolumeLevelScalar(out v); return (int)Math.Round(v * 100); }
+  public static void Set(int p) { Guid g = Guid.Empty; Ep().SetMasterVolumeLevelScalar(Math.Max(0, Math.Min(100, p)) / 100f, ref g); }
+}
+'@
+[Console]::Out.WriteLine('READY'); [Console]::Out.Flush()
+while (($line = [Console]::In.ReadLine()) -ne $null) {
+  try {
+    $p = $line.Trim().Split(' ')
+    if ($p[0] -eq 'set') { [SysVol]::Set([int]$p[1]) }
+    [Console]::Out.WriteLine('OK ' + [SysVol]::Get())
+  } catch { [Console]::Out.WriteLine('ERR') }
+  [Console]::Out.Flush()
+}
+`;
+const sysvol = { proc: null, ready: null, buf: '', q: [], dead: false };
+function sysvolStart() {
+  if (process.platform !== 'win32' || sysvol.dead) return null;
+  if (sysvol.ready) return sysvol.ready;
+  sysvol.ready = new Promise((resolve) => {
+    try {
+      const f = path.join(app.getPath('userData'), 'sysvol.ps1');
+      fs.writeFileSync(f, SYSVOL_PS.replace(/\r?\n/g, '\r\n'), 'utf8');
+      const ps = path.join(process.env.SystemRoot || 'C:\\Windows', 'System32', 'WindowsPowerShell', 'v1.0', 'powershell.exe');
+      const pr = spawn(ps, ['-NoProfile', '-NonInteractive', '-ExecutionPolicy', 'Bypass', '-File', f], { windowsHide: true, stdio: ['pipe', 'pipe', 'ignore'] });
+      sysvol.proc = pr;
+      let up = false;
+      const fail = () => { if (!up) { up = true; sysvol.dead = true; resolve(false); } sysvol.q.splice(0).forEach(r => r(null)); sysvol.proc = null; sysvol.ready = null; };
+      pr.on('error', fail); pr.on('exit', fail);
+      pr.stdout.setEncoding('utf8');
+      pr.stdout.on('data', (d) => {
+        sysvol.buf += d; let i;
+        while ((i = sysvol.buf.indexOf('\n')) >= 0) {
+          const line = sysvol.buf.slice(0, i).trim(); sysvol.buf = sysvol.buf.slice(i + 1);
+          if (line === 'READY') { if (!up) { up = true; resolve(true); } continue; }
+          const r = sysvol.q.shift(); if (r) r(line);
+        }
+      });
+      setTimeout(() => { if (!up) { up = true; sysvol.dead = true; resolve(false); try { pr.kill(); } catch (e) {} } }, 20000);
+    } catch (e) { sysvol.dead = true; resolve(false); }
+  });
+  return sysvol.ready;
+}
+async function sysvolCmd(cmd) {
+  const ok = await sysvolStart(); if (!ok || !sysvol.proc) return null;
+  return new Promise((resolve) => {
+    let done = false; const fin = (v) => { if (!done) { done = true; resolve(v); } };
+    sysvol.q.push(fin); setTimeout(() => fin(null), 5000);
+    try { sysvol.proc.stdin.write(cmd + '\n'); } catch (e) { fin(null); }
+  });
+}
+const sysvolRes = (line) => { const m = /^OK (\d+)/.exec(line || ''); return m ? { ok: true, vol: +m[1] } : { ok: false }; };
+ipcMain.handle('sysvol:get', async () => sysvolRes(await sysvolCmd('get')));
+ipcMain.handle('sysvol:set', async (_e, req) => { const v = Math.max(0, Math.min(100, Math.round(Number(req && req.v)))); if (!isFinite(v)) return { ok: false }; return sysvolRes(await sysvolCmd('set ' + v)); });
+
 ipcMain.on('site:clean', (_e, urls) => {
   const keep = new Set((Array.isArray(urls) ? urls : []).map(normSite).filter(Boolean));
   for (const [u, w] of sites) { if (!keep.has(u)) { sites.delete(u); w._pruned = true; try { if (!w.isDestroyed()) w.destroy(); } catch (e) {} } }
@@ -1871,6 +1961,6 @@ app.whenReady().then(() => {
   setupKickSession();
   createWindow();
 });
-app.on('will-quit', () => { try { globalShortcut.unregisterAll(); } catch (e) {} });
+app.on('will-quit', () => { try { globalShortcut.unregisterAll(); } catch (e) {} try { if (sysvol.proc) sysvol.proc.kill(); } catch (e) {} });
 app.on('before-quit', () => { quitting = true; isLive = false; try { bridgeStop(); } catch (e) {} try { dashCloseAll(); } catch (e) {} try { kwClose(); } catch (e) {} try { if (recJob && recJob.out) recJob.out.end(); } catch (e) {} for (const w of sites.values()) { try { w.destroy(); } catch (e) {} } if (ff) { try { ff.kill(); } catch (e) {} } });
 app.on('window-all-closed', () => app.quit());
