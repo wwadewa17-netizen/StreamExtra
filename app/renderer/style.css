@@ -154,7 +154,6 @@ body.guides #guides{display:block}
 .mx output{font-size:11px;color:var(--mut);min-width:28px;text-align:end;direction:ltr}
 .meter{height:5px;border-radius:2px;background:var(--panel3);overflow:hidden;direction:ltr;margin-bottom:4px}
 .meter i{display:block;height:100%;width:100%;transform-origin:left;transform:scaleX(0);background:linear-gradient(90deg,var(--ok) 0 62%,var(--warn) 62% 86%,var(--ac) 86%)}
-.mx.master{margin:0 3px 3px;border-color:var(--line2);background:var(--head)}
 .ltr-i{direction:ltr;unicode-bidi:isolate}
 .mx.off{opacity:.5}
 #dkMixer{background:var(--panel)}
@@ -354,7 +353,6 @@ input[type=checkbox]{accent-color:var(--ac)}
 /* mixer */
 .mx{background:linear-gradient(180deg,var(--c1),var(--c2));border-color:var(--line2);border-radius:9px}
 .mx.playing{border-color:color-mix(in srgb,var(--ac-t) 55%,var(--line2));box-shadow:0 0 14px rgba(var(--ac-rgb),.22)}
-.mx.master{background:linear-gradient(180deg,var(--m1),var(--m2));border-color:var(--line3)}
 .meter{background:var(--well);height:6px;border-radius:3px;border:1px solid var(--line)}
 .meter.big{height:10px;flex:1;border-radius:5px}
 .tbtn{display:inline-flex;align-items:center;gap:5px;border:1px solid var(--line2);background:var(--b1);color:var(--txt);border-radius:6px;padding:2px 8px;font-size:11px;font-weight:700;cursor:pointer;flex:none;transition:.12s}
@@ -466,7 +464,6 @@ body.live .cp-timer b{color:var(--ac-t)}
 .sp-b{display:block;width:26px}
 .mx .gear{color:var(--mut)}
 .mx .gear:hover{color:var(--ac-t)}
-.mx.master{margin:0 3px 3px}
 
 /* audio settings dialog */
 .g-sec{border:1px solid var(--line2);border-radius:11px;padding:12px 14px 10px;margin-bottom:12px;background:var(--inp)}
@@ -1871,3 +1868,28 @@ body.k-bigmode #dkKick .k-nav button{flex-direction:row;justify-content:center;g
 
 /* v2.5: ملاحظات التجربة في الصوت */
 .testnote{display:block;margin-top:6px;font-size:11.5px;line-height:1.65;color:var(--mut)}
+
+/* ===== v2.6: نظام تجربة الصوت (سماعتي / البث) + مؤشرات احترافية ===== */
+.tpanel{margin-top:12px}
+.tpanel .tp-h{margin-top:0}
+.tp-btns{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:6px}
+.tp-btns .sbtn{justify-content:center;gap:7px;padding:9px 8px;font-size:12.5px;font-weight:700}
+.tp-btns .sbtn.me svg{color:var(--loc)}
+.tp-btns .sbtn.stream svg{color:var(--ac-t)}
+.tp-btns .sbtn.on{background:var(--ac);border-color:var(--ac-t);color:#fff}
+.tp-btns .sbtn.on svg{color:#fff}
+.tp-btns .sbtn.me.on{background:var(--loc);border-color:var(--loc);color:#06121d}
+.tp-btns .sbtn.me.on svg{color:#06121d}
+.tp-btns .sbtn:disabled{opacity:.45;cursor:not-allowed}
+.tpanel .testbox{margin-top:10px}
+.tpanel .testbox .db{min-width:62px;text-align:end;direction:ltr;font-size:12px;font-weight:700;font-variant-numeric:tabular-nums;color:var(--mut)}
+.tpanel .testbox .db.clip{color:var(--ac-t)}
+.meter.big.me i{background:linear-gradient(90deg,var(--loc),#9ad0ff)}
+.meter i.hot{filter:saturate(1.25) brightness(1.08)}
+.meter i.clip{background:var(--ac) !important}
+.mx .icon-btn.tsb{width:24px;height:24px;color:var(--mut)}
+.mx .icon-btn.tsb.me:hover{color:var(--loc)}
+.mx .icon-btn.tsb.stream:hover{color:var(--ac-t)}
+.mx .icon-btn.tsb.on{background:var(--ac);color:#fff}
+.mx .icon-btn.tsb.me.on{background:var(--loc);color:#06121d}
+.note.warn{color:var(--warn)}

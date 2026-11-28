@@ -49,6 +49,17 @@ Build_StreamExtra.cmd still builds a portable "StreamExtra" folder for testing. 
 
 Your settings and Kick link are stored in %AppData%\StreamExtra (+ a backup in %LocalAppData%\StreamExtra-Backup).
 
+v2.6
+----
+- Version 2.6.
+- The "Master" strip was REMOVED from the audio mixer (and the master speaker button). Every source has two bars only: "Stream" (what viewers hear) and "Me" (your headphones), saved per scene. Both bars now go up to 200% (desktop audio "Me" = Windows volume, 0-100).
+- New test system on every source (mixer row, Properties page and the audio settings window): two buttons.
+    * "Test in my headphones": you hear the source at the "Me" level only. Meter = Me level.
+    * "Test on stream": you hear what viewers will hear, at the "Stream" level. Meter = Stream level.
+  Both are LOCAL: nothing is sent to the real stream (file sources are silenced on the real stream path while testing). A big meter with a dB readout and a red warning when the level clips. Desktop-audio test is blocked while live; other tests are blocked while live if desktop audio is visible (it would re-capture them).
+- Peak limiter on the stream path and on your headphones path (no more crackling when you boost).
+- YouTube links in "Built-in audio": yt-dlp output is cleaned with ffmpeg into a standard m4a (AAC) and checked to be playable BEFORE the item is added (other MIME types are tried automatically). The sound linked to an image is preloaded, so pressing the play button of the image shows the image and starts the sound at once. If a file cannot play you now get a clear message instead of silence.
+
 v2.5
 ----
 - Version 2.5.

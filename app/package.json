@@ -5,24 +5,22 @@
   "main": "main.js",
   "author": "Stream Extra",
   "license": "MIT",
-  "version": "2.5",
+  "version": "2.6",
   "releaseDate": "2026-11-28",
   "notes": {
     "ar": [
-      "حذف نظام الأليرتات بالكامل (نافذة الأليرتات، زر الجرس، ورسم الأليرت على البث) — صفحة النشاط وأسماء المتابعين تبقى كما هي",
-      "صوت سطح المكتب: زر «تجربة» يشغّل مقطعاً صوتياً تجريبياً ويعرض مستواه كما سيصل للبث (عالي/واطي) حسب شريط «البث»، ولا يصل للبث الحقيقي",
-      "صوت سطح المكتب: شريط «أنا» جديد يتحكم بمستوى ويندوز عندك فقط، بينما يبقى مستواه في البث حسب شريط «البث»",
-      "صوت المايك: التجربة صارت تُسمعك صوتك بنفس مستوى البث ويعرض المؤشر مستواه عند المشاهدين، وشريطا «البث» و«أنا» ظاهران في صفحة الخصائص أيضاً",
-      "الصوت المدمج: إصلاح عدم سماع الصوت عند وجود صوت سطح المكتب — صرت تسمع الصوت المضاف وتتحكم بمستواه عندك «أنا» وعند المشاهدين «البث»",
-      "زر جديد «إضافة صوت لهذا العنصر» في خصائص الصورة/الفيديو/النص: يضيف الصوت ويربطه بالعنصر مباشرة، وزر ▶ في الخلاط يُظهر العنصر مع الصوت"
+      "حذف «الصوت الرئيسي» (Master) نهائياً من الخلاط: صار لكل مصدر شريطان فقط، «البث» للمشاهدين و«أنا» لسماعتك، ولكل مشهد مستوياته",
+      "نظام تجربة احترافي جديد لكل مصدر: «تجربة في سماعتي» (تسمع بمستوى أنا) و«تجربة في البث» (تسمع ما سيسمعه المشاهدون بمستوى البث). التجربتان محليتان ولا تصلان للبث الحقيقي، مع مؤشر كبير وقراءة بالديسيبل وتنبيه عند التشويش",
+      "محدِّد ذروة (Limiter) على مسار البث ومسار سماعتك لمنع التقطيع والتشويش عند رفع الصوت حتى 200%، وصار رفع المستوى متاحاً لكل المصادر (البث وأنا)",
+      "روابط يوتيوب في «صوت مدمج»: يُنظَّف الملف بـ ffmpeg ويُتحقَّق من قابليته للتشغيل قبل إضافته، والصوت المربوط بصورة يُجهَّز مسبقاً فيصدر مع ظهور الصورة فوراً (ويظهر تنبيه واضح بدل الصمت لو تعذر التشغيل)",
+      "رقم الإصدار 2.6"
     ],
     "en": [
-      "Removed the alerts system completely (alerts window, bell button, and alert drawing on the stream) — the Activity page and follower names are unchanged",
-      "Desktop audio: a new “Test” button plays a sample clip and shows how loud it will be on the stream (high/low) from the “Stream” bar; it never reaches the real stream",
-      "Desktop audio: new “Me” bar that changes only your Windows volume, while the stream level stays set by the “Stream” bar",
-      "Microphone: Test now lets you hear yourself at the stream level and the meter shows its level for viewers; the “Stream” and “Me” bars are also in the Properties page",
-      "Built-in audio: fixed not hearing the sound when desktop audio is on — you now hear the added sound and set its level for you (“Me”) and for viewers (“Stream”)",
-      "New “Add sound to this item” button in image/video/text properties: adds the sound and links it to the item directly; the ▶ button in the mixer shows the item with the sound"
+      "Removed the “Master” strip from the mixer for good: every source now has just two bars, “Stream” for viewers and “Me” for your headphones, with levels saved per scene",
+      "New professional test system for every source: “Test in my headphones” (you hear it at the Me level) and “Test on stream” (you hear what viewers will hear at the Stream level). Both are local and never reach the real stream, with a big meter, a dB readout and a clip warning",
+      "Peak limiter on both the stream path and your headphones path to stop distortion when boosting up to 200%; boosting is now available on every source (Stream and Me)",
+      "YouTube links in “Built-in audio”: the file is cleaned with ffmpeg and checked to be playable before it is added; audio linked to an image is preloaded so it starts with the image instantly (and a clear message replaces silent failures)",
+      "Version 2.6"
     ]
   }
 }

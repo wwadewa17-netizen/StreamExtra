@@ -261,6 +261,41 @@ const MAX_BYTES = 400 * 1024 * 1024;
 const isYouTube = (u) => /(^|\.)(youtube\.com|youtu\.be|youtube-nocookie\.com)$/i.test(u.hostname);
 const ytdlpPath = () => path.join(process.resourcesPath, 'yt-dlp.exe');
 
+/* v2.6: اختيار أفضل ملف ناتج + تنظيف الصوت بـ ffmpeg حتى يكون m4a (AAC) قياسياً يشتغل 100% في المشغّل
+   (ملفات يوتيوب الخام تكون أحياناً DASH مجزّأة أو webm ولا تعطي صوتاً مع الصورة). */
+const MEDIA_EXT = new Set(['.m4a', '.mp3', '.aac', '.wav', '.ogg', '.opus', '.flac', '.mp4', '.m4v', '.mov', '.webm', '.mkv']);
+function pickMediaFile(dir) {
+  let best = null;
+  for (const f of fs.readdirSync(dir)) {
+    const ext = path.extname(f).toLowerCase();
+    if (!MEDIA_EXT.has(ext) || /\.(part|ytdl|temp)\b/i.test(f) || f.startsWith('_clean')) continue;
+    let sz = 0; try { sz = fs.statSync(path.join(dir, f)).size; } catch (e) { continue; }
+    if (!best || sz > best.sz) best = { f, sz };
+  }
+  return best && best.f;
+}
+function runFfmpegQuick(args, ms) {
+  return new Promise((resolve) => {
+    let p, tm;
+    try { p = spawn(ffmpegPath(), args, { windowsHide: true, stdio: ['ignore', 'ignore', 'ignore'] }); } catch (e) { return resolve(false); }
+    tm = setTimeout(() => { try { p.kill(); } catch (e) {} resolve(false); }, ms);
+    p.on('error', () => { clearTimeout(tm); resolve(false); });
+    p.on('close', (c) => { clearTimeout(tm); resolve(c === 0); });
+  });
+}
+async function cleanAudioFile(dir, f) {
+  try {
+    if (!fs.existsSync(ffmpegPath())) return f;
+    const inp = path.join(dir, f), out = path.join(dir, '_clean.m4a'), ext = path.extname(f).toLowerCase();
+    const base = ['-y', '-v', 'error', '-i', inp, '-vn', '-map', '0:a:0'];
+    let ok = false;
+    if (ext === '.m4a' || ext === '.mp4' || ext === '.aac') ok = await runFfmpegQuick(base.concat(['-c:a', 'copy', '-movflags', '+faststart', '-f', 'mp4', out]), 90000);
+    if (!ok) { try { fs.rmSync(out, { force: true }); } catch (e) {} ok = await runFfmpegQuick(base.concat(['-c:a', 'aac', '-b:a', '192k', '-ar', '48000', '-movflags', '+faststart', '-f', 'mp4', out]), 180000); }
+    if (ok && fs.existsSync(out) && fs.statSync(out).size > 2048) return '_clean.m4a';
+  } catch (e) {}
+  return f;
+}
+
 function runYtdlp(url, kind) {
   return new Promise((resolve) => {
     const exe = ytdlpPath();
@@ -269,22 +304,22 @@ function runYtdlp(url, kind) {
     try { tmp = fs.mkdtempSync(path.join(os.tmpdir(), 'streamextra-')); }
     catch (e) { return resolve({ ok: false, code: 'fail', detail: e.message }); }
     const done = (r) => { try { fs.rmSync(tmp, { recursive: true, force: true }); } catch (e) {} resolve(r); };
-    const fmt = kind === 'audio' ? 'bestaudio[ext=m4a]/bestaudio' : 'best[ext=mp4][height<=720]/best[height<=720]/best';
-    const args = ['--no-playlist', '--no-progress', '--no-warnings', '--windows-filenames', '-f', fmt, '-o', path.join(tmp, '%(title).80s.%(ext)s'), '--', url];
+    const fmt = kind === 'audio' ? 'bestaudio[ext=m4a]/bestaudio/best' : 'best[ext=mp4][height<=720]/best[height<=720]/best';
+    const args = ['--no-playlist', '--no-progress', '--no-warnings', '--no-mtime', '--windows-filenames', '--retries', '3', '--fragment-retries', '3', '--socket-timeout', '20', '-f', fmt, '-o', path.join(tmp, '%(title).80s.%(ext)s'), '--', url];
     let err = '', finished = false, p;
     try { p = spawn(exe, args, { windowsHide: true, stdio: ['ignore', 'ignore', 'pipe'] }); }
     catch (e) { return done({ ok: false, code: 'fail', detail: e.message }); }
     const timer = setTimeout(() => { try { p.kill(); } catch (e) {} }, 240000);
     p.stderr.on('data', (d) => { err = (err + d.toString()).slice(-600); });
     p.on('error', (e) => { if (finished) return; finished = true; clearTimeout(timer); done({ ok: false, code: 'fail', detail: e.message }); });
-    p.on('close', () => {
+    p.on('close', async () => {
       if (finished) return; finished = true; clearTimeout(timer);
       try {
-        const files = fs.readdirSync(tmp).filter(f => !f.endsWith('.part') && !f.endsWith('.ytdl'));
-        if (!files.length) return done({ ok: false, code: 'fail', detail: err.trim().split(/\r?\n/).pop() });
-        const f = files[0], ext = path.extname(f).toLowerCase();
-        const data = fs.readFileSync(path.join(tmp, f));
-        done({ ok: true, name: path.basename(f, ext), mime: MIME[ext] || (kind === 'audio' ? 'audio/mp4' : 'video/mp4'), data });
+        const orig = pickMediaFile(tmp);
+        if (!orig) return done({ ok: false, code: 'fail', detail: err.trim().split(/\r?\n/).pop() });
+        const use = kind === 'audio' ? await cleanAudioFile(tmp, orig) : orig, ext = path.extname(use).toLowerCase();
+        const data = fs.readFileSync(path.join(tmp, use));
+        done({ ok: true, name: path.basename(orig, path.extname(orig)), mime: MIME[ext] || (kind === 'audio' ? 'audio/mp4' : 'video/mp4'), data });
       } catch (e) { done({ ok: false, code: 'fail', detail: e.message }); }
     });
   });
